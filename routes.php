@@ -11,18 +11,7 @@ View::$loader = new FilesystemLoader(__DIR__ . DIRECTORY_SEPARATOR . "resources/
 View::$twig = new Environment(View::$loader);
 
 Route::get("index.php", function (){
-    View::make("index.php.twig", ["name" => "mohamed"]);
-});
-
-Route::get("about", function (){
-    // In usual way invoke th view
-    View::make("about.php.twig", ["name" => "mohamed"]);
-});
-
-
-Route::get("contact", function (){
-    // In usual way invoke th view
-    View::make("contact.php.twig");
+    View::make("index.html.twig", ["title" => "VTC application"]);
 });
 
 

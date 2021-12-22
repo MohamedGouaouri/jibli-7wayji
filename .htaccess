@@ -1,4 +1,11 @@
 ## Used by Apache
+#RewriteEngine On
+#
+#RewriteRule ^([^/]+)/? index.php?url=$1 [L,QSA]
+
 RewriteEngine On
 
+RewriteCond %{DOCUMENT_ROOT}/vtc/resources%{REQUEST_URI} -f
+RewriteRule ^ public%{REQUEST_URI} [L]
+RewriteCond %{REQUEST_URI} !^/vtc/resources/
 RewriteRule ^([^/]+)/? index.php?url=$1 [L,QSA]
