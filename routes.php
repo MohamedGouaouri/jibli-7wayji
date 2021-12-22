@@ -14,6 +14,13 @@ Route::get("index.php", function (){
     View::make("index.html.twig", ["title" => "VTC application"]);
 });
 
+Route::get("login", function (){
+    View::make("auth/login.html.twig", ["title" => "VTC application"]);
+});
+
+Route::get("register", function (){
+    View::make("auth/register.html.twig", ["title" => "VTC application"]);
+});
 
 // Register post requests
 Route::post("index.php", function (){
