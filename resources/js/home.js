@@ -27,3 +27,5 @@ $("#nav-item-contact").click(function () {
         scrollTop: $("#contact").offset().top
     }, 500);
 })
+
+$("html").niceScroll();

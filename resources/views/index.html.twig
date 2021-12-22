@@ -1,47 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html.twig' %}
 
-<head>
-  <title>{{ title }}</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="shortcut icon" type="image/png" href="{{ 'resources/assets/img/logovtc.png' }}">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link href="{{ 'resources/css/main.css' }}" rel="stylesheet"/>
-  <style>
-    /*#fixed{*/
-    /*  background: url(resources/assets/img/background.jpg) no-repeat center center fixed;*/
-    /*}*/
-  </style>
-</head>
+{% block title%}
+  {{ title }}
+{% endblock %}
 
-<body>
-  <nav class="navbar navbar-expand-lg navbar-dark">
-    <a href="#" class="navbar-brand"><img src="{{ 'resources/assets/img/logovtc.png' }}" alt="brand" class="logo"></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
-      aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse mr-sm-2" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-item nav-link active ml-2" href="#home" id="nav-item-home">Home <span class="sr-only">(current)</span></a>
-        <a class="nav-item nav-link ml-2" href="#presentation" id="nav-item-presentation">Presentation</a>
-        <a class="nav-item nav-link ml-2" href="#news" id="nav-item-news">News</a>
-        <a class="nav-item nav-link ml-2" href="#annonces" id="nav-item-annonces">Annonces</a>
-        <a class="nav-item nav-link ml-2" href="#stats" id="nav-item-stats">Stats</a>
-        <a class="nav-item nav-link ml-2" href="#contact" id="nav-item-contact">Contact</a>
 
-      </div>
-      <div class="navbar-nav ml-auto">
-        <a class="nav-item nav-link ml-2" href="#">Login</a>
-        <a class="nav-item nav-link ml-2" href="#">Register</a>
-      </div>
-    </div>
-  </nav>
 
+
+  {% block content %}
   <div>
-        {#  Diaporama #}
+
   </div>
 
   <div id="presentation">
@@ -50,9 +18,9 @@
         <div class="row">
           <div class="col-sm-6">
             <iframe width="550" height="315" src="https://www.youtube.com/embed/diIOyfWTaB0"
-              title="YouTube video player"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen></iframe>
+                    title="YouTube video player"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
           </div>
           <div class="col-sm-6 text-center">
             <h2>All about our services</h2>
@@ -92,7 +60,7 @@
 
   </div>
 
-  <div id="fixed">
+  <div id="fixed1">
 
   </div>
 
@@ -121,11 +89,9 @@
     </div>
   </div>
 
-  <div id="fixed">
+  <div id="fixed2">
 
   </div>
-
-
 
   <div class="padding">
     <div class="container" id="annonces">
@@ -141,8 +107,8 @@
         <div class="col-md-3 mb-4">
           <div class="card">
             <img
-              src="https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60"
-              alt="" class="card-img-top">
+                    src="https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60"
+                    alt="" class="card-img-top">
             <div class="card-body">
               <h5 class="card-title">Sunset</h5>
               <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut eum similique repellat a
@@ -155,8 +121,8 @@
         <div class="col-md-3 mb-4">
           <div class="card">
             <img
-              src="https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60"
-              alt="" class="card-img-top">
+                    src="https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60"
+                    alt="" class="card-img-top">
             <div class="card-body">
               <h5 class="card-title">Sunset</h5>
               <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut eum similique repellat a
@@ -169,8 +135,8 @@
         <div class="col-md-3 mb-4">
           <div class="card">
             <img
-              src="https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60"
-              alt="" class="card-img-top">
+                    src="https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60"
+                    alt="" class="card-img-top">
             <div class="card-body">
               <h5 class="card-title">Sunset</h5>
               <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut eum similique repellat a
@@ -183,8 +149,8 @@
         <div class="col-md-3 mb-4">
           <div class="card">
             <img
-              src="https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60"
-              alt="" class="card-img-top">
+                    src="https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60"
+                    alt="" class="card-img-top">
             <div class="card-body">
               <h5 class="card-title">Sunset</h5>
               <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut eum similique repellat a
@@ -199,8 +165,8 @@
         <div class="col-md-3 mb-4">
           <div class="card">
             <img
-              src="https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60"
-              alt="" class="card-img-top">
+                    src="https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60"
+                    alt="" class="card-img-top">
             <div class="card-body">
               <h5 class="card-title">Sunset</h5>
               <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut eum similique repellat a
@@ -213,8 +179,8 @@
         <div class="col-md-3 mb-4">
           <div class="card">
             <img
-              src="https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60"
-              alt="" class="card-img-top">
+                    src="https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60"
+                    alt="" class="card-img-top">
             <div class="card-body">
               <h5 class="card-title">Sunset</h5>
               <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut eum similique repellat a
@@ -227,8 +193,8 @@
         <div class="col-md-3 mb-4">
           <div class="card">
             <img
-              src="https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60"
-              alt="" class="card-img-top">
+                    src="https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60"
+                    alt="" class="card-img-top">
             <div class="card-body">
               <h5 class="card-title">Sunset</h5>
               <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut eum similique repellat a
@@ -241,8 +207,8 @@
         <div class="col-md-3 mb-4">
           <div class="card">
             <img
-              src="https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60"
-              alt="" class="card-img-top">
+                    src="https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60"
+                    alt="" class="card-img-top">
             <div class="card-body">
               <h5 class="card-title">Sunset</h5>
               <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut eum similique repellat a
@@ -256,16 +222,13 @@
       </div>
     </div>
   </div>
-  </body>
 
-
-
-  <div id="fixed">
+  <div id="fixed3">
 
   </div>
 
 
-  <!-- Statistics -->
+<!-- Statistics -->
   <div class="padding">
     <div class="container" id="stats">
       <div class="text-center">
@@ -285,99 +248,4 @@
     </div>
   </div>
 
-
-  <!-- Footer section -->
-  <footer>
-    <div class="container-fluid text-center">
-      <div class="row" id="contact">
-        <div class="col-sm-6">
-          <h3>Contact Us</h3>
-          <div>
-            Our address and contact here
-          </div>
-        </div>
-        <div class="col-sm-6">
-          <h3>Connect</h3>
-          <a href="#" class="fa fa-facebook icon"></a>
-          <a href="#" class="fa fa-twitter icon"></a>
-          <a href="#" class="fa fa-instagram icon"></a>
-          <a href="#" class="fa fa-google icon"></a>
-          <a href="#" class="fa fa-linkedin icon"></a>
-        </div>
-
-      </div>
-    </div>
-  </footer>
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.2/dist/chart.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-    crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-    crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/typeit@8.1.0/dist/index.umd.js">
-  </script>
-  <script src="{{ 'resources/js/nicescroll.js' }}"></script>
-  <script src="{{ 'resources/js/home.js' }}"></script>
-  <script>
-    new TypeIt("#typeit", {
-      strings: ["This is a great string.", "But here is a better one."],
-      speed: 50,
-      loop: true,
-      waitUntilVisible: true,
-    }).go();
-  </script>
-  <script>
-    const data = {
-      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-      datasets: [{
-        label: '# of Votes',
-        data: [12, 19, 3, 5, 2, 3],
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)'
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)'
-        ],
-        borderWidth: 1
-      }]
-    };
-    const ctx1 = document.getElementById('myChart1').getContext('2d');
-    const ctx2 = document.getElementById('myChart2').getContext('2d');
-    const ctx3 = document.getElementById('myChart3').getContext('2d');
-    const myChart1 = new Chart(ctx1, {
-      type: 'bar',
-      data: data,
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
-    });
-    const myChart2 = new Chart(ctx2, {
-      type: "doughnut",
-      data: data
-    });
-
-    const myChart3 = new Chart(ctx3, {
-      type: "line",
-      data: data
-    });
-    $("html, a").niceScroll();
-  </script>
-</html>
+{% endblock %}
