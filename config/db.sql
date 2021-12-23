@@ -30,7 +30,26 @@ CREATE TABLE IF NOT EXISTS announcements(
     volume DOUBLE NOT NULL ,
     status VARCHAR(20) NOT NULL,
     message TEXT,
+    posted_at DATETIME DEFAULT NOW(),
     FOREIGN KEY (client_id) REFERENCES clients(client_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+# client demands
+CREATE TABLE IF NOT EXISTS client_demands(
+    announcement_id INT NOT NULL,
+    transporter_id INT NOT NULL,
+    PRIMARY KEY (transporter_id, announcement_id),
+    FOREIGN KEY (transporter_id) REFERENCES transporters(transporter_id) ON DELETE CASCADE ON UPDATE CASCADE ,
+    FOREIGN KEY (announcement_id) REFERENCES announcements(announcement_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+# Applications schema
+CREATE TABLE IF NOT EXISTS transporter_applications(
+    transporter_id INT NOT NULL ,
+    announcement_id INT NOT NULL,
+    applied_id DATETIME NOT NULL DEFAULT NOW(),
+    PRIMARY KEY (transporter_id, announcement_id),
+    FOREIGN KEY (transporter_id) REFERENCES transporters(transporter_id) ON DELETE CASCADE ON UPDATE CASCADE ,
+    FOREIGN KEY (announcement_id) REFERENCES announcements(announcement_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 # transports

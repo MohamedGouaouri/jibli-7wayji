@@ -40,6 +40,10 @@ Route::get("applications", function (){
 });
 
 
+Route::get("profile", function (){
+    View::make("client/profile.html.twig", ["loggedIn" => true, "client" => true, "title" => "profile"]);
+});
+
 // Register post requests
 Route::post("index.php", function (){
     echo $_POST["id"];
