@@ -6,7 +6,8 @@ CREATE TABLE IF NOT EXISTS clients(
     name VARCHAR(50) NOT NULL,
     family_name VARCHAR(50) NOT NULL,
     email VARCHAR(50) NOT NULL,
-    password VARCHAR(255) NOT NULL
+    password VARCHAR(255) NOT NULL,
+    address VARCHAR(100) NOT NULL
 );
 
 # Transporters schema
@@ -99,4 +100,17 @@ CREATE TABLE IF NOT EXISTS transporter_signals(
 CREATE TABLE IF NOT EXISTS news(
     title TEXT,
     content TEXT
+);
+
+CREATE TABLE IF NOT EXISTS wilayas(
+    wilaya_id INT PRIMARY KEY,
+    wilaya_name VARCHAR(10)
+);
+
+CREATE TABLE IF NOT EXISTS covered_wilayas(
+  transporter_id INT NOT NULL,
+  wilaya_id INT NOT NULL ,
+  PRIMARY KEY (transporter_id, wilaya_id),
+  FOREIGN KEY (transporter_id) REFERENCES transporters(transporter_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (wilaya_id) REFERENCES wilayas(wilaya_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
