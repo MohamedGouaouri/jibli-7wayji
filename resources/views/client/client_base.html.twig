@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/png" href="{{ 'resources/assets/img/logovtc.png' }}">
+    <title>{% block title %} {% endblock %}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="{{ 'resources/css/main.css' }}" rel="stylesheet"/>
+    <link href="{{ 'resources/css/client.css' }}" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a href="#" class="navbar-brand"><img src="{{ 'resources/assets/img/logovtc.png' }}" alt="brand" class="logo"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse mr-sm-2" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link active ml-2" href="{{ '/vtc' }}" id="nav-item-home">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link ml-2" href="#new-announcements" id="nav-item-new-announcement">New announcement</a>
+                <a class="nav-item nav-link ml-2" href="#announcements" id="nav-item-announcements">Annonces</a>
+                <a class="nav-item nav-link ml-2" href="#news" id="nav-item-news">News</a>
+                <a class="nav-item nav-link ml-2" href="#stats" id="nav-item-stats">Stats</a>
+                <a class="nav-item nav-link ml-2" href="#contact" id="nav-item-contact">Contact</a>
+
+            </div>
+            <div class="navbar-nav ml-auto">
+                {% if loggedIn %}
+                    <div class="nav-item nav-link ml-2">Logged in as {{ username }}</div>
+                    <a class="nav-item nav-link ml-2" href="login">Postule Notification</a>
+                    <a class="nav-item nav-link ml-2" href="login">History</a>
+                    <a class="nav-item nav-link ml-2" href="login">Logout</a>
+                {% else %}
+                    <a class="nav-item nav-link ml-2" href="login">Login</a>
+                    <a class="nav-item nav-link ml-2" href="register">Register</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    {% block content %}
+    {% endblock %}
+
+<footer>
+    <div class="container-fluid text-center">
+        <div class="row" id="contact">
+            <div class="col-sm-6">
+                <h3>Contact Us</h3>
+                <div>
+                    Our address and contact here
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <h3>Connect</h3>
+                <a href="#" class="fa fa-facebook icon"></a>
+                <a href="#" class="fa fa-twitter icon"></a>
+                <a href="#" class="fa fa-instagram icon"></a>
+                <a href="#" class="fa fa-google icon"></a>
+                <a href="#" class="fa fa-linkedin icon"></a>
+            </div>
+
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.2/dist/chart.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/typeit@8.1.0/dist/index.umd.js"></script>
+    <script src="{{ 'resources/js/nicescroll.js' }}"></script>
+    <script src="{{ 'resources/js/client.js' }}"></script>
+    <script src="{{ 'resources/js/typeit.js' }}"></script>
+    <script src="{{ 'resources/js/stats.js' }}"></script>
+</body>
+</html>

@@ -7,7 +7,7 @@ use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
 // Load the view
-View::$loader = new FilesystemLoader(__DIR__ . DIRECTORY_SEPARATOR . "resources/views");
+View::$loader = new FilesystemLoader([__DIR__ . DIRECTORY_SEPARATOR . "resources/views", __DIR__ . DIRECTORY_SEPARATOR . "resources/views/client"]);
 View::$twig = new Environment(View::$loader);
 
 Route::get("index.php", function (){
@@ -21,6 +21,12 @@ Route::get("login", function (){
 Route::get("register", function (){
     View::make("auth/register.html.twig", ["title" => "VTC application"]);
 });
+
+// client portal routing
+Route::get("client", function (){
+    View::make("client/index.html.twig", ["title" => "VTC client portal", "loggedIn" => true, "username" => "mohamed"]);
+});
+
 
 // Register post requests
 Route::post("index.php", function (){
