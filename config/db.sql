@@ -16,7 +16,8 @@ CREATE TABLE IF NOT EXISTS transporters(
     family_name VARCHAR(50) NOT NULL,
     email VARCHAR(50) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    status VARCHAR(20) NOT NULL
+    status VARCHAR(20) NOT NULL,
+    inventory DOUBLE DEFAULT 0.0
 );
 
 # announcements schema
@@ -31,6 +32,8 @@ CREATE TABLE IF NOT EXISTS announcements(
     status VARCHAR(20) NOT NULL,
     message TEXT,
     posted_at DATETIME DEFAULT NOW(),
+    validated BOOLEAN DEFAULT FALSE,
+    price DOUBLE DEFAULT 0.0,
     FOREIGN KEY (client_id) REFERENCES clients(client_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 # client demands
@@ -57,7 +60,6 @@ CREATE TABLE IF NOT EXISTS transport(
     transport_id INT PRIMARY KEY AUTO_INCREMENT,
     announcement_id INT NOT NULL,
     transporter_id INT NOT NULL,
-    price DOUBLE NOT NULL ,
     validated BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (announcement_id) REFERENCES announcements(announcement_id),
     FOREIGN KEY (transporter_id) REFERENCES transporters(transporter_id)
@@ -95,6 +97,6 @@ CREATE TABLE IF NOT EXISTS transporter_signals(
 
 # News
 CREATE TABLE IF NOT EXISTS news(
-                                   title TEXT,
-                                   content TEXT
+    title TEXT,
+    content TEXT
 );

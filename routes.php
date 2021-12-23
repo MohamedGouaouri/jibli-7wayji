@@ -44,6 +44,11 @@ Route::get("profile", function (){
     View::make("client/profile.html.twig", ["loggedIn" => true, "client" => true, "title" => "profile"]);
 });
 
+// Admin dashboard route
+Route::get("admin", function (){
+    View::make("admin/admin.html.twig");
+});
+
 // Register post requests
 Route::post("index.php", function (){
     echo $_POST["id"];
