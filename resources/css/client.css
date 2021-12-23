@@ -16,3 +16,30 @@
     color: red;
     margin-left: 0.3rem;
 }
+
+.applications, .announcements{
+    /*height: calc(100% - 140px);*/
+    overflow: scroll;
+}
+
+.dropdown:hover{
+    cursor: pointer;
+}
+
+.status{
+    /*height: 20px;*/
+    /*width: 50px;*/
+    text-align: center;
+    border-radius: 20px;
+    color: white;
+    opacity: 0.8;
+}
+.pending{
+    background-color: #ffaa42;
+}
+.accepted{
+    background-color: #309c32;
+}
+.rejected{
+    background-color: #ff3838;
+}

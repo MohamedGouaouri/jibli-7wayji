@@ -31,10 +31,19 @@
             </div>
             <div class="navbar-nav ml-auto">
                 {% if loggedIn %}
-                    <div class="nav-item nav-link ml-2">Logged in as {{ username }}</div>
-                    <a class="nav-item nav-link ml-2" href="login">Postule Notification</a>
-                    <a class="nav-item nav-link ml-2" href="login">History</a>
-                    <a class="nav-item nav-link ml-2" href="login">Logout</a>
+
+                    <div class="dropdown nav-item nav-link" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span>Actions <i class="fa fa-caret-down"></i></span>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">My announcements</a>
+                            <a class="dropdown-item" href="applications">Application Notification</a>
+                            <a class="dropdown-item" href="#">Transaction History</a>
+                            <a class="dropdown-item" href="l#">Logout</a>
+                        </div>
+                    </div>
+                    <div class="nav-item nav-link ml-2">{{ username }}</div>
+
+
                 {% else %}
                     <a class="nav-item nav-link ml-2" href="login">Login</a>
                     <a class="nav-item nav-link ml-2" href="register">Register</a>

@@ -27,6 +27,18 @@ Route::get("client", function (){
     View::make("client/index.html.twig", ["title" => "VTC client portal", "loggedIn" => true, "username" => "mohamed"]);
 });
 
+// Show user announcements
+Route::get("announcements", function (){
+
+    View::make("client/announcements.html.twig", ["title" => "VTC client portal", "loggedIn" => true, "username" => "mohamed"]);
+});
+
+// show transporter applications
+Route::get("applications", function (){
+
+    View::make("client/notifications.html.twig", ["title" => "VTC client portal", "loggedIn" => true, "username" => "mohamed"]);
+});
+
 
 // Register post requests
 Route::post("index.php", function (){

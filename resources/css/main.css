@@ -77,12 +77,12 @@ footer {
 	color: #d5d5d5;
 }
 
-.fa{
+footer .fa{
 	padding: 15px;
 	font-size: 2em;
 }
 
-.fa:hover {
+footer .fa:hover {
 	text-decoration: none;
 	color: white;
 }
