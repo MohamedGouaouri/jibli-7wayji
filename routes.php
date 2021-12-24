@@ -27,6 +27,10 @@ Route::get("client", function (){
     View::make("client/index.html.twig", ["title" => "VTC client portal", "loggedIn" => true, "username" => "mohamed"]);
 });
 
+Route::get("client/profile", function (){
+    View::make("client/profile.html.twig", ["title" => "VTC client portal", "loggedIn" => true, "username" => "mohamed"]);
+});
+
 // Show user announcements
 Route::get("announcements", function (){
 
@@ -40,9 +44,9 @@ Route::get("applications", function (){
 });
 
 
-Route::get("profile", function (){
-    View::make("client/profile.html.twig", ["loggedIn" => true, "client" => true, "title" => "profile"]);
-});
+//Route::get("profile", function (){
+//    View::make("client/profile.html.twig", ["loggedIn" => true, "client" => true, "title" => "profile"]);
+//});
 
 // Admin dashboard route
 Route::get("admin", function (){

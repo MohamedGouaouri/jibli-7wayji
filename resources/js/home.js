@@ -1,5 +1,5 @@
 
-
+$("html").niceScroll();
 $("#nav-item-presentation").click(function () {
     $([document.documentElement, document.body]).animate({
         scrollTop: $("#presentation").offset().top
@@ -28,4 +28,20 @@ $("#nav-item-contact").click(function () {
     }, 500);
 })
 
-$("html").niceScroll();
+
+// Scroll to top button
+$("#scrollTopBtn").hide();
+$("#scrollTopBtn").click(() => {
+    $([document.documentElement, document.body]).animate({
+        scrollTop: 0
+    }, 500);
+})
+$(window).scroll(() => {
+    let scroll = $(document).scrollTop();
+    let breakPoint = 100;
+    if (scroll > breakPoint){
+        $("#scrollTopBtn").show();
+    }else{
+        $("#scrollTopBtn").hide();
+    }
+})

@@ -29,13 +29,16 @@
 
             </div>
             <div class="navbar-nav ml-auto">
-                <a class="nav-item nav-link ml-2" href="login">Login</a>
-                <a class="nav-item nav-link ml-2" href="register">Register</a>
+                <a class="nav-item nav-link ml-2" href="{{ 'login' }}">Login</a>
+                <a class="nav-item nav-link ml-2" href="{{ 'register' }}">Register</a>
             </div>
         </div>
     </nav>
     {% block content %}
     {% endblock %}
+
+    {# scroll top button   #}
+    <button id="scrollTopBtn" class="fa fa-arrow-up"></button>
 
 <footer>
     <div class="container-fluid text-center">
