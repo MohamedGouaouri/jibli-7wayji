@@ -53,3 +53,11 @@ Route::get("admin", function (){
 Route::post("index.php", function (){
     echo $_POST["id"];
 });
+
+Route::get("404", function (){
+    View::make("404.html.twig");
+});
+
+Route::get("details", function (){
+    View::make("announcements/details.html.twig", ["_title" => "This is announcement title"]);
+});

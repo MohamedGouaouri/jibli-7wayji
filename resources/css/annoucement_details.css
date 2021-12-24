@@ -1,0 +1,47 @@
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #BA68C8;
+}
+
+.announcement-button {
+    background: #325896;
+    box-shadow: none;
+    border: none;
+}
+
+.announcement-button:hover {
+    background: #325896
+}
+
+.announcement-button:focus {
+    background: #325896;
+    box-shadow: none
+}
+
+.announcement-button:active {
+    background: #325896;
+    box-shadow: none;
+}
+
+.back:hover {
+    color: #682773;
+    cursor: pointer;
+}
+
+.labels {
+    font-size: 11px;
+}
+
+
+.announcement{
+    height: 100vh;
+}
+
+.price{
+    color: white;
+    background-color: #5cb85c;
+    opacity: 0.8;
+    border-radius: 5px;
+    padding: 10px;
+}

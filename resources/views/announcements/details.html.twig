@@ -1,0 +1,39 @@
+{% extends 'client_base.html.twig' %}
+
+{% block styles %}
+    <link href="{{ 'resources/css/annoucement_details.css' }}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <div class="container rounded bg-white mt-5 mb-5 announcement">
+        <div class="row">
+            <div class="col-md-3 border-right">
+                <div class="d-flex flex-column align-items-center texprofile-buttont-center p-3 py-5"><img class="rounded-circle mt-5" width="200px" height="" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"></div>
+            </div>
+            <div class="col-md-9 border-right">
+                <div class="p-3 py-5">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h1 class="text-right">{{ _title }}</h1>
+                        <span>By mohammed</span>
+                    </div>
+                    <div class="row mt-2">
+                        <h3>Description</h3>
+                        <div>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <span class="price">Price 100$</span>
+                        <div class="ml-auto">
+                            <button class="btn btn-primary">Postuler</button>
+                            <button class="btn btn-success">Accepter</button>
+                            <button class="btn btn-danger">Refuser</button>
+                        </div>
+                    </div>
+{#                    <div class="mt-5 text-center"><button class="btn btn-primary announcement-button" type="button">Save</button></div>#}
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
