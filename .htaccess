@@ -5,8 +5,8 @@
 
 RewriteEngine On
 
-#RewriteCond %{DOCUMENT_ROOT}/vtc/resources%{REQUEST_URI} -f
-#RewriteRule (.*)/resources/(.*) resources%{REQUEST_URI} [L]
+RewriteCond %{DOCUMENT_ROOT}/vtc/resources%{REQUEST_URI} -f
+RewriteRule ^ resources%{REQUEST_URI} [L]
 
 RewriteCond %{REQUEST_URI} !^/vtc/resources/
 RewriteRule (.*) index.php?url=$1 [L,QSA]
