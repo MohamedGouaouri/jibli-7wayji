@@ -59,5 +59,14 @@ Route::get("404", function (){
 });
 
 Route::get("details", function (){
-    View::make("announcements/details.html.twig", ["_title" => "This is announcement title"]);
+    View::make("announcements/details.html.twig", ["_title" => "This is announcement title", "client" => false]);
+});
+
+Route::get("transporter", function (){
+    View::make("transporter/index.html.twig");
+});
+
+
+Route::get("demands", function (){
+    View::make("transporter/demands.html.twig");
 });
