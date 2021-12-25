@@ -11,7 +11,15 @@ View::$loader = new FilesystemLoader([__DIR__ . DIRECTORY_SEPARATOR . "resources
 View::$twig = new Environment(View::$loader);
 
 Route::get("index.php", function (){
-    View::make("index.html.twig", ["title" => "VTC application"]);
+    $controller = new AnnouncementController();
+    $result = $controller->getAnnouncements(false, 8);
+    View::make("index.html.twig",
+        [
+            "title" => "VTC application",
+            "announcements" => $result,
+            "isAuthenticated" => false,
+            "wilayas" => DB::query("SELECT * FROM wilayas")
+        ]);
 });
 
 Route::get("login", function (){
@@ -50,11 +58,6 @@ Route::get("admin", function (){
     View::make("admin/admin.html.twig");
 });
 
-// Register post requests
-Route::post("index.php", function (){
-    echo $_POST["id"];
-});
-
 Route::get("404", function (){
     View::make("404.html.twig");
 });
@@ -70,4 +73,28 @@ Route::get("transporter", function (){
 
 Route::get("demands", function (){
     View::make("transporter/demands.html.twig");
+});
+
+
+// ============================== POST Requests =================================
+// Register post requests
+Route::post("index.php", function (){
+    $controller = new AnnouncementController();
+    $from = $_POST["start_point"];
+    $to = $_POST["end_point"];
+    $result = $controller->getAnnouncementByCriteria($from, $to, false);
+    header("Content-Type: application/json");
+    echo json_encode(["success" => true, "announcements" => $result]);
+});
+
+Route::get("test", function (){
+    $controller = new AnnouncementController();
+//    echo "hello";
+//    $from = $_POST["start_point"];
+//
+//    $to = $_POST["end_point"];
+
+    $result = $controller->getAnnouncementByCriteria(1, 1, false);
+    var_dump($result);
+
 });
