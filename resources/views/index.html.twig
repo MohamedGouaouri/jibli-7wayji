@@ -79,7 +79,14 @@
             <button class="btn btn-outline-success mx-2" type="submit">Search</button>
           </form>
         </div>
+        <div class="row justify-content-center">
+          <img src="{{ 'resources/assets/img/loading.gif' }}" alt="loading" height="50" width="50" id="loading" style="display: none">
+        </div>
+        <div class="row justify-content-center" id="result-not-found">
+        </div>
         <div class="row mt-2 justify-content-center align-items-center" id="row1">
+          {#     Loading gif     #}
+
           {% for announcement in announcements %}
             <div class="col-md-3 mb-4">
               <div class="card">
@@ -93,7 +100,7 @@
                   <div><b>Type</b>{{ announcement["type"] }}</div>
                   <div><b>Weight</b>{{ announcement["weight"] }}</div>
                   <div><b>Volume</b>{{ announcement["volume"] }}</div>
-                  {% if siAuthenticated%}
+                  {% if isAuthenticated%}
                     <a href="" class="btn btn-outline-success btn-sm">Read More</a>
                   {% endif %}
                 </div>
@@ -105,9 +112,9 @@
       </div>
     </div>
 
-  <div id="fixed2">
+{#  <div id="fixed2">#}
 
-  </div>
+{#  </div>#}
     <div class="padding">
       <div class="container" id="news">
         <div class="row">

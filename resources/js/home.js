@@ -46,6 +46,8 @@ $(window).scroll(() => {
     }
 })
 
+
+
 // Search form
 $("#searchAnnouncementsUserForm").submit((e) => {
     let card = "<div class=\"col-md-3 mb-4\">\n" +
@@ -66,6 +68,7 @@ $("#searchAnnouncementsUserForm").submit((e) => {
     e.preventDefault();
     let form = $(this);
     let url = "index.php";
+    $("#loading").show();
     $.ajax({
         type: "POST",
         url: url,
@@ -74,8 +77,10 @@ $("#searchAnnouncementsUserForm").submit((e) => {
             "end_point": $("#end_point option:selected").val()
         }
     }).then((data) => {
+        $("#loading").hide();
         console.log(data);
         if (data.success){
+
             // console.log(data.announcements[0]);
             // $("#row1").append(
             //     $("<div class='col-md-3 mb-4'>0 Results found</div>")
@@ -102,8 +107,8 @@ $("#searchAnnouncementsUserForm").submit((e) => {
                     );
                 }
             }else {
-                $("#row1").append(
-                    $("<div class='col-md-3 mb-4'>0 Results found</div>")
+                $("#result-not-found").append(
+                    $("<div class='m-5'>0 Results found</div>")
                 );
             }
 
