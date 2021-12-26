@@ -20,15 +20,15 @@ CREATE TABLE IF NOT EXISTS clients(
     client_id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(50) NOT NULL,
     family_name VARCHAR(50) NOT NULL,
-    email VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL UNIQUE ,
     password VARCHAR(255) NOT NULL,
     address VARCHAR(100) NOT NULL
 );
 INSERT INTO clients (name, family_name, email, password, address) VALUES
-                ('A', 'B', 'A@esi.dz', PASSWORD('password'), 'address'),
-                ('A', 'B', 'A@esi.dz', PASSWORD('password'), 'address'),
-                ('A', 'B', 'A@esi.dz', PASSWORD('password'), 'address'),
-                ('A', 'B', 'A@esi.dz', PASSWORD('password'), 'address')
+                ('A', 'B', 'A1@esi.dz', PASSWORD('password'), 'address'),
+                ('A', 'B', 'A2@esi.dz', PASSWORD('password'), 'address'),
+                ('A', 'B', 'A3@esi.dz', PASSWORD('password'), 'address'),
+                ('A', 'B', 'A4@esi.dz', PASSWORD('password'), 'address')
                 ;
 
 # Transporters schema

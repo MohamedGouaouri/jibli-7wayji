@@ -45,4 +45,10 @@ class Route{
             $function->__invoke();
         }
     }
+
+    public static function route($prefix, $route){
+        $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]" ."/$prefix/". "$route";
+        header('Location: ' . $url, true, $statusCode);
+        exit();
+    }
 }

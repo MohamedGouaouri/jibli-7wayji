@@ -22,13 +22,59 @@ Route::get("index.php", function (){
         ]);
 });
 
+
+
+// =============================== LOGIN ================================
 Route::get("login", function (){
     View::make("auth/login.html.twig", ["title" => "VTC application"]);
 });
 
+Route::post("register", function (){
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+    $is_client = true;
+    $controller = new LoginController();
+    $authenticated = $controller->authenticate($email, $password, $is_client);
+    if ($authenticated){
+        Route::route("vtc", "client");
+    }else{
+        Route::route("vtc", "login");
+    }
+});
+
+
+
+// ============================ Registration ==========================
 Route::get("register", function (){
     View::make("auth/register.html.twig", ["title" => "VTC application"]);
 });
+
+Route::post("register", function (){
+    // Steps
+    // 1. Get POST parameters
+    // 2. Invoke Registration controller
+    //  2.1 Sanitize user input
+    //  2.2 Update the DB
+    //  2.3 Redirect the user to the login page
+    $name = $_POST["name"];
+    $family_name = $_POST["family_name"];
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+    $address = "address";
+    $is_client = true; // TODO: Change this to get the value dynamically
+    $controller = new RegistrationController();
+    $registered = $controller->register($name, $family_name, $email, $password, $address, $is_client);
+
+    if ($registered){
+        // Redirect to login page
+        Route::route("vtc", "login");
+
+    }else{
+        View::make("auth/register.html.twig", ["title" => "VTC application"]);
+    }
+});
+
+
 
 // client portal routing
 Route::get("client", function (){
@@ -88,13 +134,5 @@ Route::post("index.php", function (){
 });
 
 Route::get("test", function (){
-    $controller = new AnnouncementController();
-//    echo "hello";
-//    $from = $_POST["start_point"];
-//
-//    $to = $_POST["end_point"];
-
-    $result = $controller->getAnnouncementByCriteria(1, 1, false);
-    var_dump($result);
-
+    echo password_hash("test", PASSWORD_BCRYPT);
 });

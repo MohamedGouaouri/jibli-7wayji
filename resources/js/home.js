@@ -119,3 +119,11 @@ $("#searchAnnouncementsUserForm").submit((e) => {
     });
     console.log(url);
 });
+
+// ================================ How it works button =======================
+$("#how-it-works a").click((e) => {
+    console.log("hello")
+    $([document.documentElement, document.body]).animate({
+        scrollTop: $("#presentation").offset().top
+    }, 500);
+})
