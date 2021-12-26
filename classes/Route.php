@@ -17,7 +17,7 @@ class Route{
     public static function post($route, $function){
         // Handle post requests
         self::$valid_post_routes[] = $route;
-        if ($_SERVER["REQUEST_METHOD"] == "POST"){
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && $_GET["url"] == $route){
             $function->__invoke();
         }
     }
@@ -46,9 +46,9 @@ class Route{
         }
     }
 
-    public static function route($prefix, $route){
+    public static function router($prefix, $route){
         $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]" ."/$prefix/". "$route";
-        header('Location: ' . $url, true, $statusCode);
+        header('Location: ' . $url, true);
         exit();
     }
 }

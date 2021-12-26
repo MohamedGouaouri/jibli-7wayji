@@ -19,4 +19,26 @@ class AnnouncementController extends Controller{
         return  null;
     }
 
+
+    public function addNewAnnouncement($start_point,
+                                       $end_point,
+                                       $type,
+                                       $weight,
+                                       $volume,
+                                       $message): bool {
+
+
+        $client_id = Auth::user()->getClientId();
+
+        return Announcement::add(
+            $client_id,
+            $start_point,
+            $end_point,
+            $type,
+            $weight,
+            $volume,
+            $message);
+    }
+
+
 }

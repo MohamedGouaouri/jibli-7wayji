@@ -29,16 +29,16 @@ Route::get("login", function (){
     View::make("auth/login.html.twig", ["title" => "VTC application"]);
 });
 
-Route::post("register", function (){
+Route::post("login", function (){
     $email = $_POST["email"];
     $password = $_POST["password"];
     $is_client = true;
     $controller = new LoginController();
     $authenticated = $controller->authenticate($email, $password, $is_client);
     if ($authenticated){
-        Route::route("vtc", "client");
+        Route::router("vtc", "client");
     }else{
-        Route::route("vtc", "login");
+        Route::router("vtc", "login");
     }
 });
 
@@ -67,7 +67,7 @@ Route::post("register", function (){
 
     if ($registered){
         // Redirect to login page
-        Route::route("vtc", "login");
+        Route::router("vtc", "login");
 
     }else{
         View::make("auth/register.html.twig", ["title" => "VTC application"]);
@@ -78,7 +78,35 @@ Route::post("register", function (){
 
 // client portal routing
 Route::get("client", function (){
-    View::make("client/index.html.twig", ["title" => "VTC client portal", "loggedIn" => true, "username" => "mohamed"]);
+    if (Auth::isAuthorized()){
+        $client = Auth::user();
+        View::make("client/index.html.twig", [
+            "title" => "VTC client portal",
+            "loggedIn" => true,
+            "client" => $client,
+            "wilayas" => (new WilayaController())->get_all()
+        ]);
+        return;
+    }
+    Route::router("vtc", "login");
+});
+
+// Add announcement post request
+Route::post("new_announcement", function (){
+    // get request parameters
+
+    $start_point = $_POST["start_point"];
+    $end_point = $_POST["end_point"];
+    $type = $_POST["type"];
+    $weight = $_POST["weight"];
+    $volume = $_POST["volume"];
+    $way = $_POST["way"];
+    $message = trim($_POST["message"]);
+    $announcement_controller = new AnnouncementController();
+    $added = $announcement_controller->addNewAnnouncement($start_point, $end_point, $type, $weight, $volume, $message);
+    header("Content-Type: application/json");
+    echo json_encode(["added" => true]);
+
 });
 
 
@@ -134,5 +162,8 @@ Route::post("index.php", function (){
 });
 
 Route::get("test", function (){
-    echo password_hash("test", PASSWORD_BCRYPT);
+    echo (Auth::user()->getName());
+});
+
+Route::post("test", function (){
 });

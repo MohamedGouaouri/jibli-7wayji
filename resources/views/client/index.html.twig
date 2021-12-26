@@ -9,26 +9,32 @@
                 </p>
             </div>
             <div class="col-sm-6 p-5">
-                <form id="addNewAnnouncementForm">
+                <div class="alert alert-success alert-dismissible show fade" role="alert" id="added-success-alert" style="display: none">
+                    <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="newAnnouncementForm" method="post" action="new_announcement">
                     <div class="m-2">
                         <label for="start_point" class="required">Point de depart</label>
-                        <select class="form-control form-select-lg" id="start_point">
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                        <select class="form-control form-select-lg" id="start_point" name="start_point">
+                            {% for wilaya in wilayas %}
+                                <option value="{{ wilaya.getWilayaId() }}">{{ wilaya.getWilayaName() }}</option>
+                            {% endfor %}
                         </select>
                     </div>
                     <div class="m-2">
                         <label for="end_point" class="required">Point d'arrive</label>
-                        <select class="form-control" id="end_point">
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                        <select class="form-control" id="end_point" name="end_point">
+                            {% for wilaya in wilayas %}
+                                <option value="{{ wilaya.getWilayaId() }}">{{ wilaya.getWilayaName() }}</option>
+                            {% endfor %}
                         </select>
                     </div>
                     <div class="m-2">
                         <label for="type" class="required">Le type de transport</label>
-                        <select class="form-control" id="type">
+                        <select class="form-control" id="type" name="type">
                             <option value="1">lettre</option>
                             <option value="2">collis</option>
                             <option value="3">meuble</option>
@@ -39,40 +45,35 @@
 
                     <div class="m-2">
                         <label for="weight" class="required">Poids</label>
-                        <select class="form-control" id="weight">
-                            <option value="1">entre 0 et 100 gr</option>
-                            <option value="2">entre 100gr et 1kg</option>
-                            <option value="3">entre 1kg et 5kg </option>
-                            <option value="4">entre 5kg et 10kg </option>
-                            <option value="5">plus </option>
+                        <select class="form-control" id="weight" name="weight">
+                            <option value="100">entre 0 et 100 gr</option>
+                            <option value="1000">entre 100gr et 1kg</option>
+                            <option value="5000">entre 1kg et 5kg </option>
+                            <option value="10000">entre 5kg et 10kg </option>
+                            <option value="-1">plus </option>
                         </select>
                     </div>
 
                     <div class="m-2">
                         <label for="volume" class="required">Volume</label>
-                        <select class="form-control" id="volume">
-                            <option value="1">V1</option>
-                            <option value="2">V2</option>
-                            <option value="3">V3</option>
-                            <option value="4">V4</option>
-                            <option value="5">plus </option>
+                        <input id="volume" type="number" step="0.01" class="form-control" name="volume">
+                    </div>
+                    <div class="m-2">
+                        <label for="way" class="required">Methode</label>
+                        <select class="form-control" id="way" name="way">
+                            <option value="1">Moyen 1</option>
+                            <option value="2">Moyen 2</option>
                         </select>
                     </div>
                     <div class="m-2">
-                        <label for="way" class="required">Volume</label>
-                        <select class="form-control" id="way">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                        </select>
-                    </div>
-                    <div class="m-2">
-                        <label for="description">Description</label>
-                        <textarea name="description" id="description" class="form-control">
+                        <label for="message">Description</label>
+                        <textarea name="description" id="message" class="form-control">
 
                         </textarea>
                     </div>
                     <button type="submit" class="btn btn-primary my-1 form-control my-5 mx-2">Submit</button>
                 </form>
+
             </div>
         </div>
         <div class="padding">
@@ -83,15 +84,15 @@
                         <form class="form-inline">
                             <label for="start_point" class="required mx-2">Point de depart</label>
                             <select class="form-control form-select-lg" id="start_point">
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                                {% for wilaya in wilayas %}
+                                    <option value="{{ wilaya.getWilayaId() }}">{{ wilaya.getWilayaName() }}</option>
+                                {% endfor %}
                                 </select>
                                 <label for="end_point" class="required mx-2">Point d'arrive</label>
                                 <select class="form-control" id="end_point">
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                    {% for wilaya in wilayas %}
+                                        <option value="{{ wilaya.getWilayaId() }}">{{ wilaya.getWilayaName() }}</option>
+                                    {% endfor %}
                                 </select>
                             <button class="btn btn-outline-success mx-2" type="submit">Search</button>
                         </form>
