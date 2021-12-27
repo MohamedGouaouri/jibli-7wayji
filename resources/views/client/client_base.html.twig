@@ -23,26 +23,27 @@
         </button>
         <div class="collapse navbar-collapse mr-sm-2" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link active ml-2" href="{{ '/vtc' }}" id="nav-item-home">Home <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link ml-2" href="#new-announcements" id="nav-item-new-announcement">New announcement</a>
-                <a class="nav-item nav-link ml-2" href="#announcements" id="nav-item-announcements">Annonces</a>
-                <a class="nav-item nav-link ml-2" href="#news" id="nav-item-news">News</a>
-                <a class="nav-item nav-link ml-2" href="#stats" id="nav-item-stats">Stats</a>
+                <a class="nav-item nav-link active ml-2" href="{{ 'client' }}" id="nav-item-home">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link ml-2" href="{{ 'client#new-announcements' }}" id="nav-item-new-announcement">New announcement</a>
+                <a class="nav-item nav-link ml-2" href="{{ 'client#news' }}" id="nav-item-news">News</a>
+                <a class="nav-item nav-link ml-2" href="{{ 'client#stats' }}" id="nav-item-stats">Stats</a>
                 <a class="nav-item nav-link ml-2" href="#contact" id="nav-item-contact">Contact</a>
 
             </div>
             <div class="navbar-nav ml-auto">
                 {% if loggedIn %}
-
-                    <div class="dropdown nav-item nav-link" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span>Actions <i class="fa fa-caret-down"></i></span>
+                    <div class="dropdown show">
+                        <button class="btn btn-secondary nav-item nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Actions
+                        </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" href="{{ 'announcements' }}">My announcements</a>
                             <a class="dropdown-item" href="applications">Application Notification</a>
                             <a class="dropdown-item" href="#">Transaction History</a>
-                            <a class="dropdown-item" href="l#">Logout</a>
+                            <a class="dropdown-item" href="#">Logout</a>
                         </div>
                     </div>
+
                     <div class="nav-item nav-link ml-2">{{ client.getName() }}</div>
 
 

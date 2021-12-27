@@ -124,7 +124,15 @@ Route::get("applications", function (){
 
 
 Route::get("profile", function (){
-    View::make("transporter/profile.html.twig", ["loggedIn" => true, "client" => true, "title" => "profile"]);
+    if (Auth::isAuthorized()){
+        $client = Auth::user();
+        View::make("client/profile.html.twig", [
+            "loggedIn" => true,
+            "client" => $client,
+            "title" => "profile"]);
+        return;
+    }
+    Route::router("vtc", "login");
 });
 
 // Admin dashboard route
