@@ -73,9 +73,8 @@ $("#searchAnnouncementsClientForm").submit((e) => {
         }
     }).then((data) => {
         $("#loading").hide();
-        console.log($("#start_point option:selected").val());
-        console.log($("#end_point option:selected").val());
         if (data.success){
+            $("#result-not-found").hide();
             $("#row1").empty();
             if (data.announcements.length > 0){
                 for (let i = 0; i <= data.announcements.length; i++){
@@ -91,15 +90,13 @@ $("#searchAnnouncementsClientForm").submit((e) => {
                                         .append($(`<div><b>Type</b> ${data.announcements[i].type} </div>`))
                                         .append($(`<div><b>Weight</b> ${data.announcements[i].weight} </div>`))
                                         .append($(`<div><b>Volume</b> ${data.announcements[i].volume} </div>`))
-                                        .append($('<a href="" class="btn btn-outline-success btn-sm m-5">Read More</a>'))
+                                        .append($(`<a href=details?id=${data.announcements[i].id} class="btn btn-outline-success btn-sm m-5">Read More</a>`))
                                     )
                             )
                     );
                 }
             }else {
-                $("#result-not-found").append(
-                    $("<div class='m-5'>0 Results found</div>")
-                );
+                $("#result-not-found").show();
             }
         }
         else{

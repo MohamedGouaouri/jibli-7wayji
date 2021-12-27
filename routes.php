@@ -88,7 +88,7 @@ Route::get("client", function (){
     if (Auth::isAuthorized()){
         $client = Auth::user();
         $controller = new AnnouncementController();
-        $result = $controller->getAnnouncements(true, 8);
+        $result = $controller->getLimitedAnnouncements(true, 8);
         View::make("client/index.html.twig", [
             "title" => "VTC client portal",
             "loggedIn" => true,
@@ -180,8 +180,19 @@ Route::get("404", function (){
     View::make("404.html.twig");
 });
 
+// ============================ ANNOUNCEMENT ==================
 Route::get("details", function (){
-    View::make("announcements/details.html.twig", ["_title" => "This is announcement title", "client" => false]);
+    if (Auth::isAuthorized()){
+        $client = Auth::user();
+        $announcement_id = $_GET["id"];
+        View::make("announcements/details.html.twig", [
+            "loggedIn" => true,
+            "isClient" => $client instanceof Client,
+            "client" => $client,
+            "announcement" => (new AnnouncementController())->getById($announcement_id)[0],
+            ]);
+        return;
+    }
 });
 
 Route::get("transporter", function (){
@@ -206,10 +217,9 @@ Route::post("index.php", function (){
 });
 
 Route::get("test", function (){
-    $client = Auth::user();
+//    $client = Auth::user();
     $controller = new AnnouncementController();
 
-    $result = $controller->getAllOfClient($client->getClientId());
-    var_dump($result);
+    $result = $controller->getById(10);
 });
 

@@ -3,7 +3,7 @@
 
 class AnnouncementController extends Controller{
     // get  announcements
-    public function getAnnouncements(bool $isAuthenticated, int $number){
+    public function getLimitedAnnouncements(bool $isAuthenticated, int $number){
         // Check for permissions
         if (!$isAuthenticated) {
             // show only
@@ -21,6 +21,10 @@ class AnnouncementController extends Controller{
     public function getAllOfClient($client_id){
 
         return Announcement::allOfClient($client_id);
+    }
+
+    public function getById(int $id): array {
+        return Announcement::byId($id);
     }
 
     public function getAnnouncementByCriteria(int $from, int $to, bool $isAuthenticated){

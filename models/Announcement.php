@@ -81,9 +81,7 @@ class Announcement extends Model
 
         $pdo = DB::connect();
 
-        $stmt = $pdo->prepare("SELECT R.*, w1.wilaya_name AS start_wilaya_name, w2.wilaya_name AS end_wilaya_name FROM (SELECT a.*, name, family_name, email, password, address  FROM announcements a JOIN clients c ON c.client_id = a.client_id WHERE c.client_id = :client_id) AS R, wilayas w1, wilayas w2 WHERE R.start_point = w1.wilaya_id AND w2.wilaya_id = R.end_point;
-");
-
+        $stmt = $pdo->prepare("SELECT R.*, w1.wilaya_name AS start_wilaya_name, w2.wilaya_name AS end_wilaya_name FROM (SELECT a.*, name, family_name, email, password, address  FROM announcements a JOIN clients c ON c.client_id = a.client_id WHERE c.client_id = :client_id) AS R, wilayas w1, wilayas w2 WHERE R.start_point = w1.wilaya_id AND w2.wilaya_id = R.end_point;");
 
         $stmt->bindValue(":client_id", $client_id, PDO::PARAM_INT);
 
@@ -122,6 +120,40 @@ class Announcement extends Model
 
     public static function only(int $limit){
         return DB::query("SELECT announcement_id AS id, start_point, end_point, type, weight, volume FROM " . self::$table_name . " LIMIT ". $limit);
+    }
+
+    public static function byId(int $id){
+        $announcements = array();
+
+        $pdo = DB::connect();
+
+        $stmt = $pdo->prepare("SELECT R.*, w1.wilaya_name AS start_wilaya_name, w2.wilaya_name AS end_wilaya_name FROM (SELECT a.*, name, family_name, email, password, address  FROM announcements a JOIN clients c ON c.client_id = a.client_id WHERE a.announcement_id = :announcement_id) AS R, wilayas w1, wilayas w2 WHERE R.start_point = w1.wilaya_id AND w2.wilaya_id = R.end_point;");
+
+        $stmt->bindValue(":announcement_id", $id, PDO::PARAM_INT);
+
+        if ($stmt->execute()){
+            $db_result =  $stmt->fetchAll();
+            foreach ($db_result as $r){
+
+                array_push($announcements, new Announcement(
+                    $r["announcement_id"],
+                    new Client($r["client_id"], $r["name"], $r["family_name"], $r["email"], $r["password"], $r["address"]),
+                    new Wilaya($r["start_point"],$r["start_wilaya_name"]),
+                    new Wilaya($r["end_point"],$r["end_wilaya_name"]),
+                    $r["type"],
+                    $r["weight"],
+                    $r["volume"],
+                    $r["status"],
+                    $r["message"],
+                    $r["posted_at"],
+                    $r["validated"],
+                    $r["price"],
+                ));
+
+            }
+            return $announcements;
+        }
+        return null;
     }
 
     public static function byCriteria(int $start_point, int $end_point){
