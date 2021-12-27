@@ -13,6 +13,7 @@
         "ext-pdo": "*",
         "twig/twig": "^3.0",
       "ext-json": "*",
-      "ext-http": "*"
+      "ext-http": "*",
+      "ext-spltype": "*"
     }
 }

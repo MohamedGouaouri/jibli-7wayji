@@ -63,14 +63,14 @@ CREATE TABLE IF NOT EXISTS announcements(
     FOREIGN KEY (end_point) REFERENCES wilayas(wilaya_id)
 );
 INSERT INTO announcements (client_id, start_point, end_point, type, weight, volume, status, message)
-    VALUES (1, 1, 1, 'TYPE', 1000, 200, 'APPROVED', 'Nothing'),
-           (1, 2, 1, 'TYPE', 1000, 200, 'APPROVED', 'Nothing'),
-           (2, 1, 3, 'TYPE', 1000, 200, 'APPROVED', 'Nothing'),
-           (2, 3, 1, 'TYPE', 1000, 200, 'APPROVED', 'Nothing'),
-           (3, 4, 1, 'TYPE', 1000, 200, 'APPROVED', 'Nothing'),
-           (3, 2, 2, 'TYPE', 1000, 200, 'APPROVED', 'Nothing'),
-           (2, 1, 3, 'TYPE', 1000, 200, 'APPROVED', 'Nothing'),
-           (1, 4, 2, 'TYPE', 1000, 200, 'APPROVED', 'Nothing')
+    VALUES (1, 1, 1, 'TYPE', 1000, 200, 'approved', 'Nothing'),
+           (1, 2, 1, 'TYPE', 1000, 200, 'approved', 'Nothing'),
+           (2, 1, 3, 'TYPE', 1000, 200, 'approved', 'Nothing'),
+           (2, 3, 1, 'TYPE', 1000, 200, 'approved', 'Nothing'),
+           (3, 4, 1, 'TYPE', 1000, 200, 'approved', 'Nothing'),
+           (3, 2, 2, 'TYPE', 1000, 200, 'approved', 'Nothing'),
+           (2, 1, 3, 'TYPE', 1000, 200, 'approved', 'Nothing'),
+           (1, 4, 2, 'TYPE', 1000, 200, 'approved', 'Nothing')
     ;
 
 # transports

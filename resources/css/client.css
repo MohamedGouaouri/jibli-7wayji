@@ -4,7 +4,7 @@
     height: calc(100vh - 140px);
 }
 #announcements{
-
+    /*height: 100vh;*/
 }
 
 #announcements h2{
@@ -37,9 +37,14 @@
 .pending{
     background-color: #ffaa42;
 }
-.accepted{
+.approved{
     background-color: #309c32;
 }
 .rejected{
     background-color: #ff3838;
+}
+
+#client-footer{
+    position: absolute;
+    bottom: 0;
 }

@@ -136,7 +136,20 @@ Route::post("new_announcement", function (){
 // Show user announcements
 Route::get("announcements", function (){
 
-    View::make("client/announcements.html.twig", ["title" => "VTC client portal", "loggedIn" => true, "username" => "mohamed"]);
+    if (Auth::isAuthorized()){
+        $client = Auth::user();
+        $controller = new AnnouncementController();
+        $result = $controller->getAllOfClient($client->getClientId());
+        View::make("client/announcements.html.twig", [
+            "title" => "VTC client portal",
+            "loggedIn" => true,
+            "client" => $client,
+            "announcements" => $result,
+        ]);
+        return;
+    }
+    Route::router("vtc", "login");
+
 });
 
 // show transporter applications
@@ -193,8 +206,10 @@ Route::post("index.php", function (){
 });
 
 Route::get("test", function (){
-    echo (Auth::user()->getName());
+    $client = Auth::user();
+    $controller = new AnnouncementController();
+
+    $result = $controller->getAllOfClient($client->getClientId());
+    var_dump($result);
 });
 
-Route::post("test", function (){
-});
