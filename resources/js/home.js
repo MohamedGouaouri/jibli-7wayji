@@ -50,21 +50,6 @@ $(window).scroll(() => {
 
 // Search form
 $("#searchAnnouncementsUserForm").submit((e) => {
-    let card = "<div class=\"col-md-3 mb-4\">\n" +
-        "            <div class=\"card\">\n" +
-        "              <img\n" +
-        "                      src=\"https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60\"\n" +
-        "                      alt=\"\" class=\"card-img-top\">\n" +
-        "              <div class=\"card-body\">\n" +
-        "                <h5 class=\"card-title\">Sunset</h5>\n" +
-        "                <p class=\"card-text\">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut eum similique repellat a\n" +
-        "                  laborum, rerum voluptates ipsam eos quo tempore iusto dolore modi dolorum in pariatur. Incidunt\n" +
-        "                  repellendus praesentium quae!</p>\n" +
-        "                <a href=\"\" class=\"btn btn-outline-success btn-sm\">Read More</a>\n" +
-        "              </div>\n" +
-        "            </div>\n" +
-        "          </div>";
-
     e.preventDefault();
     let form = $(this);
     let url = "index.php";
@@ -111,7 +96,6 @@ $("#searchAnnouncementsUserForm").submit((e) => {
                     $("<div class='m-5'>0 Results found</div>")
                 );
             }
-
         }
         else{
 

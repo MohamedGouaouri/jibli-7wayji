@@ -18,7 +18,7 @@ Route::get("index.php", function (){
             "title" => "VTC application",
             "announcements" => $result,
             "isAuthenticated" => false,
-            "wilayas" => DB::query("SELECT * FROM wilayas")
+            "wilayas" => (new WilayaController())->get_all()
         ]);
 });
 
@@ -83,20 +83,36 @@ Route::get("logout", function (){
 // ================================= END LOGOUT ==============================
 
 
-// client portal routing
+// =================================== BEGIN CLIENT ACTIONS ====================
 Route::get("client", function (){
     if (Auth::isAuthorized()){
         $client = Auth::user();
+        $controller = new AnnouncementController();
+        $result = $controller->getAnnouncements(true, 8);
         View::make("client/index.html.twig", [
             "title" => "VTC client portal",
             "loggedIn" => true,
             "client" => $client,
+            "announcements" => $result,
             "wilayas" => (new WilayaController())->get_all()
         ]);
         return;
     }
     Route::router("vtc", "login");
 });
+
+// Search for announcements
+Route::post("client", function (){
+    if (Auth::isAuthorized()){
+        $controller = new AnnouncementController();
+        $from = $_POST["start_point"];
+        $to = $_POST["end_point"];
+        $result = $controller->getAnnouncementByCriteria($from, $to, true);
+        header("Content-Type: application/json");
+        echo json_encode(["success" => true, "announcements" => $result]);
+    }
+});
+
 
 // Add announcement post request
 Route::post("new_announcement", function (){

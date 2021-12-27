@@ -9,14 +9,17 @@ class AnnouncementController extends Controller{
             // show only
             return Announcement::only($number);
         }
-        return null;
+        else{
+            return Announcement::limit($number);
+        }
     }
 
     public function getAnnouncementByCriteria(int $from, int $to, bool $isAuthenticated){
         if (!$isAuthenticated){
             return Announcement::byCriteria($from, $to);
+        }else{
+            return Announcement::byCriteria($from, $to);
         }
-        return  null;
     }
 
 

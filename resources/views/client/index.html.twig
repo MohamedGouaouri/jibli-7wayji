@@ -67,153 +67,62 @@
                     </div>
                     <div class="m-2">
                         <label for="message">Description</label>
-                        <textarea name="description" id="message" class="form-control">
-
+                        <textarea name="description" id="message" class="form-control" maxlength="255">
                         </textarea>
                     </div>
                     <button type="submit" class="btn btn-primary my-1 form-control my-5 mx-2">Submit</button>
                 </form>
-
             </div>
         </div>
         <div class="padding">
             <div class="row" id="announcements">
-                <div class="container-fluid">
-                    <h2>Rechercher une annonce</h2>
+                <div class="container">
+                    <h2 class="text-center m-5">Rechercher une annonce</h2>
                     <div class="row justify-content-center">
-                        <form class="form-inline">
+                        <form class="form-inline" id="searchAnnouncementsClientForm">
                             <label for="start_point" class="required mx-2">Point de depart</label>
-                            <select class="form-control form-select-lg" id="start_point">
+                            <select class="form-control form-select-lg" id="client_start_point" name="start_point">
                                 {% for wilaya in wilayas %}
                                     <option value="{{ wilaya.getWilayaId() }}">{{ wilaya.getWilayaName() }}</option>
                                 {% endfor %}
-                                </select>
-                                <label for="end_point" class="required mx-2">Point d'arrive</label>
-                                <select class="form-control" id="end_point">
-                                    {% for wilaya in wilayas %}
-                                        <option value="{{ wilaya.getWilayaId() }}">{{ wilaya.getWilayaName() }}</option>
-                                    {% endfor %}
-                                </select>
+                            </select>
+                            <label for="end_point" class="required mx-2">Point d'arrive</label>
+                            <select class="form-control" id="client_end_point" name="end_point">
+                                {% for wilaya in wilayas %}
+                                    <option value="{{ wilaya.getWilayaId() }}">{{ wilaya.getWilayaName() }}</option>
+                                {% endfor %}
+                            </select>
                             <button class="btn btn-outline-success mx-2" type="submit">Search</button>
                         </form>
                     </div>
-                    <div class="row mt-2">
-                        <div class="col-md-3 mb-4">
-                            <div class="card">
-                                <img
-                                        src="https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60"
-                                        alt="" class="card-img-top">
-                                <div class="card-body">
-                                    <h5 class="card-title">Sunset</h5>
-                                    <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut eum similique repellat a
-                                        laborum, rerum voluptates ipsam eos quo tempore iusto dolore modi dolorum in pariatur. Incidunt
-                                        repellendus praesentium quae!</p>
-                                    <a href="" class="btn btn-outline-success btn-sm">Read More</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <div class="card">
-                                <img
-                                        src="https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60"
-                                        alt="" class="card-img-top">
-                                <div class="card-body">
-                                    <h5 class="card-title">Sunset</h5>
-                                    <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut eum similique repellat a
-                                        laborum, rerum voluptates ipsam eos quo tempore iusto dolore modi dolorum in pariatur. Incidunt
-                                        repellendus praesentium quae!</p>
-                                    <a href="" class="btn btn-outline-success btn-sm">Read More</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <div class="card">
-                                <img
-                                        src="https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60"
-                                        alt="" class="card-img-top">
-                                <div class="card-body">
-                                    <h5 class="card-title">Sunset</h5>
-                                    <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut eum similique repellat a
-                                        laborum, rerum voluptates ipsam eos quo tempore iusto dolore modi dolorum in pariatur. Incidunt
-                                        repellendus praesentium quae!</p>
-                                    <a href="" class="btn btn-outline-success btn-sm">Read More</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <div class="card">
-                                <img
-                                        src="https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60"
-                                        alt="" class="card-img-top">
-                                <div class="card-body">
-                                    <h5 class="card-title">Sunset</h5>
-                                    <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut eum similique repellat a
-                                        laborum, rerum voluptates ipsam eos quo tempore iusto dolore modi dolorum in pariatur. Incidunt
-                                        repellendus praesentium quae!</p>
-                                    <a href="" class="btn btn-outline-success btn-sm">Read More</a>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="row justify-content-center">
+                        <img src="{{ 'resources/assets/img/loading.gif' }}" alt="loading" height="50" width="50" id="loading" style="display: none">
                     </div>
-                    <div class="row">
-                        <div class="col-md-3 mb-4">
-                            <div class="card">
-                                <img
-                                        src="https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60"
-                                        alt="" class="card-img-top">
-                                <div class="card-body">
-                                    <h5 class="card-title">Sunset</h5>
-                                    <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut eum similique repellat a
-                                        laborum, rerum voluptates ipsam eos quo tempore iusto dolore modi dolorum in pariatur. Incidunt
-                                        repellendus praesentium quae!</p>
-                                    <a href="" class="btn btn-outline-success btn-sm">Read More</a>
+                    <div class="row justify-content-center" id="result-not-found">
+                    </div>
+                    <div class="row mt-5 justify-content-center align-items-center" id="row1">
+                        {% for announcement in announcements %}
+                            <div class="col-md-3 mb-4">
+                                <div class="card">
+                                    <img src="https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60"
+                                         alt="" class="card-img-top">
+                                    <div class="card-body">
+                                        <h5 class="card-title">TITLE</h5>
+                                        <div><b>Start point</b>{{ announcement["start_point"] }}</div>
+                                        <div><b>End point</b>{{ announcement["end_point"] }}</div>
+                                        <div><b>Type</b>{{ announcement["type"] }}</div>
+                                        <div><b>Weight</b>{{ announcement["weight"] }}</div>
+                                        <div><b>Volume</b>{{ announcement["volume"] }}</div>
+                                        {% if loggedIn %}
+                                            <a href="{{ 'announcements?id=1' }}" class="btn btn-outline-success btn-sm my-3">Read More</a>
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <div class="card">
-                                <img
-                                        src="https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60"
-                                        alt="" class="card-img-top">
-                                <div class="card-body">
-                                    <h5 class="card-title">Sunset</h5>
-                                    <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut eum similique repellat a
-                                        laborum, rerum voluptates ipsam eos quo tempore iusto dolore modi dolorum in pariatur. Incidunt
-                                        repellendus praesentium quae!</p>
-                                    <a href="" class="btn btn-outline-success btn-sm">Read More</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <div class="card">
-                                <img
-                                        src="https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60"
-                                        alt="" class="card-img-top">
-                                <div class="card-body">
-                                    <h5 class="card-title">Sunset</h5>
-                                    <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut eum similique repellat a
-                                        laborum, rerum voluptates ipsam eos quo tempore iusto dolore modi dolorum in pariatur. Incidunt
-                                        repellendus praesentium quae!</p>
-                                    <a href="" class="btn btn-outline-success btn-sm">Read More</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <div class="card">
-                                <img
-                                        src="https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60"
-                                        alt="" class="card-img-top">
-                                <div class="card-body">
-                                    <h5 class="card-title">Sunset</h5>
-                                    <p class="card-text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut eum similique repellat a
-                                        laborum, rerum voluptates ipsam eos quo tempore iusto dolore modi dolorum in pariatur. Incidunt
-                                        repellendus praesentium quae!</p>
-                                    <a href="" class="btn btn-outline-success btn-sm">Read More</a>
-                                </div>
-                            </div>
-                        </div>
 
+                        {% endfor %}
                     </div>
+
                 </div>
             </div>
         </div>

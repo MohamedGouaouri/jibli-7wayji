@@ -68,13 +68,13 @@
             <label for="start_point" class="required mx-2">Point de depart</label>
             <select class="form-control form-select-lg" id="start_point" name="start_point">
               {% for wilaya in wilayas %}
-                <option value="{{ wilaya["wilaya_id"] }}">{{ wilaya["wilaya_name"] }}</option>
+                <option value="{{ wilaya.getWilayaId() }}">{{ wilaya.getWilayaName() }}</option>
               {% endfor %}
             </select>
             <label for="end_point" class="required mx-2">Point d'arrive</label>
             <select class="form-control" id="end_point" name="end_point">
               {% for wilaya in wilayas %}
-                <option value="{{ wilaya["wilaya_id"] }}">{{ wilaya["wilaya_name"] }}</option>
+                <option value="{{ wilaya.getWilayaId() }}">{{ wilaya.getWilayaName() }}</option>
               {% endfor %}
             </select>
             <button class="btn btn-outline-success mx-2" type="submit">Search</button>
