@@ -23,7 +23,7 @@ class Announcement extends Model
 
     public static function byCriteria(int $start_point, int $end_point){
         $pdo = DB::connect();
-        $stmt = $pdo->prepare("SELECT announcement_id AS id, start_point, end_point, type, weight, volume FROM " . self::$table_name . " WHERE start_point = :start_point AND end_point = :end_point");
+        $stmt = $pdo->prepare("SELECT announcement_id AS id, start_point, end_point, type, weight, volume FROM " . self::$table_name . " WHERE start_point = :start_point AND end_point = :end_point AND status = 'APPROVED'");
         $stmt->bindValue(":start_point", $start_point, PDO::PARAM_INT);
         $stmt->bindValue(":end_point", $end_point, PDO::PARAM_INT);
         if ($stmt->execute()){
