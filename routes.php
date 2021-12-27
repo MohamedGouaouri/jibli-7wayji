@@ -74,6 +74,13 @@ Route::post("register", function (){
     }
 });
 
+// ================================= BEGIN LOGOUT ============================
+Route::get("logout", function (){
+    (new LoginController())->logout();
+    Route::router("vtc", "login");
+});
+
+// ================================= END LOGOUT ==============================
 
 
 // client portal routing

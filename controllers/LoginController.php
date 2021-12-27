@@ -4,7 +4,6 @@
 class LoginController
 {
     public function authenticate($email, $password, $is_client): bool {
-
         if ($is_client){
             $client = Client::get_by_email($email);
 
@@ -23,5 +22,9 @@ class LoginController
             }
         }
         return false;
+    }
+    public function logout(){
+        Session::start();
+        Session::forget();
     }
 }
