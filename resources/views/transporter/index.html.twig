@@ -1,5 +1,6 @@
-{% extends 'client_base.html.twig' %}
+{% extends 'transporter_base.html.twig' %}
 {% block title %}
+    {{ _title }}
 {% endblock %}
 {% block styles %}
 {% endblock %}
@@ -145,4 +146,27 @@
             </div>
         </div>
     </div>
+{% endblock %}
+{% block footer %}
+    <footer>
+        <div class="container-fluid text-center">
+            <div class="row" id="contact">
+                <div class="col-sm-6">
+                    <h3>Contact Us</h3>
+                    <div>
+                        Our address and contact here
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <h3>Connect</h3>
+                    <a href="#" class="fa fa-facebook icon"></a>
+                    <a href="#" class="fa fa-twitter icon"></a>
+                    <a href="#" class="fa fa-instagram icon"></a>
+                    <a href="#" class="fa fa-google icon"></a>
+                    <a href="#" class="fa fa-linkedin icon"></a>
+                </div>
+
+            </div>
+        </div>
+    </footer>
 {% endblock %}

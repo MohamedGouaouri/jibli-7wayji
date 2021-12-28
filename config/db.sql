@@ -39,8 +39,15 @@ CREATE TABLE IF NOT EXISTS transporters(
     family_name VARCHAR(50) NOT NULL,
     email VARCHAR(50) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    status VARCHAR(20) NOT NULL,
+    is_certified BOOLEAN DEFAULT FALSE,
+    status VARCHAR(20),
     inventory DOUBLE DEFAULT 0.0
+);
+
+DROP TABLE IF EXISTS certification_demands;
+CREATE TABLE IF NOT EXISTS certification_demands(
+  transporter_id INT PRIMARY KEY,
+  status VARCHAR(20) DEFAULT 'pending'
 );
 
 # announcements schema
@@ -155,8 +162,15 @@ CREATE TABLE IF NOT EXISTS news(
 DROP TABLE IF EXISTS covered_wilayas;
 CREATE TABLE IF NOT EXISTS covered_wilayas(
   transporter_id INT NOT NULL,
-  wilaya_id INT NOT NULL ,
-  PRIMARY KEY (transporter_id, wilaya_id),
+  start_point INT NOT NULL ,
+  end_point INT NOT NULL ,
+  PRIMARY KEY (transporter_id, start_point, end_point),
   FOREIGN KEY (transporter_id) REFERENCES transporters(transporter_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (wilaya_id) REFERENCES wilayas(wilaya_id) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (start_point) REFERENCES wilayas(wilaya_id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (end_point) REFERENCES wilayas(wilaya_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+
+# Views
+# CREATE VIEW announcements_view AS
+# SELECT R.*, w1.wilaya_name AS start_wilaya_name, w2.wilaya_name AS end_wilaya_name FROM (SELECT a.*, name, family_name, email, password, address  FROM announcements a JOIN clients c ON c.client_id = a.client_id) AS R, wilayas w1, wilayas w2 WHERE R.start_point = w1.wilaya_id AND w2.wilaya_id = R.end_point;

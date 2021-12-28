@@ -115,7 +115,9 @@ class Announcement extends Model
     public static function limit($rows)
     {
         $announcements = array();
+
         $db_result =  DB::query("SELECT * FROM announcements_view LIMIT ". $rows);
+
         foreach ($db_result as $r){
             array_push($announcements, new Announcement(
                 $r["announcement_id"],

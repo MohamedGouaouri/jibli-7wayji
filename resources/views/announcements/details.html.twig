@@ -1,4 +1,4 @@
-{% extends 'client_base.html.twig' %}
+{% extends 'details_base.html.twig' %}
 
 {% block styles %}
     <link href="{{ 'resources/css/annoucement_details.css' }}" rel="stylesheet">
@@ -23,11 +23,11 @@
 
                     </div>
                     <div class="m-3">
-                        <div class="row"><b>Start point: </b>{{ announcement.getStartPoint().getWilayaName() }}</div>
-                        <div class="row"><b>End point: </b>{{ announcement.getEndPoint().getWilayaName() }}</div>
-                        <div class="row"><b>Type: </b>{{ announcement.getType() }}</div>
-                        <div class="row"><b>Weight: </b>{{ announcement.getWeight() }}</div>
-                        <div class="row"><b>Volume: </b>{{ announcement.getVolume() }}</div>
+                        <div class="row"><b>Start point: </b><div class="ml-2">{{ announcement.getStartPoint().getWilayaName() }}</div></div>
+                        <div class="row"><b>End point: </b><div class="ml-2">{{ announcement.getEndPoint().getWilayaName() }}</div></div>
+                        <div class="row"><b>Type: </b><div class="ml-2">{{ announcement.getType() }}</div></div>
+                        <div class="row"><b>Weight: </b><div class="ml-2">{{ announcement.getWeight() }}</div></div>
+                        <div class="row"><b>Volume: </b><div class="ml-2">{{ announcement.getVolume() }}</div></div>
                     </div>
 
                     <div class="row mt-2">
@@ -40,12 +40,13 @@
                     </div>
 
                     <div class="row mt-3">
-                        <span class="price">Price 100$</span>
+                        <span class="price">Price {{ announcement.getPrice() }} $</span>
                         {% if isClient %}
                             {#          Client can see the status                  #}
                             <div class=" ml-auto status {{ announcement.getStatus() }}">{{ announcement.getStatus() }}</div>
                         {% else %}
                             <div class="ml-auto">
+                                {#            Change this based on notification                    #}
                                 <button class="btn btn-primary">Postuler</button>
                                 <button class="btn btn-success">Accepter</button>
                                 <button class="btn btn-danger">Refuser</button>

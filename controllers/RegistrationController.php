@@ -10,6 +10,10 @@ class RegistrationController
 
             return $added;
         }
-        return false;
+        else{
+
+           $added = Transporter::add($name, $family_name, $email, password_hash($password, PASSWORD_BCRYPT));
+            return $added;
+        }
     }
 }

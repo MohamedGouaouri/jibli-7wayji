@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/png" href="{{ 'resources/assets/img/logovtc.png' }}">
+    <title>{% block title %} {% endblock %}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="{{ 'resources/css/main.css' }}" rel="stylesheet"/>
+{#    {% if isClient %}#}
+        <link href="{{ 'resources/css/client.css' }}" rel="stylesheet">
+
+    {% block styles %}
+    {% endblock %}
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark">
+    <a href="#" class="navbar-brand"><img src="{{ 'resources/assets/img/logovtc.png' }}" alt="brand" class="logo"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse mr-sm-2" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            {% if isClient %}
+                <a class="nav-item nav-link active ml-2" href="{{ 'index.php' }}" id="nav-item-home">Site <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link active ml-2" href="{{ 'client' }}" id="nav-item-home">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link ml-2" href="{{ 'client#new-announcements' }}" id="nav-item-new-announcement">New announcement</a>
+                <a class="nav-item nav-link ml-2" href="{{ 'client#announcements' }}" id="nav-item-announcements">Rechercher</a>
+                <a class="nav-item nav-link ml-2" href="{{ 'index.php#news' }}" id="nav-item-news">News</a>
+                <a class="nav-item nav-link ml-2" href="{{ 'index.php#stats' }}" id="nav-item-stats">Stats</a>
+                <a class="nav-item nav-link ml-2" href="{{ 'client#contact' }}" id="nav-item-contact">Contact</a>
+            {% else %}
+                <a class="nav-item nav-link active ml-2" href="{{ 'index.php' }}" id="nav-item-home">Site <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link active ml-2" href="{{ 'transporter' }}" id="nav-item-home">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link ml-2" href="{{ 'transporter#announcements' }}" id="nav-item-announcements">Rechercher</a>
+                <a class="nav-item nav-link ml-2" href="{{ 'index.php#news' }}" id="nav-item-news">News</a>
+                <a class="nav-item nav-link ml-2" href="{{ 'index.php#stats' }}" id="nav-item-stats">Stats</a>
+                <a class="nav-item nav-link ml-2" href="{{ 'transporter#contact' }}" id="nav-item-contact">Contact</a>
+            {% endif %}
+        </div>
+        <div class="navbar-nav ml-auto">
+
+                {% if isClient %}
+                    <div class="dropdown show">
+                        <button class="btn btn-secondary nav-item nav-link dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Actions
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="{{ 'announcements' }}">My announcements</a>
+                            <a class="dropdown-item" href="applications">Application Notification</a>
+                            <a class="dropdown-item" href="#">Transaction History</a>
+                            <a class="dropdown-item" href="{{ 'logout' }}">Logout</a>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="dropdown show">
+                        <button class="btn btn-secondary nav-item nav-link dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Actions
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="demands">Demands</a>
+                            <a class="dropdown-item" href="#">Transaction History</a>
+                            <a class="dropdown-item" href="{{ 'logout' }}">Logout</a>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="nav-item nav-link ml-2">{{ user.getName() }}te</div>
+        </div>
+    </div>
+</nav>
+{% block content %}
+{% endblock %}
+{% block footer %}
+{% endblock %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.2/dist/chart.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+<script src="https://unpkg.com/typeit@8.1.0/dist/index.umd.js"></script>
+<script src="{{ 'resources/js/nicescroll.js' }}"></script>
+<script src="{{ 'resources/js/client.js' }}"></script>
+<script src="{{ 'resources/js/typeit.js' }}"></script>
+<script src="{{ 'resources/js/stats.js' }}"></script>
+</body>
+</html>

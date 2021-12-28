@@ -7,11 +7,16 @@ use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
 // Load the view
-View::$loader = new FilesystemLoader([__DIR__ . DIRECTORY_SEPARATOR . "resources/views", __DIR__ . DIRECTORY_SEPARATOR . "resources/views/client"]);
+View::$loader = new FilesystemLoader([
+    __DIR__ . DIRECTORY_SEPARATOR . "resources/views",
+    __DIR__ . DIRECTORY_SEPARATOR . "resources/views/client",
+    __DIR__ . DIRECTORY_SEPARATOR . "resources/views/transporter",
+    __DIR__ . DIRECTORY_SEPARATOR . "resources/views/announcements",
+    ]);
 View::$twig = new Environment(View::$loader);
 
 Route::get("index.php", function (){
-    if (Auth::isAuthorized()){
+    if (Auth::isAuthorizedClient() && Auth::isAuthorizedTransporter()){
         $controller = new AnnouncementController();
         $result = $controller->getLimitedAnnouncements( 8);
         View::make("index.html.twig",
@@ -39,8 +44,12 @@ Route::get("index.php", function (){
 
 // =============================== LOGIN ================================
 Route::get("login", function (){
-    if (Auth::isAuthorized()){
+    if (Auth::isAuthorizedClient()){
         Route::router("vtc", "client");
+        return;
+    }
+    if (Auth::isAuthorizedTransporter()){
+        Route::router("vtc", "transporter");
         return;
     }
     View::make("auth/login.html.twig", ["title" => "VTC application"]);
@@ -50,11 +59,17 @@ Route::post("login", function (){
 
     $email = $_POST["email"];
     $password = $_POST["password"];
-    $is_client = true;
+    $is_client = strcmp($_POST["client_or_transporter"], "client") == 0 ? true : false;
     $controller = new LoginController();
     $authenticated = $controller->authenticate($email, $password, $is_client);
+
     if ($authenticated){
-        Route::router("vtc", "client");
+        if (Session::get("is_client")){
+            Route::router("vtc", "client");
+        }else{
+            // transporter
+            Route::router("vtc", "transporter");
+        }
     }else{
         Route::router("vtc", "login");
     }
@@ -68,18 +83,13 @@ Route::get("register", function (){
 });
 
 Route::post("register", function (){
-    // Steps
-    // 1. Get POST parameters
-    // 2. Invoke Registration controller
-    //  2.1 Sanitize user input
-    //  2.2 Update the DB
-    //  2.3 Redirect the user to the login page
+
     $name = $_POST["name"];
     $family_name = $_POST["family_name"];
     $email = $_POST["email"];
     $password = $_POST["password"];
     $address = "address";
-    $is_client = true; // TODO: Change this to get the value dynamically
+    $is_client = strcmp($_POST["client_or_transporter"], "client") == 0; // TODO: Change this to get the value dynamically
     $controller = new RegistrationController();
     $registered = $controller->register($name, $family_name, $email, $password, $address, $is_client);
 
@@ -88,6 +98,7 @@ Route::post("register", function (){
         Route::router("vtc", "login");
 
     }else{
+        // Registration failed
         View::make("auth/register.html.twig", ["title" => "VTC application"]);
     }
 });
@@ -103,7 +114,7 @@ Route::get("logout", function (){
 
 // =================================== BEGIN CLIENT ACTIONS ====================
 Route::get("client", function (){
-    if (Auth::isAuthorized()){
+    if (Auth::isAuthorizedClient()){
         $client = Auth::user();
         $controller = new AnnouncementController();
         $result = $controller->getLimitedAnnouncements(8);
@@ -121,7 +132,7 @@ Route::get("client", function (){
 
 // Search for announcements
 Route::post("client", function (){
-    if (Auth::isAuthorized()){
+    if (Auth::isAuthorizedClient()){
         $controller = new AnnouncementController();
         $from = $_POST["start_point"];
         $to = $_POST["end_point"];
@@ -135,7 +146,6 @@ Route::post("client", function (){
 // Add announcement post request
 Route::post("new_announcement", function (){
     // get request parameters
-
     $start_point = $_POST["start_point"];
     $end_point = $_POST["end_point"];
     $type = $_POST["type"];
@@ -153,8 +163,7 @@ Route::post("new_announcement", function (){
 
 // Show user announcements
 Route::get("announcements", function (){
-
-    if (Auth::isAuthorized()){
+    if (Auth::isAuthorizedClient()){
         $client = Auth::user();
         $controller = new AnnouncementController();
         $result = $controller->getAllOfClient($client->getClientId());
@@ -178,7 +187,7 @@ Route::get("applications", function (){
 
 
 Route::get("profile", function (){
-    if (Auth::isAuthorized()){
+    if (Auth::isAuthorizedClient()){
         $client = Auth::user();
         View::make("client/profile.html.twig", [
             "loggedIn" => true,
@@ -200,13 +209,12 @@ Route::get("404", function (){
 
 // ============================ ANNOUNCEMENT ==================
 Route::get("details", function (){
-    if (Auth::isAuthorized()){
-        $client = Auth::user();
+    if (Auth::isAuthorizedClient() || Auth::isAuthorizedTransporter()){
+        $user = Auth::user();
         $announcement_id = $_GET["id"];
         View::make("announcements/details.html.twig", [
-            "loggedIn" => true,
-            "isClient" => $client instanceof Client,
-            "client" => $client,
+            "isClient" => Session::get("is_client"),
+            "user" => $user,
             "announcement" => (new AnnouncementController())->getById($announcement_id)[0],
             ]);
         return;
@@ -214,12 +222,42 @@ Route::get("details", function (){
 });
 
 Route::get("transporter", function (){
-    View::make("transporter/index.html.twig");
+    $is_client = false;
+    if (Auth::isAuthorizedTransporter()){
+
+        $transporter = Auth::user();
+
+        $controller = new AnnouncementController();
+        $result = $controller->getLimitedAnnouncements(8);
+
+        View::make("transporter/index.html.twig", [
+            "title" => "VTC client portal",
+            "loggedIn" => true,
+            "transporter" => $transporter,
+            "announcements" => $result,
+            "wilayas" => (new WilayaController())->get_all()
+        ]);
+        return;
+    }
+    Route::router("vtc", "login");
 });
 
 
 Route::get("demands", function (){
-    View::make("transporter/demands.html.twig");
+    if (Auth::isAuthorizedTransporter()){
+
+        $transporter = Auth::user();
+
+        // fetch demands
+
+        View::make("transporter/demands.html.twig", [
+            "title" => "VTC client portal",
+            "loggedIn" => true,
+            "transporter" => $transporter,
+        ]);
+        return;
+    }
+    Route::router("vtc", "login");
 });
 
 
@@ -235,8 +273,22 @@ Route::post("index.php", function (){
 });
 
 Route::get("test", function (){
-    $controller = new AnnouncementController();
-    $result = $controller->getLimitedAnnouncements( 8);
+
+//    var_dump(Auth::isAuthorizedClient() == true);
+
+    Auth::isAuthorizedTransporter();
+
+});
+
+Route::post("test", function (){
+    $name = $_POST["name"];
+    $family_name = $_POST["family_name"];
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+    $address = "address";
+    $is_client = $_POST["client_or_transporter"] == "client"; // TODO: Change this to get the value dynamically
+    $controller = new RegistrationController();
+    $registered = $controller->register($name, $family_name, $email, $password, $address, $is_client);
     echo "hello";
 });
 
