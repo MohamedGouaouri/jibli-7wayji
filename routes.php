@@ -11,25 +11,43 @@ View::$loader = new FilesystemLoader([__DIR__ . DIRECTORY_SEPARATOR . "resources
 View::$twig = new Environment(View::$loader);
 
 Route::get("index.php", function (){
-    $controller = new AnnouncementController();
-    $result = $controller->getAnnouncements(false, 8);
-    View::make("index.html.twig",
-        [
-            "title" => "VTC application",
-            "announcements" => $result,
-            "isAuthenticated" => false,
-            "wilayas" => (new WilayaController())->get_all()
-        ]);
+    if (Auth::isAuthorized()){
+        $controller = new AnnouncementController();
+        $result = $controller->getLimitedAnnouncements( 8);
+        View::make("index.html.twig",
+            [
+                "title" => "VTC application",
+                "announcements" => $result,
+                "isAuthenticated" => true,
+                "wilayas" => (new WilayaController())->get_all()
+            ]);
+    }else{
+        $controller = new AnnouncementController();
+        $result = $controller->getLimitedAnnouncements(8);
+        View::make("index.html.twig",
+            [
+                "title" => "VTC application",
+                "announcements" => $result,
+                "isAuthenticated" => false,
+                "wilayas" => (new WilayaController())->get_all()
+            ]);
+    }
+
 });
 
 
 
 // =============================== LOGIN ================================
 Route::get("login", function (){
+    if (Auth::isAuthorized()){
+        Route::router("vtc", "client");
+        return;
+    }
     View::make("auth/login.html.twig", ["title" => "VTC application"]);
 });
 
 Route::post("login", function (){
+
     $email = $_POST["email"];
     $password = $_POST["password"];
     $is_client = true;
@@ -88,7 +106,7 @@ Route::get("client", function (){
     if (Auth::isAuthorized()){
         $client = Auth::user();
         $controller = new AnnouncementController();
-        $result = $controller->getLimitedAnnouncements(true, 8);
+        $result = $controller->getLimitedAnnouncements(8);
         View::make("client/index.html.twig", [
             "title" => "VTC client portal",
             "loggedIn" => true,
@@ -217,9 +235,8 @@ Route::post("index.php", function (){
 });
 
 Route::get("test", function (){
-//    $client = Auth::user();
     $controller = new AnnouncementController();
-
-    $result = $controller->getById(10);
+    $result = $controller->getLimitedAnnouncements( 8);
+    echo "hello";
 });
 

@@ -3,15 +3,8 @@
 
 class AnnouncementController extends Controller{
     // get  announcements
-    public function getLimitedAnnouncements(bool $isAuthenticated, int $number){
-        // Check for permissions
-        if (!$isAuthenticated) {
-            // show only
-            return Announcement::only($number);
-        }
-        else{
-            return Announcement::limit($number);
-        }
+    public function getLimitedAnnouncements(int $number){
+        return Announcement::limit($number);
     }
 
     public function getAllAnnouncements(): array {

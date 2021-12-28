@@ -94,11 +94,11 @@
                 <img src="https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60" alt="" class="card-img-top">
                 <div class="card-body">
                   <h5 class="card-title">TITLE</h5>
-                  <div><b>Start point</b>{{ announcement["start_point"] }}</div>
-                  <div><b>End point</b>{{ announcement["end_point"] }}</div>
-                  <div><b>Type</b>{{ announcement["type"] }}</div>
-                  <div><b>Weight</b>{{ announcement["weight"] }}</div>
-                  <div><b>Volume</b>{{ announcement["volume"] }}</div>
+                  <div><b>Start point</b>{{ announcement.getStartPoint().getWilayaName() }}</div>
+                  <div><b>End point</b>{{ announcement.getEndPoint().getWilayaName() }}</div>
+                  <div><b>Type</b>{{ announcement.getType()}}</div>
+                  <div><b>Weight</b>{{ announcement.getWeight() }}</div>
+                  <div><b>Volume</b>{{ announcement.getVolume() }}</div>
                   {% if isAuthenticated%}
                     <a href="" class="btn btn-outline-success btn-sm">Read More</a>
                   {% endif %}
@@ -108,7 +108,7 @@
 
           {% endfor %}
         </div>
-        <div id="how-it-works"><a>How it works ?</a></div>
+        <div id="how-it-works" class=""><a>How it works ?</a></div>
       </div>
     </div>
 

@@ -114,13 +114,28 @@ class Announcement extends Model
 
     public static function limit($rows)
     {
-        // TODO: Implement limit() method.
-        return DB::query("SELECT * FROM " . self::$table_name . " LIMIT " . $rows);
+        $announcements = array();
+        $db_result =  DB::query("SELECT * FROM announcements_view LIMIT ". $rows);
+        foreach ($db_result as $r){
+            array_push($announcements, new Announcement(
+                $r["announcement_id"],
+                new Client($r["client_id"], $r["name"], $r["family_name"], $r["email"], $r["password"], $r["address"]),
+                new Wilaya($r["start_point"],$r["start_wilaya_name"]),
+                new Wilaya($r["end_point"],$r["end_wilaya_name"]),
+                $r["type"],
+                $r["weight"],
+                $r["volume"],
+                $r["status"],
+                $r["message"],
+                $r["posted_at"],
+                $r["validated"],
+                $r["price"],
+            ));
+
+        }
+        return $announcements;
     }
 
-    public static function only(int $limit){
-        return DB::query("SELECT announcement_id AS id, start_point, end_point, type, weight, volume FROM " . self::$table_name . " LIMIT ". $limit);
-    }
 
     public static function byId(int $id){
         $announcements = array();

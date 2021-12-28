@@ -28,12 +28,12 @@
                         <td>
                             <div class="ml-5">
                                 {% if announcement.getStatus() == "pending" %}
-                                    <a class="btn btn-primary" href="#">Details</a>
+                                    <a class="btn btn-primary" href="details?id={{ announcement.getAnnouncementId() }}">Details</a>
                                     <button class="btn btn-warning">Edit</button>
                                     <button class="btn btn-danger">Delete</button>
                                 {% endif %}
                                 {% if announcement.getStatus() == "approved" %}
-                                    <a class="btn btn-primary" href="#">Details</a>
+                                    <a class="btn btn-primary" href="details?id={{ announcement.getAnnouncementId() }}">Details</a>
                                     <button class="btn btn-warning disabled">Edit</button>
                                     <button class="btn btn-danger disabled">Delete</button>
                                 {% endif %}
