@@ -21,7 +21,14 @@ function load_models($class_name){
         require $path_to_file;
     }
 }
+function load_views($class_name){
+    $path_to_file = "views/" . $class_name . ".php";
+    if (file_exists($path_to_file)){
+        require $path_to_file;
+    }
+}
 
 spl_autoload_register('load_classes');
 spl_autoload_register('load_controllers');
 spl_autoload_register('load_models');
+spl_autoload_register('load_views');

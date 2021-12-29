@@ -16,6 +16,7 @@ View::$loader = new FilesystemLoader([
 View::$twig = new Environment(View::$loader);
 
 Route::get("index.php", function (){
+//    echo "hello";
     if (Auth::isAuthorizedClient() && Auth::isAuthorizedTransporter()){
         $controller = new AnnouncementController();
         $result = $controller->getLimitedAnnouncements( 8);
@@ -79,7 +80,11 @@ Route::post("login", function (){
 
 // ============================ Registration ==========================
 Route::get("register", function (){
-    View::make("auth/register.html.twig", ["title" => "VTC application"]);
+    $wilayas = (new WilayaController())->get_all();
+    View::make("auth/register.html.twig", [
+        "title" => "VTC application",
+        "wilayas" => $wilayas
+    ]);
 });
 
 Route::post("register", function (){
@@ -90,8 +95,12 @@ Route::post("register", function (){
     $password = $_POST["password"];
     $address = "address";
     $is_client = strcmp($_POST["client_or_transporter"], "client") == 0; // TODO: Change this to get the value dynamically
+    $wilayas = array();
+    foreach ($_POST["wilayas"] as $w){
+        array_push($wilayas, $w);
+    }
     $controller = new RegistrationController();
-    $registered = $controller->register($name, $family_name, $email, $password, $address, $is_client);
+    $registered = $controller->register($name, $family_name, $email, $password, $address, $is_client, $wilayas);
 
     if ($registered){
         // Redirect to login page
@@ -130,17 +139,7 @@ Route::get("client", function (){
     Route::router("vtc", "login");
 });
 
-// Search for announcements
-Route::post("client", function (){
-    if (Auth::isAuthorizedClient()){
-        $controller = new AnnouncementController();
-        $from = $_POST["start_point"];
-        $to = $_POST["end_point"];
-        $result = $controller->getAnnouncementByCriteria($from, $to, true);
-        header("Content-Type: application/json");
-        echo json_encode(["success" => true, "announcements" => $result]);
-    }
-});
+
 
 
 // Add announcement post request
@@ -186,12 +185,37 @@ Route::get("applications", function (){
 });
 
 
-Route::get("profile", function (){
+// Search for announcements
+Route::post("search", function (){
+    if (Auth::isAuthorizedClient() || Auth::isAuthorizedTransporter()){
+        $controller = new AnnouncementController();
+        $from = $_POST["start_point"];
+        $to = $_POST["end_point"];
+        $result = $controller->getAnnouncementByCriteria($from, $to, true);
+        header("Content-Type: application/json");
+        echo json_encode(["success" => true, "announcements" => $result]);
+    }
+});
+
+
+Route::get("client_profile", function (){
     if (Auth::isAuthorizedClient()){
         $client = Auth::user();
         View::make("client/profile.html.twig", [
             "loggedIn" => true,
             "client" => $client,
+            "title" => "profile"]);
+        return;
+    }
+    Route::router("vtc", "login");
+});
+
+Route::get("transporter_profile", function (){
+    if (Auth::isAuthorizedTransporter()){
+        $transporter = Auth::user();
+        View::make("transporter/profile.html.twig", [
+            "loggedIn" => true,
+            "transporter" => $transporter,
             "title" => "profile"]);
         return;
     }
@@ -222,7 +246,6 @@ Route::get("details", function (){
 });
 
 Route::get("transporter", function (){
-    $is_client = false;
     if (Auth::isAuthorizedTransporter()){
 
         $transporter = Auth::user();
@@ -274,21 +297,12 @@ Route::post("index.php", function (){
 
 Route::get("test", function (){
 
-//    var_dump(Auth::isAuthorizedClient() == true);
-
-    Auth::isAuthorizedTransporter();
+    Transporter::add_wilaya(1, 1);
+    echo "hello";
 
 });
 
 Route::post("test", function (){
-    $name = $_POST["name"];
-    $family_name = $_POST["family_name"];
-    $email = $_POST["email"];
-    $password = $_POST["password"];
-    $address = "address";
-    $is_client = $_POST["client_or_transporter"] == "client"; // TODO: Change this to get the value dynamically
-    $controller = new RegistrationController();
-    $registered = $controller->register($name, $family_name, $email, $password, $address, $is_client);
-    echo "hello";
+
 });
 

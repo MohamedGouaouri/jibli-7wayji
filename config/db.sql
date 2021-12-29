@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS transporters(
     transporter_id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(50) NOT NULL,
     family_name VARCHAR(50) NOT NULL,
-    email VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL UNIQUE ,
     password VARCHAR(255) NOT NULL,
     is_certified BOOLEAN DEFAULT FALSE,
     status VARCHAR(20),
@@ -162,12 +162,10 @@ CREATE TABLE IF NOT EXISTS news(
 DROP TABLE IF EXISTS covered_wilayas;
 CREATE TABLE IF NOT EXISTS covered_wilayas(
   transporter_id INT NOT NULL,
-  start_point INT NOT NULL ,
-  end_point INT NOT NULL ,
-  PRIMARY KEY (transporter_id, start_point, end_point),
+  wilaya_id INT NOT NULL ,
+  PRIMARY KEY (transporter_id, wilaya_id),
   FOREIGN KEY (transporter_id) REFERENCES transporters(transporter_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (start_point) REFERENCES wilayas(wilaya_id) ON DELETE CASCADE ON UPDATE CASCADE,
-  FOREIGN KEY (end_point) REFERENCES wilayas(wilaya_id) ON DELETE CASCADE ON UPDATE CASCADE
+  FOREIGN KEY (wilaya_id) REFERENCES wilayas(wilaya_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 

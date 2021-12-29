@@ -26,44 +26,59 @@
             <div class="form-group">
                 <label for="name">Name</label>
                 <input type="text" class="form-control" id="name"
-                       placeholder="Your name" name="name">
+                       placeholder="Your name" name="name" required>
             </div>
             <div class="form-group">
                 <label for="family-name">Family name</label>
                 <input type="text" class="form-control" id="family-name"
-                       placeholder="Your Family name" name="family_name">
+                       placeholder="Your Family name" name="family_name" required>
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Email address</label>
                 <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                       placeholder="Enter email" name="email">
+                       placeholder="Enter email" name="email" required>
                 <small id="emailHelp" class="form-text text-muted">Trust us we'll never share your email with anyone
                     else.</small>
             </div>
 
             <div class="form-group">
                 <label for="address" class="required mx-2">Address</label>
-                <select class="form-control form-select-lg" id="address" name="address">
-                    {% for wilaya in wilayas %}
-                        <option value="{{ wilaya["wilaya_id"] }}">{{ wilaya["wilaya_name"] }}</option>
-                    {% endfor %}
-                </select>
+{#                <select class="form-control form-select-lg" id="address" name="address">#}
+{#                    #}
+{#                </select>#}
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword1">Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="password">
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="password" required>
             </div>
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" value="client" name="client_or_transporter" id="flexRadioDefault1" checked>
-                <label class="form-check-label" for="flexRadioDefault1">
-                    Client
-                </label>
+                <div class="client-check">
+                    <input class="form-check-input" type="radio" value="client" name="client_or_transporter" id="client-check" checked>
+                    <label class="form-check-label" for="client-check">
+                        Client
+                    </label>
+                </div>
             </div>
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" value="transporter" name="client_or_transporter" id="flexRadioDefault2" >
-                <label class="form-check-label" for="flexRadioDefault2">
-                    Transporter
-                </label>
+                <div class="transporter-check">
+                    <input class="form-check-input" type="radio" value="transporter" name="client_or_transporter" id="transporter-check" >
+                    <label class="form-check-label" for="transporter-check">
+                        Transporter
+                    </label>
+                </div>
+            </div>
+            <div id="show-wilayas" style="display: none">
+                <div class="py-3">
+                    Quelles sont les wilayas que vous voulez servire:
+                </div>
+                {% for wilaya in wilayas %}
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="{{ wilaya.getWilayaId() }}" id="wilaya-{{ wilaya.getWilayaId() }}" name="wilayas[]">
+                        <label class="form-check-label" for="wilaya-{{ wilaya.getWilayaId() }}">
+                            {{ wilaya.getWilayaName() }}
+                        </label>
+                    </div>
+                {% endfor %}
             </div>
 
             <div>
@@ -80,6 +95,9 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+        crossorigin="anonymous"></script>
+<script src="{{ 'resources/js/auth.js' }}"></script>
 </body>
 
 </html>

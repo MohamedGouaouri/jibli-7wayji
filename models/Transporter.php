@@ -98,6 +98,20 @@ class Transporter extends Model
     }
 
 
+    public static function add_wilaya($transporter_id, $wilaya_id): bool {
+        $pdo = DB::connect();
+
+        $stmt = $pdo->prepare("INSERT INTO covered_wilayas VALUES (:transporter_id, :wilaya_id)");
+        echo "hello";
+        $stmt->bindValue(":transporter_id", $transporter_id, PDO::PARAM_INT);
+        $stmt->bindValue(":wilaya_id", $wilaya_id, PDO::PARAM_INT);
+        if ($stmt->execute()){
+            return true;
+        }
+        return false;
+    }
+
+
     public static function limit($rows)
     {
         // TODO: Implement limit() method.

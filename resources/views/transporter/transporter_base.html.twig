@@ -28,7 +28,7 @@
                 <a class="nav-item nav-link ml-2" href="{{ 'transporter#announcements' }}" id="nav-item-announcements">Rechercher</a>
                 <a class="nav-item nav-link ml-2" href="{{ 'index.php#news' }}" id="nav-item-news">News</a>
                 <a class="nav-item nav-link ml-2" href="{{ 'index.php#stats' }}" id="nav-item-stats">Stats</a>
-                <a class="nav-item nav-link ml-2" href="{{ 'client#contact' }}" id="nav-item-contact">Contact</a>
+                <a class="nav-item nav-link ml-2" href="{{ '#contact' }}" id="nav-item-contact">Contact</a>
 
             </div>
             <div class="navbar-nav ml-auto">
@@ -38,6 +38,7 @@
                             Actions
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="transporter_profile">Profile</a>
                             <a class="dropdown-item" href="demands">Demands</a>
                             <a class="dropdown-item" href="#">Transaction History</a>
                             <a class="dropdown-item" href="{{ 'logout' }}">Logout</a>
@@ -45,7 +46,6 @@
                     </div>
 
                     <div class="nav-item nav-link ml-2">{{ transporter.getName() }}</div>
-
 
                 {% else %}
                     <a class="nav-item nav-link ml-2" href="login">Login</a>
@@ -70,7 +70,7 @@
             crossorigin="anonymous"></script>
     <script src="https://unpkg.com/typeit@8.1.0/dist/index.umd.js"></script>
     <script src="{{ 'resources/js/nicescroll.js' }}"></script>
-    <script src="{{ 'resources/js/client.js' }}"></script>
+    <script src="{{ 'resources/js/transporter.js' }}"></script>
     <script src="{{ 'resources/js/typeit.js' }}"></script>
     <script src="{{ 'resources/js/stats.js' }}"></script>
 </body>
