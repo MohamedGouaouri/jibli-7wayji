@@ -69,3 +69,24 @@ $("#searchAnnouncementsTransporterForm").submit((e) => {
     });
     console.log(url);
 });
+
+
+function httpGet(theUrl)
+{
+    let xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
+}
+
+
+// Get certified button
+$("#cert-btn").click(() => {
+    let url = "certification";
+    fetch(url)
+        .then( res => res.blob() )
+        .then( blob => {
+            let file = window.URL.createObjectURL(blob);
+            window.location.assign(file);
+        });
+})

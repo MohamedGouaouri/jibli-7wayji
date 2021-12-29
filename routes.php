@@ -222,6 +222,16 @@ Route::get("transporter_profile", function (){
     Route::router("vtc", "login");
 });
 
+
+// Certification demands
+Route::get("certification", function (){
+    if (Auth::isAuthorizedTransporter()){
+        $file = "documents/cert.pdf";
+        StatusController::send_documents($file);
+        // TODO: Update DB
+    }
+});
+
 // Admin dashboard route
 Route::get("admin", function (){
     View::make("admin/admin.html.twig");

@@ -10,6 +10,12 @@
 {% block content %}
     <div class="container rounded bg-white mt-5 mb-5 profile">
         <div class="row">
+            <div class="alert alert-success alert-dismissible show fade" role="alert" id="cert-success-alert" style="display: none">
+                Votre Demande de certification a ete envoye
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
             <div class="col-md-3 border-right">
                 <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" alt=""><span class="font-weight-bold">{{ transporter.getName() }}</span><span class="text-black-50">{{transporter.getEmail()}}</span><span> </span></div>
             </div>
@@ -28,7 +34,7 @@
 {#                        <div class="col-md-12"><label class="labels">State</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>#}
                         <div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control" value="{{ transporter.getEmail() }}" readonly></div>
                     </div>
-                    <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Se certifier</button></div>
+                    <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button" id="cert-btn">Se certifier</button></div>
                 </div>
             </div>
 
