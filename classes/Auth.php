@@ -32,6 +32,7 @@ class Auth
                 if ($transporters != null){
                     $transporter = $transporters[0];
                     $t = new Transporter(
+                        $transporter["transporter_id"],
                         $transporter["name"],
                         $transporter["family_name"],
                         $transporter["email"],

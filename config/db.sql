@@ -46,8 +46,10 @@ CREATE TABLE IF NOT EXISTS transporters(
 
 DROP TABLE IF EXISTS certification_demands;
 CREATE TABLE IF NOT EXISTS certification_demands(
-  transporter_id INT PRIMARY KEY,
-  status VARCHAR(20) DEFAULT 'pending'
+  transporter_id INT,
+  status VARCHAR(20) DEFAULT 'pending',
+  demand_data DATETIME DEFAULT NOW(),
+  FOREIGN KEY (transporter_id) REFERENCES transporters(transporter_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 # announcements schema
@@ -170,5 +172,6 @@ CREATE TABLE IF NOT EXISTS covered_wilayas(
 
 
 # Views
+# DROP VIEW IF EXISTS announcements_view;
 # CREATE VIEW announcements_view AS
 # SELECT R.*, w1.wilaya_name AS start_wilaya_name, w2.wilaya_name AS end_wilaya_name FROM (SELECT a.*, name, family_name, email, password, address  FROM announcements a JOIN clients c ON c.client_id = a.client_id) AS R, wilayas w1, wilayas w2 WHERE R.start_point = w1.wilaya_id AND w2.wilaya_id = R.end_point;

@@ -3,6 +3,9 @@
 
 class Transporter extends Model
 {
+    private int $transporter_id;
+
+
     private string $name;
     private string $family_name;
     private string $email;
@@ -20,6 +23,7 @@ class Transporter extends Model
 
     /**
      * Transporter constructor.
+     * @param int $transporter_id
      * @param string $name
      * @param string $family_name
      * @param string $email
@@ -27,8 +31,9 @@ class Transporter extends Model
      * @param $status
      * @param float $inventory
      */
-    public function __construct(string $name, string $family_name, string $email, bool $is_certified, $status, float $inventory)
+    public function __construct(int $transporter_id, string $name, string $family_name, string $email, bool $is_certified, $status, float $inventory)
     {
+        $this->transporter_id = $transporter_id;
         $this->name = $name;
         $this->family_name = $family_name;
         $this->email = $email;
@@ -63,6 +68,7 @@ class Transporter extends Model
         $db_result = DB::query("SELECT * FROM transporters");
         foreach ($db_result as $r){
             array_push($transporters, new Transporter(
+                $r["transporter_id"],
                 $r["name"],
                 $r["family_name"],
                 $r["email"],
@@ -118,8 +124,14 @@ class Transporter extends Model
     }
 
 
-
     // Getters
+    /**
+     * @return int
+     */
+    public function getTransporterId(): int
+    {
+        return $this->transporter_id;
+    }
 
     public function isCertified(): bool
     {

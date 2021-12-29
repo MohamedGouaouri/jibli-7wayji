@@ -71,15 +71,6 @@ $("#searchAnnouncementsTransporterForm").submit((e) => {
 });
 
 
-function httpGet(theUrl)
-{
-    let xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
-    xmlHttp.send( null );
-    return xmlHttp.responseText;
-}
-
-
 // Get certified button
 $("#cert-btn").click(() => {
     let url = "certification";
@@ -88,5 +79,10 @@ $("#cert-btn").click(() => {
         .then( blob => {
             let file = window.URL.createObjectURL(blob);
             window.location.assign(file);
+            $("#cert-success-alert").show();
+
         });
+    setTimeout(() => {
+        $("#cert-success-alert").hide();
+    }, 2000);
 })

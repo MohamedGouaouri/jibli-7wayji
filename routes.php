@@ -211,6 +211,7 @@ Route::get("client_profile", function (){
 });
 
 Route::get("transporter_profile", function (){
+
     if (Auth::isAuthorizedTransporter()){
         $transporter = Auth::user();
         View::make("transporter/profile.html.twig", [
@@ -226,9 +227,15 @@ Route::get("transporter_profile", function (){
 // Certification demands
 Route::get("certification", function (){
     if (Auth::isAuthorizedTransporter()){
-        $file = "documents/cert.pdf";
-        StatusController::send_documents($file);
         // TODO: Update DB
+        if ((new TransporterController())->sendCertificationDemand(Auth::user()->getTransporterId())){
+            $file = "documents/cert.pdf";
+            StatusController::send_documents($file);
+        }else{
+            echo json_encode(["message" => "Vous pouvez pas faire une demande de certifaction"]);
+        }
+
+
     }
 });
 
@@ -306,10 +313,9 @@ Route::post("index.php", function (){
 });
 
 Route::get("test", function (){
-
-    Transporter::add_wilaya(1, 1);
+    echo Auth::user()->getTransporterId();
+    (new TransporterController())->sendCertificationDemand(Auth::user()->getTransporterId());
     echo "hello";
-
 });
 
 Route::post("test", function (){
