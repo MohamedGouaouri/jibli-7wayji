@@ -284,9 +284,7 @@ Route::post("apply", function (){
 
 Route::get("transporter", function (){
     if (Auth::isAuthorizedTransporter()){
-
         $transporter = Auth::user();
-
         $controller = new AnnouncementController();
         $result = $controller->getLimitedAnnouncements(8);
 
@@ -299,6 +297,7 @@ Route::get("transporter", function (){
         ]);
         return;
     }
+
     Route::router("vtc", "login");
 });
 
@@ -333,12 +332,10 @@ Route::post("index.php", function (){
 });
 
 Route::get("test", function (){
-//    $announcement_id = 1;
-//    $transporter_id = Auth::user()->getTransporterId();
-//    $controller = new ApplicationController();
-//    $controller->exists($announcement_id, $transporter_id);
-//    $controller->add($transporter_id, $announcement_id);
-//    echo "hello";
+
+    $t = Transporter::get_by_email("transporter@esi.dz");
+    $verified = password_verify("test", $t[0]["password"]);
+    echo $t[0]["validated"];
 });
 
 Route::post("test", function (){

@@ -28,13 +28,13 @@ class LoginController
 
             if ($transporter != null){
 
-                // client found
+                // transporter found
                 $transporter = $transporter[0];
 
                 // 1. check password
                 $verified = password_verify($password, $transporter["password"]);
-
-                if ($verified){
+                $validated = $transporter["validated"] == 1;
+                if ($verified && $validated){
                     Session::start();
                     Session::set("user_id", $transporter["transporter_id"]);
                     Session::set("loggedIn", true);

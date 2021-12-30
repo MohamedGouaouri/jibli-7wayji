@@ -38,6 +38,7 @@ class Auth
                         $transporter["email"],
                         $transporter["is_certified"],
                         $transporter["status"],
+                        $transporter["validated"],
                         $transporter["inventory"],
                     );
 

@@ -12,6 +12,7 @@ class Transporter extends Model
     private string $password;
     private bool   $certified;
     private  $status;
+    private bool $validated;
     private float $inventory;
 
     private static string $table_name = "transporters";
@@ -31,7 +32,7 @@ class Transporter extends Model
      * @param $status
      * @param float $inventory
      */
-    public function __construct(int $transporter_id, string $name, string $family_name, string $email, bool $is_certified, $status, float $inventory)
+    public function __construct(int $transporter_id, string $name, string $family_name, string $email, bool $is_certified, $status, bool $validated, float $inventory)
     {
         $this->transporter_id = $transporter_id;
         $this->name = $name;
@@ -39,6 +40,7 @@ class Transporter extends Model
         $this->email = $email;
         $this->certified = $is_certified;
         $this->status = $status;
+        $this->validated = $validated;
         $this->inventory = $inventory;
     }
 
@@ -74,6 +76,7 @@ class Transporter extends Model
                 $r["email"],
                 $r["is_certified"],
                 $r["status"],
+                $r["validated"],
                 $r["inventory"],
             ));
         }
@@ -176,6 +179,14 @@ class Transporter extends Model
     public function getInventory(): float
     {
         return $this->inventory;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isValidated(): bool
+    {
+        return $this->validated;
     }
 
 

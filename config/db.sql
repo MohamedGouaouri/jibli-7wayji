@@ -41,14 +41,15 @@ CREATE TABLE IF NOT EXISTS transporters(
     password VARCHAR(255) NOT NULL,
     is_certified BOOLEAN DEFAULT FALSE,
     status VARCHAR(20),
+    validated BOOLEAN DEFAULT FALSE,
     inventory DOUBLE DEFAULT 0.0
 );
 
 DROP TABLE IF EXISTS certification_demands;
 CREATE TABLE IF NOT EXISTS certification_demands(
-  transporter_id INT,
+  transporter_id INT PRIMARY KEY ,
   status VARCHAR(20) DEFAULT 'pending',
-  demand_data DATETIME DEFAULT NOW(),
+  demand_date DATETIME DEFAULT NOW(),
   FOREIGN KEY (transporter_id) REFERENCES transporters(transporter_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
@@ -167,6 +168,16 @@ CREATE TABLE IF NOT EXISTS covered_wilayas(
   PRIMARY KEY (transporter_id, wilaya_id),
   FOREIGN KEY (transporter_id) REFERENCES transporters(transporter_id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (wilaya_id) REFERENCES wilayas(wilaya_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+DROP TABLE IF EXISTS prices;
+CREATE TABLE IF NOT EXISTS prices(
+  start_point INT,
+  end_point INT,
+  price DOUBLE NOT NULL DEFAULT 1000.0,
+  PRIMARY KEY (start_point, end_point),
+  FOREIGN KEY (start_point) REFERENCES wilayas(wilaya_id),
+  FOREIGN KEY (end_point) REFERENCES wilayas(wilaya_id)
 );
 
 
