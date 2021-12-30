@@ -111,12 +111,11 @@ DROP TABLE IF EXISTS transporter_applications;
 CREATE TABLE IF NOT EXISTS transporter_applications(
     transporter_id INT NOT NULL ,
     announcement_id INT NOT NULL,
-    applied_id DATETIME NOT NULL DEFAULT NOW(),
+    applied_at DATETIME NOT NULL DEFAULT NOW(),
     PRIMARY KEY (transporter_id, announcement_id),
     FOREIGN KEY (transporter_id) REFERENCES transporters(transporter_id) ON DELETE CASCADE ON UPDATE CASCADE ,
     FOREIGN KEY (announcement_id) REFERENCES announcements(announcement_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-
 
 
 # notes
@@ -172,6 +171,6 @@ CREATE TABLE IF NOT EXISTS covered_wilayas(
 
 
 # Views
-# DROP VIEW IF EXISTS announcements_view;
-# CREATE VIEW announcements_view AS
-# SELECT R.*, w1.wilaya_name AS start_wilaya_name, w2.wilaya_name AS end_wilaya_name FROM (SELECT a.*, name, family_name, email, password, address  FROM announcements a JOIN clients c ON c.client_id = a.client_id) AS R, wilayas w1, wilayas w2 WHERE R.start_point = w1.wilaya_id AND w2.wilaya_id = R.end_point;
+DROP VIEW IF EXISTS announcements_view;
+CREATE VIEW announcements_view AS
+SELECT R.*, w1.wilaya_name AS start_wilaya_name, w2.wilaya_name AS end_wilaya_name FROM (SELECT a.*, name, family_name, email, password, address  FROM announcements a JOIN clients c ON c.client_id = a.client_id) AS R, wilayas w1, wilayas w2 WHERE R.start_point = w1.wilaya_id AND w2.wilaya_id = R.end_point;

@@ -262,6 +262,26 @@ Route::get("details", function (){
     }
 });
 
+
+Route::post("apply", function (){
+    // check authorization first
+    if (Auth::isAuthorizedTransporter()){
+        // get announcement
+        $announcement_id = $_POST["id"];
+        $transporter_id = Auth::user()->getTransporterId();
+        $controller = new ApplicationController();
+        if ($controller->exists($transporter_id, $announcement_id)){
+            header("Content-Type: application/json");
+            echo json_encode(["status" => false, "message" => "You have already applied to this announcement"]);
+            return;
+        }
+        $controller->add($transporter_id, $announcement_id);
+        header("Content-Type: application/json");
+        echo json_encode(["status" => true, "message" => "You application is sent"]);
+    }
+
+});
+
 Route::get("transporter", function (){
     if (Auth::isAuthorizedTransporter()){
 
@@ -313,9 +333,12 @@ Route::post("index.php", function (){
 });
 
 Route::get("test", function (){
-    echo Auth::user()->getTransporterId();
-    (new TransporterController())->sendCertificationDemand(Auth::user()->getTransporterId());
-    echo "hello";
+//    $announcement_id = 1;
+//    $transporter_id = Auth::user()->getTransporterId();
+//    $controller = new ApplicationController();
+//    $controller->exists($announcement_id, $transporter_id);
+//    $controller->add($transporter_id, $announcement_id);
+//    echo "hello";
 });
 
 Route::post("test", function (){
