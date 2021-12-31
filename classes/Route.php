@@ -41,7 +41,7 @@ class Route{
     public static function delete($route, $function){
         // Handle post requests
         self::$valid_delete_routes[] = $route;
-        if ($_SERVER["REQUEST_METHOD"] == "DELETE"){
+        if ($_SERVER["REQUEST_METHOD"] == "DELETE" && $_GET["url"] == $route){
             $function->__invoke();
         }
     }

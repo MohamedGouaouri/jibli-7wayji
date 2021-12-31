@@ -9,13 +9,12 @@ class LoginController
 
             $client = Client::get_by_email($email);
             if ($client != null){
-                // client found
-                $client = $client[0];
+
                 // 1. check password
-                $verified = password_verify($password, $client["password"]);
+                $verified = password_verify($password, $client->getPassword());
                 if ($verified){
                     Session::start();
-                    Session::set("user_id", $client["client_id"]);
+                    Session::set("user_id", $client->getClientId());
                     Session::set("logged_in", true);
                     Session::set("is_client", true);
                     return true;
@@ -28,15 +27,13 @@ class LoginController
 
             if ($transporter != null){
 
-                // transporter found
-                $transporter = $transporter[0];
 
                 // 1. check password
-                $verified = password_verify($password, $transporter["password"]);
-                $validated = $transporter["validated"] == 1;
+                $verified = password_verify($password, $transporter->getPassword());
+                $validated = $transporter->isValidated() == 1;
                 if ($verified && $validated){
                     Session::start();
-                    Session::set("user_id", $transporter["transporter_id"]);
+                    Session::set("user_id", $transporter->getTransporterId());
                     Session::set("loggedIn", true);
                     Session::set("is_client", false);
                     return true;

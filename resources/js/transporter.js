@@ -64,8 +64,7 @@ $("#searchAnnouncementsTransporterForm").submit((e) => {
                 $("#result-not-found").show();
             }
         }
-        else{
-        }
+
     });
     console.log(url);
 });
@@ -74,15 +73,52 @@ $("#searchAnnouncementsTransporterForm").submit((e) => {
 // Get certified button
 $("#cert-btn").click(() => {
     let url = "certification";
-    fetch(url)
-        .then( res => res.blob() )
-        .then( blob => {
-            let file = window.URL.createObjectURL(blob);
-            window.location.assign(file);
-            $("#cert-success-alert").show();
+    // fetch(url)
+    //     .then( res => res.blob() )
+    //     .then( blob => {
+    //         let file = window.URL.createObjectURL(blob);
+    //         window.location.assign(file);
+    //         $("#cert-success-alert").show();
+    //
+    //     });
+    // setTimeout(() => {
+    //     $("#cert-success-alert").hide();
+    // }, 2000);
+    $.ajax({
+        url: url,
+        cache: false,
+        xhr: function () {
+            let xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 2) {
+                    if (xhr.status === 200) {
+                        xhr.responseType = "blob";
+                    } else {
+                        xhr.responseType = "text";
+                    }
+                }
+            };
+            return xhr;
+        },
+        success: function (data) {
+            //Convert the Byte Data to BLOB object.
+            let blob = new Blob([data], { type: "application/octetstream" });
 
-        });
-    setTimeout(() => {
-        $("#cert-success-alert").hide();
-    }, 2000);
+            //Check the Browser type and download the File.
+            let isIE = !!document.documentMode;
+            let link;
+            if (isIE) {
+                window.navigator.msSaveBlob(blob, "fileName");
+            } else {
+                let url = window.URL || window.webkitURL;
+                link = url.createObjectURL(blob);
+                let a = $("<a />");
+                a.attr("download", "fileName");
+                a.attr("href", link);
+                $("body").append(a);
+                a[0].click();
+                $("body").remove(a);
+            }
+        }
+    });
 })

@@ -203,6 +203,17 @@ class Announcement extends Model
         return false;
     }
 
+
+    public static function delete($announcement_id){
+        $pdo = DB::connect();
+        $stmt = $pdo->prepare("DELETE FROM announcements WHERE announcement_id = :announcement_id");
+        $stmt->bindValue(":announcement_id", $announcement_id, PDO::PARAM_INT);
+        if ($stmt->execute()){
+            return true;
+        }
+        return  false;
+    }
+
     /**
      * @return int
      */
@@ -306,6 +317,7 @@ class Announcement extends Model
     {
         return self::$table_name;
     }
+
 
 
 }

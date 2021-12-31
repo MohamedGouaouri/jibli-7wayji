@@ -15,35 +15,11 @@ class Auth
 
             if (Session::get("is_client") == true){
 
-                $clients = Client::get_by_id($user_id);
-                if ($clients != null){
-                    $client = $clients[0];
-                    return new Client(
-                        $user_id,
-                        $client["name"],
-                        $client["family_name"],
-                        $client["email"],
-                        $client["password"],
-                        $client["address"]
-                    );
-                }
-            }else{
-                $transporters = Transporter::get_by_id($user_id);
-                if ($transporters != null){
-                    $transporter = $transporters[0];
-                    $t = new Transporter(
-                        $transporter["transporter_id"],
-                        $transporter["name"],
-                        $transporter["family_name"],
-                        $transporter["email"],
-                        $transporter["is_certified"],
-                        $transporter["status"],
-                        $transporter["validated"],
-                        $transporter["inventory"],
-                    );
+                return Client::get_by_id($user_id);
 
-                    return $t;
-                }
+            }else{
+                return Transporter::get_by_id($user_id);
+
             }
         }
 

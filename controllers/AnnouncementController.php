@@ -4,6 +4,7 @@
 class AnnouncementController extends Controller{
     // get  announcements
     public function getLimitedAnnouncements(int $number){
+        echo "hello";
         return Announcement::limit($number);
     }
 
@@ -49,5 +50,9 @@ class AnnouncementController extends Controller{
             $message);
     }
 
+
+    public function delete($announcement_id, $client_id): bool {
+        return Announcement::delete($announcement_id);
+    }
 
 }

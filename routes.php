@@ -93,7 +93,7 @@ Route::post("register", function (){
     $family_name = $_POST["family_name"];
     $email = $_POST["email"];
     $password = $_POST["password"];
-    $address = "address";
+    $address = $_POST["address"];
     $is_client = strcmp($_POST["client_or_transporter"], "client") == 0; // TODO: Change this to get the value dynamically
     $wilayas = array();
     foreach ($_POST["wilayas"] as $w){
@@ -263,6 +263,22 @@ Route::get("details", function (){
 });
 
 
+Route::post("delete_announcement", function (){
+    if (Auth::isAuthorizedClient()){
+        $announcement_id = $_POST["announcement_id"];
+        $controller = new AnnouncementController();
+        if ($controller->delete($announcement_id, Auth::user()->getClientId())){
+            header("Content-Type: application/json");
+            echo json_encode(["status" => true, "message" => "Your is deleted"]);
+            return;
+        }
+        header("Content-Type: application/json");
+        echo json_encode(["status" => false, "message" => "The announcement can not be deleted"]);
+        return;
+    }
+});
+
+
 Route::post("apply", function (){
     // check authorization first
     if (Auth::isAuthorizedTransporter()){
@@ -333,9 +349,18 @@ Route::post("index.php", function (){
 
 Route::get("test", function (){
 
-    $t = Transporter::get_by_email("transporter@esi.dz");
-    $verified = password_verify("test", $t[0]["password"]);
-    echo $t[0]["validated"];
+//    if (Auth::isAuthorizedClient()){
+//        $announcement_id = $_GET["announcement_id"];
+//        $controller = new AnnouncementController();
+//        if ($controller->delete($announcement_id, Auth::user()->getClientId())){
+//            header("Content-Type: application/json");
+//            echo json_encode(["status" => true, "message" => "Your is deleted"]);
+//            return;
+//        }
+//        header("Content-Type: application/json");
+//        echo json_encode(["status" => false, "message" => "The announcement can not be deleted"]);
+//        return;
+//    }
 });
 
 Route::post("test", function (){

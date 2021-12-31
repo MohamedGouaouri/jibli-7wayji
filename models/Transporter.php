@@ -10,6 +10,8 @@ class Transporter extends Model
     private string $family_name;
     private string $email;
     private string $password;
+
+
     private bool   $certified;
     private  $status;
     private bool $validated;
@@ -32,12 +34,13 @@ class Transporter extends Model
      * @param $status
      * @param float $inventory
      */
-    public function __construct(int $transporter_id, string $name, string $family_name, string $email, bool $is_certified, $status, bool $validated, float $inventory)
+    public function __construct(int $transporter_id, string $name, string $family_name, string $email, string $password, bool $is_certified, $status, bool $validated, float $inventory)
     {
         $this->transporter_id = $transporter_id;
         $this->name = $name;
         $this->family_name = $family_name;
         $this->email = $email;
+        $this->password = $password;
         $this->certified = $is_certified;
         $this->status = $status;
         $this->validated = $validated;
@@ -74,6 +77,7 @@ class Transporter extends Model
                 $r["name"],
                 $r["family_name"],
                 $r["email"],
+                $r["password"],
                 $r["is_certified"],
                 $r["status"],
                 $r["validated"],
@@ -83,17 +87,29 @@ class Transporter extends Model
         return $transporters;
     }
 
-    public static function get_by_email($email){
+    public static function get_by_email($email): ?Transporter{
         $pdo = DB::connect();
         $stmt = $pdo->prepare("SELECT * FROM transporters WHERE email = :email");
         $stmt->bindValue(":email", $email, PDO::PARAM_STR);
 
         if ($stmt->execute()){
-            return $stmt->fetchAll();
+            $transporter = $stmt->fetchAll()[0];
+            return new Transporter(
+                $transporter["transporter_id"],
+                $transporter["name"],
+                $transporter["family_name"],
+                $transporter["email"],
+                $transporter["password"],
+                $transporter["is_certified"],
+                $transporter["status"],
+                $transporter["validated"],
+                $transporter["inventory"],
+            );
+
         }
         return null;
     }
-    public static function get_by_id($id){
+    public static function get_by_id($id): ?Transporter{
         $pdo = DB::connect();
 
         $stmt = $pdo->prepare("SELECT * FROM transporters WHERE transporter_id = :id");
@@ -101,7 +117,19 @@ class Transporter extends Model
         $stmt->bindValue(":id", $id, PDO::PARAM_INT);
 
         if ($stmt->execute()){
-            return $stmt->fetchAll();
+            $transporter = $stmt->fetchAll()[0];
+            return new Transporter(
+                $transporter["transporter_id"],
+                $transporter["name"],
+                $transporter["family_name"],
+                $transporter["email"],
+                $transporter["password"],
+                $transporter["is_certified"],
+                $transporter["status"],
+                $transporter["validated"],
+                $transporter["inventory"],
+            );
+
         }
         return null;
     }
@@ -190,5 +218,13 @@ class Transporter extends Model
     }
 
 
+
+    /**
+     * @return string
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
 
 }

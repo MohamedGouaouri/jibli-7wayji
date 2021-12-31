@@ -181,6 +181,12 @@ CREATE TABLE IF NOT EXISTS prices(
 );
 
 
+CREATE TABLE IF NOT EXISTS types_transport(
+  type_id INT PRIMARY KEY AUTO_INCREMENT,
+  type_name VARCHAR(20)
+);
+INSERT INTO types_transport (type_name) VALUES ('voiture'), ('fourgon'), ('camion'), ('avion');
+
 # Views
 DROP VIEW IF EXISTS announcements_view;
 CREATE VIEW announcements_view AS

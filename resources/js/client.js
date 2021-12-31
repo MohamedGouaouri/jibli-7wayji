@@ -104,3 +104,33 @@ $("#searchAnnouncementsClientForm").submit((e) => {
     });
     console.log(url);
 });
+
+// delete announcement
+$(".delete").click((e) => {
+    let btn = e.target;
+    let announcement_id = $(btn).attr("data-id");
+    let url = "delete_announcement";
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: {
+            "announcement_id": announcement_id
+        }
+    }).done(data => {
+        console.log(data);
+        if (data.success){
+            $("#deleted-success-alert").append("Deleted successfully");
+            $("#deleted-success-alert").show();
+            setTimeout(() => {
+                $("#deleted-success-alert").hide();
+            }, 2000);
+
+        }else{
+            $("#deleted-error-alert").append("Error on delete");
+            $("#deleted-error-alert").show();
+            setTimeout(() => {
+                $("#deleted-error-alert").hide();
+            }, 2000);
+        }
+    })
+})

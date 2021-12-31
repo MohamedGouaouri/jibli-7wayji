@@ -65,7 +65,7 @@ class Client extends Model{
             return false;
         }
     }
-    public static function get_by_id($id){
+    public static function get_by_id($id): ?Client{
         $pdo = DB::connect();
 
         $stmt = $pdo->prepare("SELECT * FROM clients WHERE client_id = :id");
@@ -73,18 +73,34 @@ class Client extends Model{
         $stmt->bindValue(":id", $id, PDO::PARAM_INT);
 
         if ($stmt->execute()){
-            return $stmt->fetchAll();
+            $client = $stmt->fetchAll()[0];
+            return new Client(
+                $client["client_id"],
+                $client["name"],
+                $client["family_name"],
+                $client["email"],
+                $client["password"],
+                $client["address"],
+            );
         }
         return null;
     }
 
-    public static function get_by_email($email){
+    public static function get_by_email($email): ?Client{
         $pdo = DB::connect();
         $stmt = $pdo->prepare("SELECT * FROM clients WHERE email = :email");
         $stmt->bindValue(":email", $email, PDO::PARAM_STR);
 
         if ($stmt->execute()){
-            return $stmt->fetchAll();
+            $client = $stmt->fetchAll()[0];
+            return new Client(
+                $client["client_id"],
+                $client["name"],
+                $client["family_name"],
+                $client["email"],
+                $client["password"],
+                $client["address"],
+            );
         }
         return null;
     }
@@ -131,6 +147,17 @@ class Client extends Model{
     {
         return self::$table_name;
     }
+
+    /**
+     * @return string
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+
+
 
 
 }
