@@ -9,48 +9,28 @@ use Twig\Loader\FilesystemLoader;
 // Load the view
 View::$loader = new FilesystemLoader([
     __DIR__ . DIRECTORY_SEPARATOR . "resources/views",
-    __DIR__ . DIRECTORY_SEPARATOR . "resources/views/client",
+    __DIR__ . DIRECTORY_SEPARATOR . "resources/views/user",
     __DIR__ . DIRECTORY_SEPARATOR . "resources/views/transporter",
     __DIR__ . DIRECTORY_SEPARATOR . "resources/views/announcements",
     ]);
 View::$twig = new Environment(View::$loader);
 
 Route::get("index.php", function (){
-//    echo "hello";
-    if (Auth::isAuthorizedClient() && Auth::isAuthorizedTransporter()){
-        $controller = new AnnouncementController();
-        $result = $controller->getLimitedAnnouncements( 8);
-        View::make("index.html.twig",
-            [
-                "title" => "VTC application",
-                "announcements" => $result,
-                "isAuthenticated" => true,
-                "wilayas" => (new WilayaController())->get_all()
-            ]);
-    }else{
-        $controller = new AnnouncementController();
-        $result = $controller->getLimitedAnnouncements(8);
-        View::make("index.html.twig",
-            [
-                "title" => "VTC application",
-                "announcements" => $result,
-                "isAuthenticated" => false,
-                "wilayas" => (new WilayaController())->get_all()
-            ]);
-    }
+    (new HomeController())->index();
+});
 
+Route::post("index.php", function (){
+    $from = $_POST["start_point"];
+    $to = $_POST["end_point"];
+    (new HomeController())->search($from, $to);
 });
 
 
 
 // =============================== LOGIN ================================
 Route::get("login", function (){
-    if (Auth::isAuthorizedClient()){
-        Route::router("vtc", "client");
-        return;
-    }
-    if (Auth::isAuthorizedTransporter()){
-        Route::router("vtc", "transporter");
+    if (Auth::isAuthorizedClient() || Auth::isAuthorizedTransporter()){
+        Route::router("vtc", "index.php");
         return;
     }
     View::make("auth/login.html.twig", ["title" => "VTC application"]);
@@ -63,28 +43,16 @@ Route::post("login", function (){
     $is_client = strcmp($_POST["client_or_transporter"], "client") == 0 ? true : false;
     $controller = new LoginController();
     $authenticated = $controller->authenticate($email, $password, $is_client);
-
-    if ($authenticated){
-        if (Session::get("is_client")){
-            Route::router("vtc", "client");
-        }else{
-            // transporter
-            Route::router("vtc", "transporter");
-        }
-    }else{
+    if (!$authenticated){
         Route::router("vtc", "login");
     }
 });
-
+// =========================== End login management ====================
 
 
 // ============================ Registration ==========================
 Route::get("register", function (){
-    $wilayas = (new WilayaController())->get_all();
-    View::make("auth/register.html.twig", [
-        "title" => "VTC application",
-        "wilayas" => $wilayas
-    ]);
+    (new RegistrationController())->index();
 });
 
 Route::post("register", function (){
@@ -112,6 +80,9 @@ Route::post("register", function (){
     }
 });
 
+
+// ================================ END logout management ===================
+
 // ================================= BEGIN LOGOUT ============================
 Route::get("logout", function (){
     (new LoginController())->logout();
@@ -121,22 +92,9 @@ Route::get("logout", function (){
 // ================================= END LOGOUT ==============================
 
 
-// =================================== BEGIN CLIENT ACTIONS ====================
+// =================================== BEGIN USER ACTIONS ====================
 Route::get("client", function (){
-    if (Auth::isAuthorizedClient()){
-        $client = Auth::user();
-        $controller = new AnnouncementController();
-        $result = $controller->getLimitedAnnouncements(8);
-        View::make("client/index.html.twig", [
-            "title" => "VTC client portal",
-            "loggedIn" => true,
-            "client" => $client,
-            "announcements" => $result,
-            "wilayas" => (new WilayaController())->get_all()
-        ]);
-        return;
-    }
-    Route::router("vtc", "login");
+    (new ClientController())->index();
 });
 
 
@@ -155,94 +113,42 @@ Route::post("new_announcement", function (){
     $announcement_controller = new AnnouncementController();
     $added = $announcement_controller->addNewAnnouncement($start_point, $end_point, $type, $weight, $volume, $message);
     header("Content-Type: application/json");
-    echo json_encode(["added" => true]);
-
+    echo json_encode(["added" => $added]);
 });
 
 
 // Show user announcements
 Route::get("announcements", function (){
-    if (Auth::isAuthorizedClient()){
-        $client = Auth::user();
-        $controller = new AnnouncementController();
-        $result = $controller->getAllOfClient($client->getClientId());
-        View::make("client/announcements.html.twig", [
-            "title" => "VTC client portal",
-            "loggedIn" => true,
-            "client" => $client,
-            "announcements" => $result,
-        ]);
-        return;
-    }
-    Route::router("vtc", "login");
-
+    (new AnnouncementController())->index();
 });
 
-// show transporter applications
+// TODO: Implement this route which handles the transporter application
 Route::get("applications", function (){
 
     View::make("client/notifications.html.twig", ["title" => "VTC client portal", "loggedIn" => true, "username" => "mohamed"]);
 });
 
 
-// Search for announcements
-Route::post("search", function (){
-    if (Auth::isAuthorizedClient() || Auth::isAuthorizedTransporter()){
-        $controller = new AnnouncementController();
-        $from = $_POST["start_point"];
-        $to = $_POST["end_point"];
-        $result = $controller->getAnnouncementByCriteria($from, $to, true);
-        header("Content-Type: application/json");
-        echo json_encode(["success" => true, "announcements" => $result]);
-    }
-});
-
+/// ============================ BEGIN Profile management ========================
 
 Route::get("client_profile", function (){
-    if (Auth::isAuthorizedClient()){
-        $client = Auth::user();
-        View::make("client/profile.html.twig", [
-            "loggedIn" => true,
-            "client" => $client,
-            "title" => "profile"]);
-        return;
-    }
-    Route::router("vtc", "login");
+    (new ClientController())->profile();
 });
 
 Route::get("transporter_profile", function (){
 
-    if (Auth::isAuthorizedTransporter()){
-        $transporter = Auth::user();
-        View::make("transporter/profile.html.twig", [
-            "loggedIn" => true,
-            "transporter" => $transporter,
-            "title" => "profile"]);
-        return;
-    }
-    Route::router("vtc", "login");
+    (new TransporterController())->profile();
 });
 
 
 // Certification demands
 Route::get("certification", function (){
-    if (Auth::isAuthorizedTransporter()){
-        // TODO: Update DB
-        if ((new TransporterController())->sendCertificationDemand(Auth::user()->getTransporterId())){
-            $file = "documents/cert.pdf";
-            StatusController::send_documents($file);
-        }else{
-            echo json_encode(["message" => "Vous pouvez pas faire une demande de certifaction"]);
-        }
-
-
-    }
+    (new TransporterController())->certify();
 });
+/// ====================================== END Profile management =======================
+///
 
-// Admin dashboard route
-Route::get("admin", function (){
-    View::make("admin/admin.html.twig");
-});
+
 
 Route::get("404", function (){
     View::make("404.html.twig");
@@ -250,107 +156,14 @@ Route::get("404", function (){
 
 // ============================ ANNOUNCEMENT ==================
 Route::get("details", function (){
-    if (Auth::isAuthorizedClient() || Auth::isAuthorizedTransporter()){
-        $user = Auth::user();
-        $announcement_id = $_GET["id"];
-        View::make("announcements/details.html.twig", [
-            "isClient" => Session::get("is_client"),
-            "user" => $user,
-            "announcement" => (new AnnouncementController())->getById($announcement_id)[0],
-            ]);
-        return;
-    }
+    $announcement_id = $_GET["id"];
+    (new AnnouncementController())->show($announcement_id);
 });
 
 
-Route::post("delete_announcement", function (){
-    if (Auth::isAuthorizedClient()){
-        $announcement_id = $_POST["announcement_id"];
-        $controller = new AnnouncementController();
-        if ($controller->delete($announcement_id, Auth::user()->getClientId())){
-            header("Content-Type: application/json");
-            echo json_encode(["status" => true, "message" => "Your is deleted"]);
-            return;
-        }
-        header("Content-Type: application/json");
-        echo json_encode(["status" => false, "message" => "The announcement can not be deleted"]);
-        return;
-    }
-});
-
-
-Route::post("apply", function (){
-    // check authorization first
-    if (Auth::isAuthorizedTransporter()){
-        // get announcement
-        $announcement_id = $_POST["id"];
-        $transporter_id = Auth::user()->getTransporterId();
-        $controller = new ApplicationController();
-        if ($controller->exists($transporter_id, $announcement_id)){
-            header("Content-Type: application/json");
-            echo json_encode(["status" => false, "message" => "You have already applied to this announcement"]);
-            return;
-        }
-        $controller->add($transporter_id, $announcement_id);
-        header("Content-Type: application/json");
-        echo json_encode(["status" => true, "message" => "You application is sent"]);
-    }
-
-});
-
-Route::get("transporter", function (){
-    if (Auth::isAuthorizedTransporter()){
-        $transporter = Auth::user();
-        $controller = new AnnouncementController();
-        $result = $controller->getLimitedAnnouncements(8);
-
-        View::make("transporter/index.html.twig", [
-            "title" => "VTC client portal",
-            "loggedIn" => true,
-            "transporter" => $transporter,
-            "announcements" => $result,
-            "wilayas" => (new WilayaController())->get_all()
-        ]);
-        return;
-    }
-
-    Route::router("vtc", "login");
-});
-
-
-Route::get("demands", function (){
-    if (Auth::isAuthorizedTransporter()){
-
-        $transporter = Auth::user();
-
-        // fetch demands
-
-        View::make("transporter/demands.html.twig", [
-            "title" => "VTC client portal",
-            "loggedIn" => true,
-            "transporter" => $transporter,
-        ]);
-        return;
-    }
-    Route::router("vtc", "login");
-});
-
-
-// ============================== POST Requests =================================
-// Register post requests
-Route::post("index.php", function (){
-    $controller = new AnnouncementController();
-    $from = $_POST["start_point"];
-    $to = $_POST["end_point"];
-    $result = $controller->getAnnouncementByCriteria($from, $to, false);
-    header("Content-Type: application/json");
-    echo json_encode(["success" => true, "announcements" => $result]);
-});
-
-Route::get("test", function (){
-
+//Route::post("delete_announcement", function (){
 //    if (Auth::isAuthorizedClient()){
-//        $announcement_id = $_GET["announcement_id"];
+//        $announcement_id = $_POST["announcement_id"];
 //        $controller = new AnnouncementController();
 //        if ($controller->delete($announcement_id, Auth::user()->getClientId())){
 //            header("Content-Type: application/json");
@@ -361,9 +174,70 @@ Route::get("test", function (){
 //        echo json_encode(["status" => false, "message" => "The announcement can not be deleted"]);
 //        return;
 //    }
+//});
+
+
+//Route::post("apply", function (){
+//    // check authorization first
+//    if (Auth::isAuthorizedTransporter()){
+//        // get announcement
+//        $announcement_id = $_POST["id"];
+//        $transporter_id = Auth::user()->getTransporterId();
+//        $controller = new ApplicationController();
+//        if ($controller->exists($transporter_id, $announcement_id)){
+//            header("Content-Type: application/json");
+//            echo json_encode(["status" => false, "message" => "You have already applied to this announcement"]);
+//            return;
+//        }
+//        $controller->add($transporter_id, $announcement_id);
+//        header("Content-Type: application/json");
+//        echo json_encode(["status" => true, "message" => "You application is sent"]);
+//    }
+//
+//});
+
+//Route::get("transporter", function (){
+//
+//});
+
+
+//Route::get("demands", function (){
+//    if (Auth::isAuthorizedTransporter()){
+//
+//        $transporter = Auth::user();
+//        // fetch demands
+//        View::make("transporter/demands.html.twig", [
+//            "title" => "VTC client portal",
+//            "loggedIn" => true,
+//            "transporter" => $transporter,
+//        ]);
+//        return;
+//    }
+//    Route::router("vtc", "login");
+//});
+
+
+// ============================== POST Requests =================================
+// Register post requests
+
+
+
+
+
+
+// ============================== ADMIN routes ====================================
+Route::get("admin", function (){
+    View::make("admin/admin.html.twig");
+});
+
+
+
+
+// ============================ Unit testing routes =============================
+Route::get("test", function (){
+    echo json_encode((new WilayaController())->get_all());
 });
 
 Route::post("test", function (){
 
 });
-

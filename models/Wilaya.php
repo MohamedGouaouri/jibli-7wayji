@@ -1,7 +1,7 @@
 <?php
 
 
-class Wilaya extends Model
+class Wilaya extends Model implements JsonSerializable
 {
     private string $wilaya_id;
     private string $wilaya_name;
@@ -49,4 +49,12 @@ class Wilaya extends Model
         return $this->wilaya_name;
     }
 
+    public function jsonSerialize()
+    {
+        // TODO: Implement jsonSerialize() method.
+        return [
+            "id" => $this->wilaya_id,
+            "name" => $this->wilaya_name
+        ];
+    }
 }

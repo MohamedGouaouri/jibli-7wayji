@@ -1,46 +1,30 @@
 <?php
 
 
-class Transporter extends Model
+class Transporter extends User implements JsonSerializable
 {
-    private int $transporter_id;
-
-
-    private string $name;
-    private string $family_name;
-    private string $email;
-    private string $password;
-
-
     private bool   $certified;
-    private  $status;
+    private $status;
     private bool $validated;
     private float $inventory;
-
-    private static string $table_name = "transporters";
-
-    /**
-     * @return bool
-     */
-
 
     /**
      * Transporter constructor.
      * @param int $transporter_id
      * @param string $name
      * @param string $family_name
+     * @param string $phone_number
      * @param string $email
+     * @param string $password
+     * @param string $address
      * @param bool $is_certified
      * @param $status
+     * @param bool $validated
      * @param float $inventory
      */
-    public function __construct(int $transporter_id, string $name, string $family_name, string $email, string $password, bool $is_certified, $status, bool $validated, float $inventory)
+    public function __construct(int $transporter_id, string $name, string $family_name, string $phone_number, string $email, string $password, string $address,bool $is_certified, $status, bool $validated, float $inventory)
     {
-        $this->transporter_id = $transporter_id;
-        $this->name = $name;
-        $this->family_name = $family_name;
-        $this->email = $email;
-        $this->password = $password;
+        User::__construct($transporter_id, $name, $family_name, $phone_number, $email, $password, $address);
         $this->certified = $is_certified;
         $this->status = $status;
         $this->validated = $validated;
@@ -49,35 +33,63 @@ class Transporter extends Model
 
 
     // Add new Transporter
-    public static function add($name, $family_name, $email, $password): bool {
+
+    /**
+     * @param $name
+     * @param $family_name
+     * @param $phone_number
+     * @param $email
+     * @param $password
+     * @param $address
+     * @return bool
+     */
+    public static function add($name, $family_name, $phone_number, $email, $password, $address): bool {
         $pdo = DB::connect();
 
-        $stmt = $pdo->prepare("INSERT INTO transporters (`name`, `family_name`, `email`, `password`) VALUES (:name, :family_name, :email, :password)");
-
+        // add transporter as a user
+        $stmt = $pdo->prepare("INSERT INTO users (`name`, `family_name`, `phone_number`,`email`, `password`, `address`) VALUES (:name, :family_name, :phone_number, :email, :password, :address)");
         $stmt->bindValue(":name", $name, PDO::PARAM_STR);
         $stmt->bindValue(":family_name", $family_name, PDO::PARAM_STR);
+        $stmt->bindValue(":phone_number", $phone_number, PDO::PARAM_STR);
         $stmt->bindValue(":email", $email, PDO::PARAM_STR);
         $stmt->bindValue(":password", $password, PDO::PARAM_STR);
+        $stmt->bindValue(":address", $address, PDO::PARAM_STR);
+        try {
+            if ($stmt->execute()){
+                $transporter_id = User::get_by_email($email)->getUserId();
+                // add the transporter to the transporter's table
+                $stmt = $pdo->prepare("INSERT INTO transporters (`transporter_id`) VALUES (:transporter_id)");
+                $stmt->bindValue(":transporter_id", $transporter_id, PDO::PARAM_STR);
+                try {
+                    if ($stmt->execute()){
+                        return true;
+                    }
+                }catch (Exception $e){
+                    echo $e->getMessage();
+                }
+            }
 
-        if ($stmt->execute()){
-            return true;
-        }else{
-            return false;
+        }catch (Exception $e){
+            echo $e->getMessage();
         }
+        return false;
     }
 
     public static function all()
     {
-        // TODO: Implement all() method.
+        echo "hello"
+;        // TODO: Implement all() method.
         $transporters = array();
-        $db_result = DB::query("SELECT * FROM transporters");
+        $db_result = DB::query("SELECT * FROM transporters_view");
         foreach ($db_result as $r){
             array_push($transporters, new Transporter(
                 $r["transporter_id"],
                 $r["name"],
                 $r["family_name"],
+                $r["phone_number"],
                 $r["email"],
                 $r["password"],
+                $r["address"],
                 $r["is_certified"],
                 $r["status"],
                 $r["validated"],
@@ -88,48 +100,57 @@ class Transporter extends Model
     }
 
     public static function get_by_email($email): ?Transporter{
+        echo "hello";
         $pdo = DB::connect();
-        $stmt = $pdo->prepare("SELECT * FROM transporters WHERE email = :email");
+        $stmt = $pdo->prepare("SELECT * FROM transporters_view WHERE email = :email");
         $stmt->bindValue(":email", $email, PDO::PARAM_STR);
 
         if ($stmt->execute()){
-            $transporter = $stmt->fetchAll()[0];
-            return new Transporter(
-                $transporter["transporter_id"],
-                $transporter["name"],
-                $transporter["family_name"],
-                $transporter["email"],
-                $transporter["password"],
-                $transporter["is_certified"],
-                $transporter["status"],
-                $transporter["validated"],
-                $transporter["inventory"],
-            );
+            $transporters = $stmt->fetchAll();
+            if (count($transporters) > 0){
+                $transporter = $transporters[0];
+                return new Transporter(
+                    $transporter["transporter_id"],
+                    $transporter["name"],
+                    $transporter["family_name"],
+                    $transporter["phone_number"],
+                    $transporter["email"],
+                    $transporter["password"],
+                    $transporter["address"],
+                    $transporter["is_certified"],
+                    $transporter["status"],
+                    $transporter["validated"],
+                    $transporter["inventory"],
+                );
+            }
+
 
         }
         return null;
     }
     public static function get_by_id($id): ?Transporter{
         $pdo = DB::connect();
-
-        $stmt = $pdo->prepare("SELECT * FROM transporters WHERE transporter_id = :id");
-
+        $stmt = $pdo->prepare("SELECT * FROM transporters_view WHERE transporter_id = :id");
         $stmt->bindValue(":id", $id, PDO::PARAM_INT);
-
         if ($stmt->execute()){
-            $transporter = $stmt->fetchAll()[0];
-            return new Transporter(
-                $transporter["transporter_id"],
-                $transporter["name"],
-                $transporter["family_name"],
-                $transporter["email"],
-                $transporter["password"],
-                $transporter["is_certified"],
-                $transporter["status"],
-                $transporter["validated"],
-                $transporter["inventory"],
-            );
+            $transporters = $stmt->fetchAll();
+            if (count($transporters) > 0){
+                $transporter = $transporters[0];
+                return new Transporter(
+                    $transporter["transporter_id"],
+                    $transporter["name"],
+                    $transporter["family_name"],
+                    $transporter["phone_number"],
+                    $transporter["email"],
+                    $transporter["password"],
+                    $transporter["address"],
+                    $transporter["is_certified"],
+                    $transporter["status"],
+                    $transporter["validated"],
+                    $transporter["inventory"],
+                );
 
+            }
         }
         return null;
     }
@@ -137,9 +158,7 @@ class Transporter extends Model
 
     public static function add_wilaya($transporter_id, $wilaya_id): bool {
         $pdo = DB::connect();
-
         $stmt = $pdo->prepare("INSERT INTO covered_wilayas VALUES (:transporter_id, :wilaya_id)");
-        echo "hello";
         $stmt->bindValue(":transporter_id", $transporter_id, PDO::PARAM_INT);
         $stmt->bindValue(":wilaya_id", $wilaya_id, PDO::PARAM_INT);
         if ($stmt->execute()){
@@ -149,48 +168,12 @@ class Transporter extends Model
     }
 
 
-    public static function limit($rows)
-    {
-        // TODO: Implement limit() method.
-    }
 
 
-    // Getters
-    /**
-     * @return int
-     */
-    public function getTransporterId(): int
-    {
-        return $this->transporter_id;
-    }
 
     public function isCertified(): bool
     {
         return $this->certified;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFamilyName(): string
-    {
-        return $this->family_name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEmail(): string
-    {
-        return $this->email;
     }
 
     /**
@@ -217,14 +200,15 @@ class Transporter extends Model
         return $this->validated;
     }
 
-
-
-    /**
-     * @return string
-     */
-    public function getPassword(): string
+    public function jsonSerialize()
     {
-        return $this->password;
+        return array_merge(
+            parent::jsonSerialize(),
+            [
+                "certified" => $this->certified,
+                "validated" => $this->validated,
+                "inventory" => $this->inventory
+            ]
+        );
     }
-
 }

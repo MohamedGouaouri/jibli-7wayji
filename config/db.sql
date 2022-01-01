@@ -14,17 +14,30 @@ INSERT INTO wilayas VALUES (1, 'Adrar'),
                            (4, 'Oum El Bouaghi'),
                            (5, 'Batna');
 
-# Clients schema
-DROP TABLE IF EXISTS clients;
-CREATE TABLE IF NOT EXISTS clients(
-    client_id INT PRIMARY KEY AUTO_INCREMENT,
+## Users schema
+DROP TABLE IF EXISTS users;
+CREATE TABLE IF NOT EXISTS users(
+    user_id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(50) NOT NULL,
     family_name VARCHAR(50) NOT NULL,
     email VARCHAR(50) NOT NULL UNIQUE ,
+    phone_number VARCHAR(20) DEFAULT '9999999999',
     password VARCHAR(255) NOT NULL,
     address VARCHAR(100) NOT NULL
 );
-INSERT INTO clients (name, family_name, email, password, address) VALUES
+
+
+# Clients schema
+DROP TABLE IF EXISTS clients;
+# CREATE TABLE IF NOT EXISTS clients(
+#     client_id INT PRIMARY KEY AUTO_INCREMENT,
+#     name VARCHAR(50) NOT NULL,
+#     family_name VARCHAR(50) NOT NULL,
+#     email VARCHAR(50) NOT NULL UNIQUE ,
+#     password VARCHAR(255) NOT NULL,
+#     address VARCHAR(100) NOT NULL
+# );
+INSERT INTO users (name, family_name, email, password, address) VALUES
                 ('A', 'B', 'A1@esi.dz', PASSWORD('password'), 'address'),
                 ('A', 'B', 'A2@esi.dz', PASSWORD('password'), 'address'),
                 ('A', 'B', 'A3@esi.dz', PASSWORD('password'), 'address'),
@@ -34,15 +47,12 @@ INSERT INTO clients (name, family_name, email, password, address) VALUES
 # Transporters schema
 DROP TABLE IF EXISTS transporters;
 CREATE TABLE IF NOT EXISTS transporters(
-    transporter_id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(50) NOT NULL,
-    family_name VARCHAR(50) NOT NULL,
-    email VARCHAR(50) NOT NULL UNIQUE ,
-    password VARCHAR(255) NOT NULL,
+    transporter_id INT PRIMARY KEY,
     is_certified BOOLEAN DEFAULT FALSE,
     status VARCHAR(20),
     validated BOOLEAN DEFAULT FALSE,
-    inventory DOUBLE DEFAULT 0.0
+    inventory DOUBLE DEFAULT 0.0,
+    FOREIGN KEY transporters(transporter_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 DROP TABLE IF EXISTS certification_demands;
@@ -57,7 +67,7 @@ CREATE TABLE IF NOT EXISTS certification_demands(
 DROP TABLE IF EXISTS announcements;
 CREATE TABLE IF NOT EXISTS announcements(
     announcement_id INT PRIMARY KEY AUTO_INCREMENT,
-    client_id INT NOT NULL ,
+    user_id INT NOT NULL ,
     start_point INT NOT NULL ,
     end_point INT NOT NULL ,
     type VARCHAR(20) NOT NULL ,
@@ -68,11 +78,11 @@ CREATE TABLE IF NOT EXISTS announcements(
     posted_at DATETIME DEFAULT NOW(),
     validated BOOLEAN DEFAULT FALSE,
     price DOUBLE DEFAULT 0.0,
-    FOREIGN KEY (client_id) REFERENCES clients(client_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (start_point) REFERENCES wilayas(wilaya_id),
     FOREIGN KEY (end_point) REFERENCES wilayas(wilaya_id)
 );
-INSERT INTO announcements (client_id, start_point, end_point, type, weight, volume, status, message)
+INSERT INTO announcements (user_id, start_point, end_point, type, weight, volume, status, message)
     VALUES (1, 1, 1, 'TYPE', 1000, 200, 'approved', 'Nothing'),
            (1, 2, 1, 'TYPE', 1000, 200, 'approved', 'Nothing'),
            (2, 1, 3, 'TYPE', 1000, 200, 'approved', 'Nothing'),
@@ -122,22 +132,22 @@ CREATE TABLE IF NOT EXISTS transporter_applications(
 # notes
 DROP TABLE IF EXISTS notes;
 CREATE TABLE IF NOT EXISTS notes(
-    client_id INT NOT NULL ,
+    user_id INT NOT NULL ,
     transporter_id INT NOT NULL,
     note SMALLINT,
-    PRIMARY KEY (client_id, transporter_id),
-    FOREIGN KEY (client_id) REFERENCES clients(client_id),
+    PRIMARY KEY (user_id, transporter_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (transporter_id) REFERENCES transporters(transporter_id)
 );
 
 # Client's signals
 DROP TABLE IF EXISTS client_signals;
 CREATE TABLE IF NOT EXISTS client_signals(
-    client_id INT,
+    user_id INT,
     transporter_id INT,
     message TEXT,
-    PRIMARY KEY (client_id, transporter_id),
-    FOREIGN KEY (client_id) REFERENCES clients(client_id),
+    PRIMARY KEY (user_id, transporter_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (transporter_id) REFERENCES transporters(transporter_id)
 );
 
@@ -145,11 +155,11 @@ CREATE TABLE IF NOT EXISTS client_signals(
 DROP TABLE IF EXISTS transporter_signals;
 CREATE TABLE IF NOT EXISTS transporter_signals(
     transporter_id INT,
-    client_id INT,
+    user_id INT,
     message TEXT,
-    PRIMARY KEY (transporter_id, client_id),
+    PRIMARY KEY (transporter_id, user_id),
     FOREIGN KEY (transporter_id) REFERENCES transporters(transporter_id),
-    FOREIGN KEY (client_id) REFERENCES clients(client_id)
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
 # News
@@ -187,7 +197,17 @@ CREATE TABLE IF NOT EXISTS types_transport(
 );
 INSERT INTO types_transport (type_name) VALUES ('voiture'), ('fourgon'), ('camion'), ('avion');
 
+
+## Get clients view
+DROP VIEW IF EXISTS clients;
+CREATE VIEW clients AS
+SELECT u.user_id as client_id, u.name, u.family_name, u.email, u.password, u.address FROM users u WHERE u.user_id NOT IN (SELECT transporter_id FROM transporters);
 # Views
 DROP VIEW IF EXISTS announcements_view;
 CREATE VIEW announcements_view AS
-SELECT R.*, w1.wilaya_name AS start_wilaya_name, w2.wilaya_name AS end_wilaya_name FROM (SELECT a.*, name, family_name, email, password, address  FROM announcements a JOIN clients c ON c.client_id = a.client_id) AS R, wilayas w1, wilayas w2 WHERE R.start_point = w1.wilaya_id AND w2.wilaya_id = R.end_point;
+SELECT R.*, w1.wilaya_name AS start_wilaya_name, w2.wilaya_name AS end_wilaya_name FROM (SELECT a.*, name, family_name, email, password, address  FROM announcements a JOIN users u ON u.user_id = a.user_id) AS R, wilayas w1, wilayas w2 WHERE R.start_point = w1.wilaya_id AND w2.wilaya_id = R.end_point;
+
+DROP VIEW IF EXISTS transporters_view;
+CREATE VIEW transporters_view AS
+    SELECT t.*, u.name, u.family_name, u.phone_number, u.email, u.password, u.address
+    FROM transporters t JOIN users u on t.transporter_id = u.user_id;

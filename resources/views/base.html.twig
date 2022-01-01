@@ -29,38 +29,39 @@
 
             </div>
             <div class="navbar-nav ml-auto">
-                <a class="nav-item nav-link ml-2" href="{{ 'login' }}">Login</a>
-                <a class="nav-item nav-link ml-2" href="{{ 'register' }}">Register</a>
+            {% if isAuthenticated %}
+                <div class="dropdown show">
+                    <button class="btn btn-secondary nav-item nav-link dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ is_transporter ? 'Transporter' : 'Client '}}
+                    </button>
+                    {% if is_transporter %}
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="transporter_profile">Profile</a>
+                            <a class="dropdown-item" href="{{ 'logout' }}">Logout</a>
+                        </div>
+                    {% else %}
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="{{ 'client_profile' }}">Profile</a>
+                            <a class="dropdown-item" href="{{ 'logout' }}">Logout</a>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="nav-item nav-link ml-2">{{ user.getName() }}</div>
+
+            {% else %}
+                <a class="nav-item nav-link ml-2" href="login">Login</a>
+                <a class="nav-item nav-link ml-2" href="register">Register</a>
+            {% endif %}
             </div>
         </div>
     </nav>
     {% block content %}
+
     {% endblock %}
 
-    {# scroll top button   #}
-    <button id="scrollTopBtn" class="fa fa-arrow-up"></button>
 
-    <footer>
-        <div class="container-fluid text-center">
-            <div class="row" id="contact">
-                <div class="col-sm-6">
-                    <h3>Contact Us</h3>
-                    <div>
-                        Our address and contact here
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <h3>Connect</h3>
-                    <a href="#" class="fa fa-facebook icon"></a>
-                    <a href="#" class="fa fa-twitter icon"></a>
-                    <a href="#" class="fa fa-instagram icon"></a>
-                    <a href="#" class="fa fa-google icon"></a>
-                    <a href="#" class="fa fa-linkedin icon"></a>
-                </div>
 
-            </div>
-        </div>
-    </footer>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.2/dist/chart.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
             crossorigin="anonymous"></script>

@@ -7,35 +7,36 @@ class LoginController
 
         if ($is_client){
 
-            $client = Client::get_by_email($email);
+            $client = User::get_by_email($email);
             if ($client != null){
 
-                // 1. check password
                 $verified = password_verify($password, $client->getPassword());
+                echo $client->getUserId();
                 if ($verified){
                     Session::start();
-                    Session::set("user_id", $client->getClientId());
+
+                    Session::set("user_id", $client->getUserId());
+
                     Session::set("logged_in", true);
                     Session::set("is_client", true);
+
+                    Route::router("vtc", "index.php");
                     return true;
                 }
             }
         }
         else{
-
             $transporter = Transporter::get_by_email($email);
-
             if ($transporter != null){
-
-
                 // 1. check password
                 $verified = password_verify($password, $transporter->getPassword());
                 $validated = $transporter->isValidated() == 1;
                 if ($verified && $validated){
                     Session::start();
-                    Session::set("user_id", $transporter->getTransporterId());
+                    Session::set("user_id", $transporter->getUserId());
                     Session::set("loggedIn", true);
                     Session::set("is_client", false);
+                    Route::router("vtc", "index.php");
                     return true;
                 }
             }
