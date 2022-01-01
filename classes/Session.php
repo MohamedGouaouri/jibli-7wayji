@@ -4,10 +4,17 @@
 class Session
 {
     public static function start(){
-        session_start();
+        // starts a session if it's not already started
+        if (session_status() === PHP_SESSION_NONE){
+            session_start();
+        }
+
     }
     public static function get(string $key){
-        return $_SESSION[$key];
+        if (isset($_SESSION[$key])){
+            return $_SESSION[$key];
+        }
+        return null;
     }
 
     public static function set(string $key, $value){
