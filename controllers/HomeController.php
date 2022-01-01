@@ -5,7 +5,7 @@ class HomeController extends Controller
 {
     public function index(){
         // Checks if the client is authenticated
-        if (Auth::isAuthorizedClient()){
+        if (Auth::isAuthorizedClient() || Auth::isAuthorizedTransporter()){
             $controller = new AnnouncementController();
             $result = $controller->getLimitedAnnouncements( 8);
             $user = Auth::user();
@@ -15,7 +15,7 @@ class HomeController extends Controller
                     "announcements" => $result,
                     "isAuthenticated" => true,
                     "user" => $user,
-                    "is_transporter" => false,
+                    "is_transporter" => Auth::isAuthorizedTransporter(),
                     "wilayas" => (new WilayaController())->get_all()
                 ]);
         }else{

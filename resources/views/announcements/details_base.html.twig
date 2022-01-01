@@ -25,28 +25,14 @@
     </button>
     <div class="collapse navbar-collapse mr-sm-2" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-            {% if isClient %}
                 <a class="nav-item nav-link active ml-2" href="{{ 'index.php' }}" id="nav-item-home">Home <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link ml-2" href="{{ 'index.php#new-announcement' }}" id="nav-item-new-announcement">New announcement</a>
-                <a class="nav-item nav-link ml-2" href="{{ 'index.php#announcements' }}" id="nav-item-announcements">Rechercher</a>
-                <a class="nav-item nav-link ml-2" href="{{ 'index.php#news' }}" id="nav-item-news">News</a>
-                <a class="nav-item nav-link ml-2" href="{{ 'index.php#stats' }}" id="nav-item-stats">Stats</a>
-                <a class="nav-item nav-link ml-2" href="{{ 'index.php#contact' }}" id="nav-item-contact">Contact</a>
-            {% else %}
-                <a class="nav-item nav-link active ml-2" href="{{ 'index.php' }}" id="nav-item-home">Site <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link active ml-2" href="{{ 'transporter' }}" id="nav-item-home">Home <span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link ml-2" href="{{ 'index.php#announcements' }}" id="nav-item-announcements">Rechercher</a>
-                <a class="nav-item nav-link ml-2" href="{{ 'index.php#news' }}" id="nav-item-news">News</a>
-                <a class="nav-item nav-link ml-2" href="{{ 'index.php#stats' }}" id="nav-item-stats">Stats</a>
-                <a class="nav-item nav-link ml-2" href="{{ 'index.php#contact' }}" id="nav-item-contact">Contact</a>
-            {% endif %}
         </div>
         <div class="navbar-nav ml-auto">
 
                 {% if isClient %}
                     <div class="dropdown show">
                         <button class="btn btn-secondary nav-item nav-link dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Actions
+                            Client
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" href="{{ 'announcements' }}">My announcements</a>
@@ -58,7 +44,7 @@
                 {% else %}
                     <div class="dropdown show">
                         <button class="btn btn-secondary nav-item nav-link dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Actions
+                            Transporter
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item" href="demands">Demands</a>

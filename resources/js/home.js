@@ -80,7 +80,7 @@ $("#searchAnnouncementsUserForm").submit((e) => {
                                         .append($(`<div><b>Type</b> ${data.announcements[i].type} </div>`))
                                         .append($(`<div><b>Weight</b> ${data.announcements[i].weight} </div>`))
                                         .append($(`<div><b>Volume</b> ${data.announcements[i].volume} </div>`))
-                                        .append($('<a href="" class="btn btn-outline-success btn-sm m-5">Read More</a>'))
+                                        .append($(`<a href="details?id=${data.announcements[i].id}" class="btn btn-outline-success btn-sm m-5">Read More</a>`))
                                     )
                             )
 

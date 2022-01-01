@@ -53,7 +53,7 @@
                   <div><b>Weight</b>{{ announcement.getWeight() }}</div>
                   <div><b>Volume</b>{{ announcement.getVolume() }}</div>
                   {% if isAuthenticated%}
-                    <a href="" class="btn btn-outline-success btn-sm">Read More</a>
+                    <a href="details?id={{ announcement.getAnnouncementId() }}" class="btn btn-outline-success btn-sm">Read More</a>
                   {% endif %}
                 </div>
               </div>

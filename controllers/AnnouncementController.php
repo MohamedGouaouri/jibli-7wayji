@@ -34,7 +34,7 @@ class AnnouncementController extends Controller{
         if (Auth::isAuthorizedClient() || Auth::isAuthorizedTransporter()){
             $user = Auth::user();
             View::make("announcements/details.html.twig", [
-                "isClient" => Session::get("is_client"),
+                "isClient" => Auth::isAuthorizedClient(),
                 "user" => $user,
                 "announcement" => $this->getById($id)[0],
             ]);
