@@ -211,3 +211,11 @@ DROP VIEW IF EXISTS transporters_view;
 CREATE VIEW transporters_view AS
     SELECT t.*, u.name, u.family_name, u.phone_number, u.email, u.password, u.address
     FROM transporters t JOIN users u on t.transporter_id = u.user_id;
+
+
+DROP VIEW IF EXISTS prices_view;
+CREATE VIEW prices_view AS
+SELECT p.start_point, w.wilaya_name as start_wilaya_name, p.end_point, w2.wilaya_name AS end_wilaya_name, p.price
+FROM prices p
+         JOIN wilayas w ON p.start_point = w.wilaya_id
+         JOIN wilayas w2 ON p.start_point = w2.wilaya_id;

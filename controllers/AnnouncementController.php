@@ -79,8 +79,8 @@ class AnnouncementController extends Controller{
                                        $message): bool {
 
 
-        $user_id = Auth::user()->getUserId();
-
+        // get user id from session
+        $user_id = 1 ;
         return Announcement::add(
             $user_id,
             $start_point,

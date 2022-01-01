@@ -217,13 +217,6 @@ Route::get("details", function (){
 //});
 
 
-// ============================== POST Requests =================================
-// Register post requests
-
-
-
-
-
 
 // ============================== ADMIN routes ====================================
 Route::get("admin", function (){
@@ -235,7 +228,10 @@ Route::get("admin", function (){
 
 // ============================ Unit testing routes =============================
 Route::get("test", function (){
-    echo json_encode((new WilayaController())->get_all());
+    $controller = new AnnouncementController();
+    $result = $controller->getAnnouncementByCriteria(1, 1);
+    header("Content-Type: application/json");
+    echo json_encode(["success" => true, "announcements" => $result]);
 });
 
 Route::post("test", function (){

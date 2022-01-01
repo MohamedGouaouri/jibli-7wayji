@@ -87,6 +87,7 @@ $("#searchAnnouncementsUserForm").submit((e) => {
                     );
                 }
             }else {
+                $("#result-not-found").empty();
                 $("#result-not-found").append(
                     $("<div class='m-5'>0 Results found</div>")
                 );
@@ -111,13 +112,15 @@ $("#how-it-works a").click((e) => {
 $("#newAnnouncementForm").submit((e) => {
     e.preventDefault();
     let url = "new_announcement";
+    console.log($("#add_start_point option:selected").val());
+    console.log($("#add_end_point option:selected").val());
     $.ajax({
         type: "POST",
         url: url,
         data: {
             "start_point": $("#start_point option:selected").val(),
             "end_point": $("#end_point option:selected").val(),
-            "type": Number.parseInt($("#type option:selected").val()),
+            "type": $("#type option:selected").text(),
             "weight": Number.parseFloat($("#weight option:selected").val()),
             "volume": Number.parseFloat($("#volume").val()),
             "way": Number.parseInt($("#way option:selected").val()),

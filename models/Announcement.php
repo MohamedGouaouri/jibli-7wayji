@@ -289,11 +289,8 @@ class Announcement extends Model implements JsonSerializable
                 $announcements = array();
                 $db_result =  $stmt->fetchAll();
                 foreach ($db_result as $r){
-
                     $transporter = Transporter::get_by_id($r["user_id"]);
-
                     if ($transporter != null){
-
                         array_push($announcements, new Announcement(
                             $r["announcement_id"],
                             $transporter,
@@ -327,8 +324,9 @@ class Announcement extends Model implements JsonSerializable
                             ));
                         }
                     }
-                    return $announcements;
+
                 }
+                return $announcements;
             }
 
         }catch (Exception $e){
@@ -360,8 +358,14 @@ class Announcement extends Model implements JsonSerializable
         $stmt->bindValue(":status", "pending", PDO::PARAM_STR);
         $stmt->bindValue(":message", $message);
 
-        if ($stmt->execute()){
-            return true;
+
+        try {
+            if ($stmt->execute()){
+                return true;
+            }
+            return false;
+        }catch (Exception $e){
+            echo $e->getMessage();
         }
         return false;
     }

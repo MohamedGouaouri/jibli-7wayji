@@ -84,16 +84,16 @@
             </div>
             <form id="newAnnouncementForm">
               <div class="m-2">
-                <label for="start_point" class="required">Point de depart</label>
-                <select class="form-control form-select-lg" id="start_point" name="start_point">
+                <label for="add_start_point" class="required">Point de depart</label>
+                <select class="form-control form-select-lg" id="add_start_point" name="add_start_point">
                   {% for wilaya in wilayas %}
                     <option value="{{ wilaya.getWilayaId() }}">{{ wilaya.getWilayaName() }}</option>
                   {% endfor %}
                 </select>
               </div>
               <div class="m-2">
-                <label for="end_point" class="required">Point d'arrive</label>
-                <select class="form-control" id="end_point" name="end_point">
+                <label for="add_end_point" class="required">Point d'arrive</label>
+                <select class="form-control" id="add_end_point" name="add_end_point">
                   {% for wilaya in wilayas %}
                     <option value="{{ wilaya.getWilayaId() }}">{{ wilaya.getWilayaName() }}</option>
                   {% endfor %}
