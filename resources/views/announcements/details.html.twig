@@ -7,68 +7,75 @@
 {% block content %}
     <div class="container rounded bg-white mt-5 mb-5 announcement">
         <div class="row">
-            <div class="col-md-3 border-right">
-                <div class="d-flex flex-column align-items-center texprofile-buttont-center p-3 py-5">
-                    <img class="rounded-circle mt-5" width="200px" height="" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" alt="">
+            {% if announcement %}
+                <div class="col-md-3 border-right">
+                    <div class="d-flex flex-column align-items-center texprofile-buttont-center p-3 py-5">
+                        <img class="rounded-circle mt-5" width="200px" height="" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" alt="">
+                    </div>
                 </div>
-            </div>
 
-            <div class="col-md-9 border-right">
-                <div class="alert alert-success alert-dismissible show fade" role="alert" id="application-success" style="display: none">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="alert alert-danger alert-dismissible show fade" role="alert" id="application-error" style="display: none">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="p-3 py-5">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h1 class="text-right">Announcement</h1>
-                        <span>By {{ announcement.getClient().getName() }}</span>
+                <div class="col-md-9 border-right">
+                    <div class="alert alert-success alert-dismissible show fade" role="alert" id="application-success" style="display: none">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                    <div class="row mt-2">
-                        <h3>Details</h3>
+                    <div class="alert alert-danger alert-dismissible show fade" role="alert" id="application-error" style="display: none">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="p-3 py-5">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h1 class="text-right">Announcement</h1>
+                            <span>By {{ announcement.getClient().getName() }}</span>
+                        </div>
+                        <div class="row mt-2">
+                            <h3>Details</h3>
 
-                    </div>
-                    <div class="m-3">
-                        <div class="row"><b>Start point: </b><div class="ml-2">{{ announcement.getStartPoint().getWilayaName() }}</div></div>
-                        <div class="row"><b>End point: </b><div class="ml-2">{{ announcement.getEndPoint().getWilayaName() }}</div></div>
-                        <div class="row"><b>Type: </b><div class="ml-2">{{ announcement.getType() }}</div></div>
-                        <div class="row"><b>Weight: </b><div class="ml-2">{{ announcement.getWeight() }}</div></div>
-                        <div class="row"><b>Volume: </b><div class="ml-2">{{ announcement.getVolume() }}</div></div>
-                    </div>
+                        </div>
+                        <div class="m-3">
+                            <div class="row"><b>Start point: </b><div class="ml-2">{{ announcement.getStartPoint().getWilayaName() }}</div></div>
+                            <div class="row"><b>End point: </b><div class="ml-2">{{ announcement.getEndPoint().getWilayaName() }}</div></div>
+                            <div class="row"><b>Type: </b><div class="ml-2">{{ announcement.getType() }}</div></div>
+                            <div class="row"><b>Weight: </b><div class="ml-2">{{ announcement.getWeight() }}</div></div>
+                            <div class="row"><b>Volume: </b><div class="ml-2">{{ announcement.getVolume() }}</div></div>
+                        </div>
                         <input hidden value="{{ announcement.getAnnouncementId() }}" id="announcement-id">
-                    <div class="row mt-2">
-                        <h3>Description</h3>
-                    </div>
+                        ID is: {{ announcement.getAnnouncementId() }}
+                        <div class="row mt-2">
+                            <h3>Description</h3>
+                        </div>
 
-                    <div class="row">
-                        {{ announcement.getMessage() }}
-                    </div>
+                        <div class="row">
+                            {{ announcement.getMessage() }}
+                        </div>
 
-                    <div class="row mt-3">
-                        <span class="price">Price {{ announcement.getPrice() }} $</span>
-                        {% if not isClient %}
-                            {% if announcement.getStatus() != 'approved' %}
-                                <div class="ml-auto">
-                                    {#            Change this based on notification                    #}
-                                    <button class="btn btn-primary" id="apply-btn">Postuler</button>
-                                </div>
-                            {% else %}
-                                <div class="ml-auto">
-                                    Un autre transporteur a deja repondu a cette annonce
-                                </div>
+                        <div class="row mt-3">
+                            <span class="price">Price {{ announcement.getPrice() }} $</span>
+                            {% if not isClient %}
+                                {% if announcement.getStatus() != 'approved' %}
+                                    <div class="ml-auto">
+                                        {#            Change this based on notification                    #}
+                                        <button class="btn btn-primary" id="apply-btn">Postuler</button>
+                                    </div>
+                                {% else %}
+                                    <div class="ml-auto">
+                                        Un autre transporteur a deja repondu a cette annonce
+                                    </div>
+                                {% endif %}
                             {% endif %}
-                        {% endif %}
                             {#          Only the Owner can see the status                  #}
 
+                        </div>
                     </div>
                 </div>
-            </div>
 
+            {% else %}
+                <div class="col-center">
+                    404 Not found
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

@@ -10,8 +10,6 @@ class Auth
     {
         Session::start();
         $user_id = Session::get("user_id");
-        echo $user_id;
-
         if ($user_id != null){
             if (Session::get("is_client") == true){
                 return User::get_by_id($user_id);

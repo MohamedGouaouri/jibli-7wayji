@@ -177,24 +177,9 @@ Route::get("details", function (){
 //});
 
 
-//Route::post("apply", function (){
-//    // check authorization first
-//    if (Auth::isAuthorizedTransporter()){
-//        // get announcement
-//        $announcement_id = $_POST["id"];
-//        $transporter_id = Auth::user()->getTransporterId();
-//        $controller = new ApplicationController();
-//        if ($controller->exists($transporter_id, $announcement_id)){
-//            header("Content-Type: application/json");
-//            echo json_encode(["status" => false, "message" => "You have already applied to this announcement"]);
-//            return;
-//        }
-//        $controller->add($transporter_id, $announcement_id);
-//        header("Content-Type: application/json");
-//        echo json_encode(["status" => true, "message" => "You application is sent"]);
-//    }
-//
-//});
+Route::post("apply", function (){
+    (new ApplicationController())->apply();
+});
 
 //Route::get("transporter", function (){
 //
@@ -228,12 +213,16 @@ Route::get("admin", function (){
 
 // ============================ Unit testing routes =============================
 Route::get("test", function (){
-    $controller = new AnnouncementController();
-    $result = $controller->getAllOfUser(2, false);
-    header("Content-Type: application/json");
-    echo json_encode(["success" => true, "announcements" => $result]);
+//    $transporter_id =
+//    $controller = new ApplicationController();
+//    echo $controller->exists(6, 16) == true;
+//////    echo Auth::user()->getUserId();
+//    $controller->add(6, 16);
+////    echo $controller->exists(6, 16) == true;
 });
 
 Route::post("test", function (){
+
+
 
 });

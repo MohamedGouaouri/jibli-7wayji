@@ -19,8 +19,12 @@ class TransporterApplication extends Model
         $stmt = $pdo->prepare("INSERT INTO transporter_applications (`transporter_id`, `announcement_id`) VALUES (:transporter_id, :announcement_id)");
         $stmt->bindValue(":transporter_id", $transporter_id, PDO::PARAM_INT);
         $stmt->bindValue(":announcement_id", $announcement_id, PDO::PARAM_INT);
-        if ($stmt->execute()){
-            return true;
+        try {
+            if ($stmt->execute()){
+                return true;
+            }
+        }catch (Exception $e){
+            echo $e->getMessage();
         }
         return false;
     }
@@ -29,10 +33,15 @@ class TransporterApplication extends Model
         $stmt = $pdo->prepare("SELECT * FROM transporter_applications WHERE transporter_id = :transporter_id AND announcement_id  = :announcement_id");
         $stmt->bindValue(":transporter_id", $transporter_id, PDO::PARAM_INT);
         $stmt->bindValue(":announcement_id", $announcement_id, PDO::PARAM_INT);
-        if ($stmt->execute()){
-            if (count($stmt->fetchAll()) > 0){
-                return true;
+        try {
+            if ($stmt->execute()){
+                if (count($stmt->fetchAll()) > 0){
+                    return true;
+                }
             }
+
+        }catch (Exception $e){
+            echo $e->getMessage();
         }
         return false;
     }
