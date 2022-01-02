@@ -219,7 +219,6 @@ class Announcement extends Model implements JsonSerializable
 
     /**
      * @param int $id
-     * @param bool $is_transporter
      * @return array|null
      */
     public static function byId(int $id){

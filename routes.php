@@ -229,7 +229,7 @@ Route::get("admin", function (){
 // ============================ Unit testing routes =============================
 Route::get("test", function (){
     $controller = new AnnouncementController();
-    $result = $controller->getAnnouncementByCriteria(1, 1);
+    $result = $controller->getAllOfUser(2, false);
     header("Content-Type: application/json");
     echo json_encode(["success" => true, "announcements" => $result]);
 });

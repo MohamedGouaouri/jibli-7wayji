@@ -8,7 +8,7 @@ class AnnouncementController extends Controller{
             $user = Auth::user();
 
             $result = $this->getAllOfUser($user->getUserId(), Auth::isAuthorizedTransporter());
-            View::make("client/announcements.html.twig", [
+            View::make("user/announcements.html.twig", [
                 "title" => "VTC client portal",
                 "isAuthenticated" => true,
                 "user" => $user,
@@ -80,7 +80,7 @@ class AnnouncementController extends Controller{
 
 
         // get user id from session
-        $user_id = 1 ;
+        $user_id = Session::get("user_id") ;
         return Announcement::add(
             $user_id,
             $start_point,

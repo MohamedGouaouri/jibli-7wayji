@@ -11,6 +11,7 @@ class Session
 
     }
     public static function get(string $key){
+        Session::start();
         if (isset($_SESSION[$key])){
             return $_SESSION[$key];
         }

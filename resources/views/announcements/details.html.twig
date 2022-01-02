@@ -57,11 +57,14 @@
                                     {#            Change this based on notification                    #}
                                     <button class="btn btn-primary" id="apply-btn">Postuler</button>
                                 </div>
+                            {% else %}
+                                <div class="ml-auto">
+                                    Un autre transporteur a deja repondu a cette annonce
+                                </div>
                             {% endif %}
-                        {% else %}
-                                {#          Client can see the status                  #}
-                                <div class=" ml-auto status {{ announcement.getStatus() }}">{{ announcement.getStatus() }}</div>
                         {% endif %}
+                            {#          Only the Owner can see the status                  #}
+
                     </div>
                 </div>
             </div>
