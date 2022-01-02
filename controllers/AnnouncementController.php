@@ -36,7 +36,7 @@ class AnnouncementController extends Controller{
             View::make("announcements/details.html.twig", [
                 "isClient" => Auth::isAuthorizedClient(),
                 "user" => $user,
-                "announcement" => $this->getById($id)[0],
+                "announcement" => $this->getById($id),
             ]);
             return;
         }
@@ -56,7 +56,7 @@ class AnnouncementController extends Controller{
         return Announcement::allOfUser($user_id, $is_transporter);
     }
 
-    public function getById(int $id): array {
+    public function getById(int $id): ?Announcement{
         return Announcement::byId($id);
     }
 

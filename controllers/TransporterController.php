@@ -23,7 +23,7 @@ class TransporterController
     public function certify(){
         if (Auth::isAuthorizedTransporter()){
             // TODO: Update DB
-            if ((new TransporterController())->sendCertificationDemand(Auth::user()->getTransporterId())){
+            if ($this->sendCertificationDemand(Auth::user()->getUserId())){
                 $file = "documents/cert.pdf";
                 StatusController::send_documents($file);
             }else{

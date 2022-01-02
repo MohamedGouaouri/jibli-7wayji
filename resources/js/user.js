@@ -74,3 +74,50 @@ $(".delete").click((e) => {
         }
     })
 })
+
+
+// ============================ ACCEPT OR REJECT Transporter application =============================
+$("#accept-application-btn").click((e) => {
+    let btn = e.target;
+    console.log($(btn).attr("data-announcement-id"));
+    let announcementId = Number.parseInt($(btn).attr("data-announcement-id"));
+    let transporterId = Number.parseInt($(btn).attr("data-transporter-id"));
+
+
+    $.ajax({
+        type: "POST",
+        url: "accept_application",
+        data: {
+            "announcement_id": announcementId,
+            "transporter_id": transporterId
+        }
+    }).done((data) => {
+        console.log(data);
+        if (data.success){
+            // remove this entry from table
+            // console.log(test);
+            let transporter = data.transaction.transporter;
+            if (!transporter.certified){
+                $(".modal-body")
+                    .append($("<div>Vous avez accepter la transaction avec ce transporteur non certie donc vous devez vous entdre sur un prix, on recommende le prix propose par la plateforme</div>"))
+                    .append($(`<div>Le nom du transporteur ${data.transaction.transporter.familyName} ${data.transporter.name}</div>`))
+                    .append($(`<div>Son numero de telephone ${data.transaction.transporter.phone_number}</div>`))
+                    .append($(`<div>Le nom du transportue ${data.transaction.transporter.familyName}</div>`))
+                ;
+            }
+            else {
+                    $(".modal-body")
+                        .append($("<div>Vous avez accepter la transaction avec ce transporteur certfie donc rix un pourcentage de X% sera retranche</div>"))
+                        .append($(`<div>Le nom du transporteur ${data.transaction.transporter.familyName} ${data.transporter.name}</div>`))
+                        .append($(`<div>Son numero de telephone ${data.transaction.transporter.phone_number}</div>`))
+                        .append($(`<div>Le nom du transportue ${data.transaction.transporter.familyName}</div>`))
+                    ;
+
+            }
+        }
+    })
+})
+
+$("button[data-dismiss='modal']").click((e) => {
+    $(".modal-body").empty();
+})

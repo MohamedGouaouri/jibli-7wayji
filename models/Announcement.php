@@ -219,15 +219,11 @@ class Announcement extends Model implements JsonSerializable
 
     /**
      * @param int $id
-     * @return array|null
+     * @return Announcement
      */
-    public static function byId(int $id){
-        $announcements = array();
-
+    public static function byId(int $id): ?Announcement{
         $pdo = DB::connect();
-
         $stmt = $pdo->prepare("SELECT R.*, w1.wilaya_name AS start_wilaya_name, w2.wilaya_name AS end_wilaya_name FROM (SELECT a.*, name, family_name, email, password, address  FROM announcements a JOIN users u ON u.user_id = a.user_id WHERE a.announcement_id = :announcement_id) AS R, wilayas w1, wilayas w2 WHERE R.start_point = w1.wilaya_id AND w2.wilaya_id = R.end_point;");
-
         $stmt->bindValue(":announcement_id", $id, PDO::PARAM_INT);
 
         if ($stmt->execute()){
@@ -235,7 +231,7 @@ class Announcement extends Model implements JsonSerializable
                 foreach ($db_result as $r){
                     $transporter = Transporter::get_by_id($r["user_id"]);
                     if ($transporter != null){
-                        array_push($announcements, new Announcement(
+                        return new Announcement(
                             $r["announcement_id"],
                             $transporter,
                             new Wilaya($r["start_point"],$r["start_wilaya_name"]),
@@ -247,11 +243,10 @@ class Announcement extends Model implements JsonSerializable
                             $r["message"],
                             $r["posted_at"],
                             $r["validated"],
-                            $r["price"],
-                        ));
+                            $r["price"]);
                     }else{
                         $client = User::get_by_id($r["user_id"]);
-                        array_push($announcements, new Announcement(
+                        return new Announcement(
                             $r["announcement_id"],
                             $client,
                             new Wilaya($r["start_point"],$r["start_wilaya_name"]),
@@ -264,11 +259,9 @@ class Announcement extends Model implements JsonSerializable
                             $r["posted_at"],
                             $r["validated"],
                             $r["price"],
-                        ));
+                        );
                     }
                 }
-
-            return $announcements;
         }
         return null;
     }

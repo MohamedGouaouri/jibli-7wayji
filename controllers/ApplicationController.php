@@ -3,10 +3,20 @@
 
 class ApplicationController
 {
+    /**
+     * @param $transporter_id
+     * @param $announcement_id
+     * @return bool
+     */
     public function add($transporter_id, $announcement_id){
         return TransporterApplication::add($transporter_id, $announcement_id);
     }
 
+    /**
+     * @param $transporter_id
+     * @param $announcement_id
+     * @return bool
+     */
     public function exists($transporter_id, $announcement_id){
         return TransporterApplication::exists($transporter_id, $announcement_id);
     }
@@ -29,7 +39,7 @@ class ApplicationController
             $controller = new ApplicationController();
 
             if ($controller->exists($transporter_id, $announcement_id)){
-                // Prevent the transporter from multiple application
+                // Prevent the transporter from doing multiple application
                 echo json_encode(["success" => false, "message" => "You have already applied to this announcement"]);
                 return;
             }
@@ -41,4 +51,44 @@ class ApplicationController
         }
 
     }
+
+
+    /**
+     * Shows the view of all application notifications from a transporter
+     */
+    public function index(){
+        if (Auth::isAuthorizedClient() || Auth::isAuthorizedTransporter()){
+            $user = Auth::user();
+            // iterate through each announcement and get the list of applications
+            $announcements = Announcement::allOfUser($user->getUserId(), Auth::isAuthorizedTransporter());
+            $all_applications = array();
+            foreach ($announcements as $announcement){
+                // get the list of applications
+                $applications_per_announcement = TransporterApplication::getAllOfAnnouncement($announcement->getAnnouncementId());
+                $all_applications = array_merge($all_applications, $applications_per_announcement);
+            }
+            View::make("user/notifications.html.twig", [
+                "isAuthenticated" => true,
+                "user" => Auth::user(),
+                "applications" => $all_applications
+            ]);
+        }
+    }
+
+    /**
+     * Accepts transporter application
+     * @param $transporter_id
+     * @param $client_id
+     */
+    public function accept($transporter_id, $client_id){
+        // create a transaction
+    }
+
+    /**
+     * Refuse transporter application
+     */
+    public function refuse(){
+
+    }
+
 }

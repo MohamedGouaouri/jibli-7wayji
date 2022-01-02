@@ -122,10 +122,9 @@ Route::get("announcements", function (){
     (new AnnouncementController())->index();
 });
 
-// TODO: Implement this route which handles the transporter application
+// TODO: Implement this route which shows all transporter applications for a specific
 Route::get("applications", function (){
-
-    View::make("client/notifications.html.twig", ["title" => "VTC client portal", "loggedIn" => true, "username" => "mohamed"]);
+    (new ApplicationController())->index();
 });
 
 
@@ -181,6 +180,14 @@ Route::post("apply", function (){
     (new ApplicationController())->apply();
 });
 
+
+// accept transporter application route
+Route::post("accept_application", function (){
+    $transporter_id = $_POST["transporter_id"];
+    $announcement_id = $_POST["announcement_id"];
+    (new TransactionController())->makeTransaction($transporter_id, $announcement_id);
+});
+
 //Route::get("transporter", function (){
 //
 //});
@@ -213,16 +220,9 @@ Route::get("admin", function (){
 
 // ============================ Unit testing routes =============================
 Route::get("test", function (){
-//    $transporter_id =
-//    $controller = new ApplicationController();
-//    echo $controller->exists(6, 16) == true;
-//////    echo Auth::user()->getUserId();
-//    $controller->add(6, 16);
-////    echo $controller->exists(6, 16) == true;
+
 });
 
 Route::post("test", function (){
-
-
 
 });
