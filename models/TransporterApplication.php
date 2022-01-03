@@ -105,6 +105,30 @@ class TransporterApplication extends Model implements JsonSerializable
         return $applications;
     }
 
+
+    /** Delete application
+     * @param $transporter_id
+     * @param $announcement_id
+     * @return bool
+     */
+    public static function delete($transporter_id, $announcement_id): bool {
+        $pdo = DB::connect();
+        $stmt = $pdo->prepare("DELETE FROM transporter_applications WHERE transporter_id = :transporter_id AND announcement_id = :announcement_id");
+        $stmt->bindValue(":transporter_id", $transporter_id, PDO::PARAM_INT);
+        $stmt->bindValue(":announcement_id", $announcement_id, PDO::PARAM_INT);
+        try {
+            if (self::exists($transporter_id, $announcement_id)){
+                if ($stmt->execute()){
+                    return true;
+                }
+            }
+
+        }catch (Exception $e){
+
+        }
+        return false;
+    }
+
     /**
      * @return Transporter
      */

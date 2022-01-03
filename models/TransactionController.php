@@ -3,9 +3,9 @@
 
 class TransactionController
 {
-    public function makeTransaction($transporter_id, $announcement_id){
+    public function makeTransaction($transporter_id, $announcement_id, $validated){
         if (Auth::isAuthorizedTransporter() || Auth::isAuthorizedClient()){
-            $transaction = Transaction::add($transporter_id, $announcement_id);
+            $transaction = Transaction::add($transporter_id, $announcement_id, $validated);
             if ($transaction != null){
                 header("Content-Type: application/json");
                 echo json_encode(["success" => true, "transaction" => $transaction]);
@@ -13,6 +13,7 @@ class TransactionController
             }
             header("Content-Type: application/json");
             echo json_encode(["success" => false, "transaction" => null]);
+
         }
     }
 }

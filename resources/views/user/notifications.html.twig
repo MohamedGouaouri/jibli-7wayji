@@ -24,7 +24,7 @@
                             <div>
                                 <a href=details?id={{ application.getAnnouncement().getAnnouncementId() }} class="btn btn-primary" >Announcement Details</a>
                                 <button class="btn btn-success" id="accept-application-btn" data-announcement-id="{{ application.getAnnouncement().getAnnouncementId() }}"  data-transporter-id="{{ application.getTransporter().getUserId() }}" data-toggle="modal" data-target="#exampleModal">Accept</button>
-                                <button class="btn btn-danger" id="refuse-application-btn">Refuse</button>
+                                <button class="btn btn-danger" id="refuse-application-btn" data-announcement-id="{{ application.getAnnouncement().getAnnouncementId() }}"  data-transporter-id="{{ application.getTransporter().getUserId() }}">Refuse</button>
                             </div>
                         </td>
                     </tr>
@@ -36,10 +36,13 @@
             </table>
             <!-- Accept modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
+                <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Transaction accepted ICON</h5>
+                            <div style="display: flex; align-content: baseline;">
+                                <img alt="" src="{{ 'resources/assets/img/check.png' }}" height="50" width="50" id="modal-logo">
+                                <h5 class="modal-title" id="exampleModalLabel">Transaction accepted</h5>
+                            </div>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>

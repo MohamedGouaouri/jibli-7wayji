@@ -17,12 +17,13 @@ class Transaction extends Model implements JsonSerializable
         $this->announcement = $announcement;
     }
 
-    public static function add($transporter_id, $announcement_id): ?Transaction
+    public static function add($transporter_id, $announcement_id, $validated): ?Transaction
     {
         $pdo = DB::connect();
-        $stmt = $pdo->prepare("INSERT INTO transport (`transporter_id`, `announcement_id`) VALUES (:transporter_id, :announcement_id)");
+        $stmt = $pdo->prepare("INSERT INTO transport (`transporter_id`, `announcement_id`, `validated`) VALUES (:transporter_id, :announcement_id, :validated)");
         $stmt->bindValue(":transporter_id", $transporter_id, PDO::PARAM_INT);
         $stmt->bindValue(":announcement_id", $announcement_id, PDO::PARAM_INT);
+        $stmt->bindValue(":validated", $validated, PDO::PARAM_BOOL);
         try {
                if ($stmt->execute()){
                    return new Transaction(
@@ -31,8 +32,7 @@ class Transaction extends Model implements JsonSerializable
                    );
                }
         }catch (Exception $e){
-            echo $e->getMessage();
-
+//            echo $e->getMessage();
         }
         return null;
     }

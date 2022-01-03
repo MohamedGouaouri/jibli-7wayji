@@ -83,7 +83,12 @@ $("#accept-application-btn").click((e) => {
     let announcementId = Number.parseInt($(btn).attr("data-announcement-id"));
     let transporterId = Number.parseInt($(btn).attr("data-transporter-id"));
 
-
+    // $(".modal-body")
+    //     .append($("<div>Vous avez accepter la transaction avec ce transporteur non certie donc vous devez vous entdre sur un prix, on recommende le prix propose par la plateforme</div>"))
+    //     .append($(`<div><b>Start point</b> ${data.announcements[i].start_point} </div>`))
+    //     .append($("<div>Son numero de telephone `${data.transaction.transporter.phone_number}`</div>"))
+    //     .append($("<div>Le nom du transportue `${data.transaction.transporter.familyName}`</div>"))
+    // ;
     $.ajax({
         type: "POST",
         url: "accept_application",
@@ -93,31 +98,54 @@ $("#accept-application-btn").click((e) => {
         }
     }).done((data) => {
         console.log(data);
+        $(".modal-body").empty();
         if (data.success){
-            // remove this entry from table
-            // console.log(test);
             let transporter = data.transaction.transporter;
+
             if (!transporter.certified){
+
                 $(".modal-body")
                     .append($("<div>Vous avez accepter la transaction avec ce transporteur non certie donc vous devez vous entdre sur un prix, on recommende le prix propose par la plateforme</div>"))
-                    .append($(`<div>Le nom du transporteur ${data.transaction.transporter.familyName} ${data.transporter.name}</div>`))
-                    .append($(`<div>Son numero de telephone ${data.transaction.transporter.phone_number}</div>`))
-                    .append($(`<div>Le nom du transportue ${data.transaction.transporter.familyName}</div>`))
+                    .append($(`<div><b>Le nom du transporteur: </b> ${data.transaction.transporter.family_name} ${data.transaction.transporter.name}</div>`))
+                    .append($(`<div><b>Son numero de telephone: </b> ${data.transaction.transporter.phone_number}</div>`))
+                    .append($(`<div><b>L'email du transportue: </b> ${data.transaction.transporter.email}</div>`))
                 ;
             }
             else {
                     $(".modal-body")
                         .append($("<div>Vous avez accepter la transaction avec ce transporteur certfie donc rix un pourcentage de X% sera retranche</div>"))
-                        .append($(`<div>Le nom du transporteur ${data.transaction.transporter.familyName} ${data.transporter.name}</div>`))
-                        .append($(`<div>Son numero de telephone ${data.transaction.transporter.phone_number}</div>`))
-                        .append($(`<div>Le nom du transportue ${data.transaction.transporter.familyName}</div>`))
+                        .append($(`<div><b>Le nom du transporteur: </b> ${data.transaction.transporter.family_name} ${data.transaction.transporter.name}</div>`))
+                        .append($(`<div><b>Son numero de telephone: </b> ${data.transaction.transporter.phone_number}</div>`))
+                        .append($(`<div><b>L'email du transportue: </b> ${data.transaction.transporter.email}</div>`))
                     ;
 
             }
+
+            // TODO: Remove entry from the table
+        }else {
+            console.log("Error");
+            $("#modal-logo").attr("src", "resources/assets/img/error.png")
+            $(".modal-body").append($("<div>Vous avez deja accepte accepter l'application de ce transporteur</div>"))
         }
     })
 })
 
-$("button[data-dismiss='modal']").click((e) => {
-    $(".modal-body").empty();
+
+// ============================= Refuse transporter application ==============================
+$("#refuse-application-btn").click((e) => {
+    let btn = e.target;
+    let announcementId = Number.parseInt($(btn).attr("data-announcement-id"));
+    let transporterId = Number.parseInt($(btn).attr("data-transporter-id"));
+
+
+    $.ajax({
+        type: "POST",
+        url: "refuse_application",
+        data: {
+            "announcement_id": announcementId,
+            "transporter_id": transporterId
+        }
+    }).done(data => {
+        console.log(data);
+    })
 })

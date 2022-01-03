@@ -273,7 +273,7 @@ class Announcement extends Model implements JsonSerializable
      */
     public static function byCriteria(int $start_point, int $end_point){
         $pdo = DB::connect();
-        $stmt = $pdo->prepare("SELECT * FROM announcements_view WHERE start_point = :start_point AND end_point = :end_point AND status = 'approved'");
+        $stmt = $pdo->prepare("SELECT * FROM announcements_view WHERE start_point = :start_point AND end_point = :end_point");
         $stmt->bindValue(":start_point", $start_point, PDO::PARAM_INT);
         $stmt->bindValue(":end_point", $end_point, PDO::PARAM_INT);
         try {

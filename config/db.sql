@@ -96,10 +96,10 @@ INSERT INTO announcements (user_id, start_point, end_point, type, weight, volume
 # transports
 DROP TABLE IF EXISTS transport;
 CREATE TABLE IF NOT EXISTS transport(
-    transport_id INT PRIMARY KEY AUTO_INCREMENT,
     announcement_id INT NOT NULL,
     transporter_id INT NOT NULL,
     validated BOOLEAN DEFAULT FALSE,
+    PRIMARY KEY (transporter_id, announcement_id),
     FOREIGN KEY (announcement_id) REFERENCES announcements(announcement_id),
     FOREIGN KEY (transporter_id) REFERENCES transporters(transporter_id)
 );

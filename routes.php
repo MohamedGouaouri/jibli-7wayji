@@ -185,7 +185,14 @@ Route::post("apply", function (){
 Route::post("accept_application", function (){
     $transporter_id = $_POST["transporter_id"];
     $announcement_id = $_POST["announcement_id"];
-    (new TransactionController())->makeTransaction($transporter_id, $announcement_id);
+    (new TransactionController())->makeTransaction($transporter_id, $announcement_id, true);
+});
+
+// refuse transporter application route
+Route::post("refuse_application", function (){
+    $transporter_id = $_POST["transporter_id"];
+    $announcement_id = $_POST["announcement_id"];
+    (new ApplicationController())->refuse($transporter_id, $announcement_id);
 });
 
 //Route::get("transporter", function (){
@@ -220,7 +227,8 @@ Route::get("admin", function (){
 
 // ============================ Unit testing routes =============================
 Route::get("test", function (){
-
+    var_dump(TransporterApplication::delete(6, 9));
+//    echo "deleted";
 });
 
 Route::post("test", function (){

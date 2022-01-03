@@ -40,6 +40,7 @@ class ApplicationController
 
             if ($controller->exists($transporter_id, $announcement_id)){
                 // Prevent the transporter from doing multiple application
+
                 echo json_encode(["success" => false, "message" => "You have already applied to this announcement"]);
                 return;
             }
@@ -75,20 +76,25 @@ class ApplicationController
         }
     }
 
-    /**
-     * Accepts transporter application
-     * @param $transporter_id
-     * @param $client_id
-     */
-    public function accept($transporter_id, $client_id){
-        // create a transaction
-    }
 
     /**
      * Refuse transporter application
+     * @param $transporter_id
+     * @param $announcement_id
      */
-    public function refuse(){
+    public function refuse($transporter_id, $announcement_id){
 
+
+        if (Auth::isAuthorizedClient()){
+            header("Content-Type: application/json");
+
+            $deleted = TransporterApplication::delete($transporter_id, $announcement_id);
+            if ($deleted){
+                header("Content-Type: application/json");
+                echo json_encode(["success" => true, "message" => "The application is refused"]);
+            }
+            echo json_encode(["success" => false, "message" => "An error occured"]);
+        }
     }
 
 }
