@@ -27,7 +27,7 @@ class TransporterController
                 $file = "documents/cert.pdf";
                 StatusController::send_documents($file);
             }else{
-                echo json_encode(["message" => "Vous pouvez pas faire une demande de certifaction"]);
+                echo json_encode(["error"=>false, "message" => "Vous pouvez pas faire une demande de certifaction"]);
             }
         }
     }

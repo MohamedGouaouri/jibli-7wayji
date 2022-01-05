@@ -118,8 +118,8 @@ $("#newAnnouncementForm").submit((e) => {
         type: "POST",
         url: url,
         data: {
-            "start_point": $("#start_point option:selected").val(),
-            "end_point": $("#end_point option:selected").val(),
+            "start_point": $("#add_start_point option:selected").val(),
+            "end_point": $("#add_end_point option:selected").val(),
             "type": $("#type option:selected").text(),
             "weight": Number.parseFloat($("#weight option:selected").val()),
             "volume": Number.parseFloat($("#volume").val()),

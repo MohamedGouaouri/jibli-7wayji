@@ -122,6 +122,13 @@ Route::get("announcements", function (){
     (new AnnouncementController())->index();
 });
 
+// Delete announcement
+Route::post("delete_announcement", function (){
+    $announcement_id = $_POST["announcement_id"];
+    (new AnnouncementController())->delete($announcement_id);
+});
+
+
 // TODO: Implement this route which shows all transporter applications for a specific
 Route::get("applications", function (){
     (new ApplicationController())->index();
@@ -199,8 +206,7 @@ Route::get("admin", function (){
 
 // ============================ Unit testing routes =============================
 Route::get("test", function (){
-//    (new ApplicationController())->refuse();
-//    var_dump(Announcement::byCriteria(1, 1));
+
     header("Content-Type: application/json");
     echo json_encode(Price::price(1, 1)->jsonSerialize());
 });

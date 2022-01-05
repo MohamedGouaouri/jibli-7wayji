@@ -16,7 +16,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <table class="table table-hover">
+            <table class="table table-hover" id="announcements-table">
                 <thead>
                 <tr>
                     <th scope="col">Announcement</th>
@@ -29,7 +29,7 @@
                 </thead>
                 <tbody>
                 {% for announcement in announcements %}
-                    <tr>
+                    <tr data-row-index={{ loop.index }}>
                         <th scope="row">{{ loop.index }}</th>
                         <td>{{ announcement.getStartPoint().getWilayaName() }}</td>
                         <td>{{ announcement.getEndPoint().getWilayaName() }}</td>
@@ -40,11 +40,11 @@
                             <div class="ml-5">
                                 {% if announcement.getStatus() == "pending" %}
                                     <a class="btn btn-primary" href="details?id={{ announcement.getAnnouncementId() }}">Details</a>
-                                    <button class="btn btn-danger delete" data-id="{{ announcement.getAnnouncementId() }}">Delete</button>
+                                    <button class="btn btn-danger delete" data-id="{{ announcement.getAnnouncementId() }}" data-row-index={{ loop.index }}>Delete</button>
                                 {% endif %}
                                 {% if announcement.getStatus() == "approved" %}
                                     <a class="btn btn-primary" href="details?id={{ announcement.getAnnouncementId() }}">Details</a>
-                                    <button class="btn btn-danger disabled" data-id="{{ announcement.getAnnouncementId() }}" disabled>Delete</button>
+                                    <button class="btn btn-danger disabled" data-id="{{ announcement.getAnnouncementId() }}" disabled data-row-index={{ loop.index }}>Delete</button>
                                     <a class="btn btn-primary" data-id="" href="{{ 'feedback' }}">Noter le transporteur</a>
                                 {% endif %}
                                 {% if announcement.getStatus() == "rejected" %}

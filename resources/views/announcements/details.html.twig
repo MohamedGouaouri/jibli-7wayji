@@ -1,4 +1,8 @@
-{% extends 'details_base.html.twig' %}
+{% extends 'user_base.html.twig' %}
+
+{% block title%}
+    Announcement details
+{% endblock %}
 
 {% block styles %}
     <link href="{{ 'resources/css/annoucement_details.css' }}" rel="stylesheet">
@@ -10,6 +14,7 @@
             {% if announcement %}
                 <div class="col-md-3 border-right">
                     <div class="d-flex flex-column align-items-center texprofile-buttont-center p-3 py-5">
+                        image here
                         <img class="rounded-circle mt-5" width="200px" height="" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" alt="">
                     </div>
                 </div>
@@ -28,7 +33,7 @@
                     <div class="p-3 py-5">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h1 class="text-right">Announcement</h1>
-                            <span>By {{ announcement.getClient().getName() }}</span>
+                            <span>By {{ announcement.getUser().getName() }}</span>
                         </div>
                         <div class="row mt-2">
                             <h3>Details</h3>

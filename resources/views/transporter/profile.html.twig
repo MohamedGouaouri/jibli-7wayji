@@ -10,6 +10,21 @@
 {% block content %}
     <div class="container rounded bg-white mt-5 mb-5 profile">
         <div class="row">
+            <div class="col">
+                <div class="alert alert-success alert-dismissible show fade m-3" role="alert" id="cert-success-alert" style="width: 100% ;display: none">
+
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="alert alert-danger alert-dismissible show fade m-3" role="alert" id="cert-error-alert" style="width: 100% ;display: none">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
 
             <div class="col-md-3 border-right">
                 <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" alt=""><span class="font-weight-bold">{{ user.getName() }}</span><span class="text-black-50">{{user.getEmail()}}</span><span> </span></div>

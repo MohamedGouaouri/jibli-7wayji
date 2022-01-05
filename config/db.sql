@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS transporters(
 
 DROP TABLE IF EXISTS certification_demands;
 CREATE TABLE IF NOT EXISTS certification_demands(
-  transporter_id INT PRIMARY KEY ,
+  transporter_id INT,
   status VARCHAR(20) DEFAULT 'pending',
   demand_date DATETIME DEFAULT NOW(),
   FOREIGN KEY (transporter_id) REFERENCES transporters(transporter_id) ON DELETE CASCADE ON UPDATE CASCADE

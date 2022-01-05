@@ -2,6 +2,10 @@
 // Get certified button
 $("#cert-btn").click(() => {
     let url = "certification";
+    let certSuccessElement = $("#cert-success-alert");
+    let certErrorElement = $("#cert-error-alert");
+    certSuccessElement.hide();
+    certErrorElement.hide();
     $.ajax({
         url: url,
         cache: false,
@@ -18,10 +22,11 @@ $("#cert-btn").click(() => {
             };
             return xhr;
         },
-        success: function (data) {
-            //Convert the Byte Data to BLOB object.
-            let blob = new Blob([data], { type: "application/octetstream" });
 
+    }).done(function (data) {
+        if (!data.error){
+            //Convert the Byte Data to BLOB object.
+            let blob = new Blob([data.blob], { type: "application/octetstream" });
             //Check the Browser type and download the File.
             let isIE = !!document.documentMode;
             let link;
@@ -37,6 +42,13 @@ $("#cert-btn").click(() => {
                 a[0].click();
                 $("body").remove(a);
             }
+
+            certSuccessElement.append("Votre demande de certification a ete envoye, on vous envoi la liste des documents a ...");
+            certSuccessElement.show();
+        }{
+            // An error
+            certErrorElement.append("Une erreur s'est produit lors de la demande, ca peut etre du que vous avez deja effectuer une demande");
+            certErrorElement.show();
         }
     });
 })

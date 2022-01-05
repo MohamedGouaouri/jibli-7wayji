@@ -45,7 +45,7 @@ $("#searchAnnouncementsClientForm").submit((e) => {
     console.log(url);
 });
 
-// delete announcement
+// delete a non-confirmed announcement
 $(".delete").click((e) => {
     let btn = e.target;
     let announcement_id = $(btn).attr("data-id");
@@ -59,14 +59,17 @@ $(".delete").click((e) => {
     }).done(data => {
         console.log(data);
         if (data.success){
-            $("#deleted-success-alert").append("Deleted successfully");
+            $("#deleted-success-alert").append(data.message);
             $("#deleted-success-alert").show();
             setTimeout(() => {
                 $("#deleted-success-alert").hide();
             }, 2000);
 
+            // delete row
+            $(`#announcements-table tr[data-row-index=${$(btn).attr("data-row-index")}]`).remove();
+
         }else{
-            $("#deleted-error-alert").append("Error on delete");
+            $("#deleted-error-alert").append(data.message);
             $("#deleted-error-alert").show();
             setTimeout(() => {
                 $("#deleted-error-alert").hide();

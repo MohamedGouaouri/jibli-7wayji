@@ -95,8 +95,18 @@ class AnnouncementController extends Controller{
         return Announcement::confirm($announcement_id);
     }
 
-    public function delete($announcement_id, $client_id): bool {
-        return Announcement::delete($announcement_id);
+    public function delete($announcement_id) {
+        if (Auth::isAuthorizedClient() || Auth::isAuthorizedTransporter()){
+            $deleted =  Announcement::delete($announcement_id);
+            if ($deleted){
+                header("Content-Type: application/json");
+                echo json_encode(["success" => true, "message" => "Votre annonce a ete supprimee"]);
+            }
+            else{
+                header("Content-Type: application/json");
+                echo json_encode(["success" => false, "message" => "Vous pouvez supprimer l'annonce"]);
+            }
+        }
     }
 
 }
