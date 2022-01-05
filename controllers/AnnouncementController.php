@@ -6,7 +6,6 @@ class AnnouncementController extends Controller{
     public function index(){
         if (Auth::isAuthorizedClient() || Auth::isAuthorizedTransporter()){
             $user = Auth::user();
-
             $result = $this->getAllOfUser($user->getUserId(), Auth::isAuthorizedTransporter());
             View::make("user/announcements.html.twig", [
                 "title" => "VTC client portal",
@@ -91,6 +90,10 @@ class AnnouncementController extends Controller{
             $message);
     }
 
+
+    public function confirmAnnouncement($announcement_id){
+        return Announcement::confirm($announcement_id);
+    }
 
     public function delete($announcement_id, $client_id): bool {
         return Announcement::delete($announcement_id);

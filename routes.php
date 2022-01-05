@@ -160,21 +160,6 @@ Route::get("details", function (){
 });
 
 
-//Route::post("delete_announcement", function (){
-//    if (Auth::isAuthorizedClient()){
-//        $announcement_id = $_POST["announcement_id"];
-//        $controller = new AnnouncementController();
-//        if ($controller->delete($announcement_id, Auth::user()->getClientId())){
-//            header("Content-Type: application/json");
-//            echo json_encode(["status" => true, "message" => "Your is deleted"]);
-//            return;
-//        }
-//        header("Content-Type: application/json");
-//        echo json_encode(["status" => false, "message" => "The announcement can not be deleted"]);
-//        return;
-//    }
-//});
-
 
 Route::post("apply", function (){
     (new ApplicationController())->apply();
@@ -195,25 +180,12 @@ Route::post("refuse_application", function (){
     (new ApplicationController())->refuse($transporter_id, $announcement_id);
 });
 
-//Route::get("transporter", function (){
-//
-//});
 
 
-//Route::get("demands", function (){
-//    if (Auth::isAuthorizedTransporter()){
-//
-//        $transporter = Auth::user();
-//        // fetch demands
-//        View::make("transporter/demands.html.twig", [
-//            "title" => "VTC client portal",
-//            "loggedIn" => true,
-//            "transporter" => $transporter,
-//        ]);
-//        return;
-//    }
-//    Route::router("vtc", "login");
-//});
+// Give feedback for a transporter
+Route::get("feedback", function (){
+    View::make("user/feedback/index.html.twig");
+});
 
 
 
@@ -227,8 +199,10 @@ Route::get("admin", function (){
 
 // ============================ Unit testing routes =============================
 Route::get("test", function (){
-    var_dump(TransporterApplication::delete(6, 9));
-//    echo "deleted";
+//    (new ApplicationController())->refuse();
+//    var_dump(Announcement::byCriteria(1, 1));
+    header("Content-Type: application/json");
+    echo json_encode(Price::price(1, 1)->jsonSerialize());
 });
 
 Route::post("test", function (){

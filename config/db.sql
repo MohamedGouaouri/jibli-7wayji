@@ -78,6 +78,7 @@ CREATE TABLE IF NOT EXISTS announcements(
     posted_at DATETIME DEFAULT NOW(),
     validated BOOLEAN DEFAULT FALSE,
     price DOUBLE DEFAULT 0.0,
+    archived BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (start_point) REFERENCES wilayas(wilaya_id),
     FOREIGN KEY (end_point) REFERENCES wilayas(wilaya_id)
@@ -99,6 +100,15 @@ CREATE TABLE IF NOT EXISTS transport(
     announcement_id INT NOT NULL,
     transporter_id INT NOT NULL,
     validated BOOLEAN DEFAULT FALSE,
+    PRIMARY KEY (transporter_id, announcement_id),
+    FOREIGN KEY (announcement_id) REFERENCES announcements(announcement_id),
+    FOREIGN KEY (transporter_id) REFERENCES transporters(transporter_id)
+);
+
+DROP TABLE IF EXISTS transport_archive;
+CREATE TABLE IF NOT EXISTS transport_archive(
+    announcement_id INT NOT NULL,
+    transporter_id INT NOT NULL,
     PRIMARY KEY (transporter_id, announcement_id),
     FOREIGN KEY (announcement_id) REFERENCES announcements(announcement_id),
     FOREIGN KEY (transporter_id) REFERENCES transporters(transporter_id)
@@ -205,7 +215,7 @@ SELECT u.user_id as client_id, u.name, u.family_name, u.email, u.password, u.add
 # Views
 DROP VIEW IF EXISTS announcements_view;
 CREATE VIEW announcements_view AS
-SELECT R.*, w1.wilaya_name AS start_wilaya_name, w2.wilaya_name AS end_wilaya_name FROM (SELECT a.*, name, family_name, email, password, address  FROM announcements a JOIN users u ON u.user_id = a.user_id) AS R, wilayas w1, wilayas w2 WHERE R.start_point = w1.wilaya_id AND w2.wilaya_id = R.end_point;
+SELECT R.*, w1.wilaya_name AS start_wilaya_name, w2.wilaya_name AS end_wilaya_name FROM (SELECT a.*, name, family_name, email, password, address  FROM announcements a JOIN users u ON u.user_id = a.user_id) AS R, wilayas w1, wilayas w2 WHERE R.start_point = w1.wilaya_id AND w2.wilaya_id = R.end_point AND archived = FALSE;
 
 DROP VIEW IF EXISTS transporters_view;
 CREATE VIEW transporters_view AS
@@ -219,3 +229,8 @@ SELECT p.start_point, w.wilaya_name as start_wilaya_name, p.end_point, w2.wilaya
 FROM prices p
          JOIN wilayas w ON p.start_point = w.wilaya_id
          JOIN wilayas w2 ON p.start_point = w2.wilaya_id;
+
+# Get archived announcements
+DROP VIEW IF EXISTS archived_announcements_view;
+CREATE VIEW archived_announcements_view AS
+SELECT R.*, w1.wilaya_name AS start_wilaya_name, w2.wilaya_name AS end_wilaya_name FROM (SELECT a.*, name, family_name, email, password, address  FROM announcements a JOIN users u ON u.user_id = a.user_id) AS R, wilayas w1, wilayas w2 WHERE R.start_point = w1.wilaya_id AND w2.wilaya_id = R.end_point AND archived = TRUE;

@@ -15,6 +15,7 @@ class Announcement extends Model implements JsonSerializable
     private string $posted_at;
     private bool $validated;
     private float $price;
+    private ?bool $archived;
 
     private static string $table_name = "announcements";
 
@@ -32,8 +33,9 @@ class Announcement extends Model implements JsonSerializable
      * @param string $posted_at
      * @param bool $validated
      * @param float $price
+     * @param bool $archived
      */
-    public function __construct(int $announcement_id, User $user, Wilaya $start_point, Wilaya $end_point, string $type, float $weight, float $volume, string $status, string $message, string $posted_at, bool $validated, float $price)
+    public function __construct(int $announcement_id, User $user, Wilaya $start_point, Wilaya $end_point, string $type, float $weight, float $volume, string $status, string $message, string $posted_at, bool $validated, float $price, ?bool $archived = false)
     {
         $this->announcement_id = $announcement_id;
         $this->user = $user;
@@ -47,10 +49,11 @@ class Announcement extends Model implements JsonSerializable
         $this->posted_at = $posted_at;
         $this->validated = $validated;
         $this->price = $price;
+        $this->archived = $archived;
     }
 
 
-    /** Gets The list of announcements
+    /** Get The list of announcements
      * This function return the list of announcements for clients and transporters independently
      * @param bool $is_transporter
      * @return array
@@ -76,6 +79,7 @@ class Announcement extends Model implements JsonSerializable
                     $r["posted_at"],
                     $r["validated"],
                     $r["price"],
+                    $r["archived"],
                 ));
             }
         }else{
@@ -94,15 +98,15 @@ class Announcement extends Model implements JsonSerializable
                     $r["posted_at"],
                     $r["validated"],
                     $r["price"],
+                    $r["archived"]
                 ));
-
             }
         }
         return $announcements;
     }
 
 
-    /** Gets the list of announcements for a specific user
+    /** Get the list of announcements for a specific user
      * @param $user_id
      * @param $is_transporter
      * @return array|null
@@ -113,7 +117,7 @@ class Announcement extends Model implements JsonSerializable
 
         $pdo = DB::connect();
 
-        $stmt = $pdo->prepare("SELECT R.*, w1.wilaya_name AS start_wilaya_name, w2.wilaya_name AS end_wilaya_name FROM (SELECT a.*, name, family_name, email, password, address  FROM announcements a JOIN users u ON u.user_id = a.user_id WHERE u.user_id = :user_id) AS R, wilayas w1, wilayas w2 WHERE R.start_point = w1.wilaya_id AND w2.wilaya_id = R.end_point;");
+        $stmt = $pdo->prepare("SELECT * FROM announcements_view WHERE user_id = :user_id");
 
         $stmt->bindValue(":user_id", $user_id, PDO::PARAM_INT);
 
@@ -136,6 +140,7 @@ class Announcement extends Model implements JsonSerializable
                         $r["posted_at"],
                         $r["validated"],
                         $r["price"],
+                        $r["archived"]
                     ));
 
                 }
@@ -155,6 +160,7 @@ class Announcement extends Model implements JsonSerializable
                         $r["posted_at"],
                         $r["validated"],
                         $r["price"],
+                        $r["archived"]
                     ));
 
                 }
@@ -166,7 +172,7 @@ class Announcement extends Model implements JsonSerializable
 
 
     /**
-     * Gets a limited number of announcements of all users
+     * Gets a limited number of announcements
      * @param $rows
      * @return array
      */
@@ -193,6 +199,7 @@ class Announcement extends Model implements JsonSerializable
                         $r["posted_at"],
                         $r["validated"],
                         $r["price"],
+                        $r["archived"]
                     ));
                 }else{
                     array_push($announcements, new Announcement(
@@ -208,16 +215,15 @@ class Announcement extends Model implements JsonSerializable
                         $r["posted_at"],
                         $r["validated"],
                         $r["price"],
+                        $r["archived"]
                     ));
                 }
-
-
             }
         return $announcements;
     }
 
 
-    /**
+    /** Search an announcement by id
      * @param int $id
      * @return Announcement
      */
@@ -243,7 +249,9 @@ class Announcement extends Model implements JsonSerializable
                             $r["message"],
                             $r["posted_at"],
                             $r["validated"],
-                            $r["price"]);
+                            $r["price"],
+                            $r["archived"]
+                        );
                     }else{
                         $client = User::get_by_id($r["user_id"]);
                         return new Announcement(
@@ -259,6 +267,7 @@ class Announcement extends Model implements JsonSerializable
                             $r["posted_at"],
                             $r["validated"],
                             $r["price"],
+                            $r["archived"]
                         );
                     }
                 }
@@ -266,7 +275,7 @@ class Announcement extends Model implements JsonSerializable
         return null;
     }
 
-    /** Search by criteria
+    /** Search an announcement by criteria
      * @param int $start_point
      * @param int $end_point
      * @return array|null
@@ -296,6 +305,7 @@ class Announcement extends Model implements JsonSerializable
                             $r["posted_at"],
                             $r["validated"],
                             $r["price"],
+                            $r["archived"]
                         ));
                     }else{
                         $client = User::get_by_id($r["user_id"]);
@@ -313,6 +323,7 @@ class Announcement extends Model implements JsonSerializable
                                 $r["posted_at"],
                                 $r["validated"],
                                 $r["price"],
+                                $r["archived"]
                             ));
                         }
                     }
@@ -327,7 +338,7 @@ class Announcement extends Model implements JsonSerializable
         return  null;
     }
 
-    /**
+    /** Adds a new announcement
      * @param $user_id
      * @param $start_point
      * @param $end_point
@@ -340,7 +351,7 @@ class Announcement extends Model implements JsonSerializable
     public static function add($user_id, $start_point, $end_point, $type, $weight, $volume, $message){
         $pdo = DB::connect();
 
-        $stmt = $pdo->prepare("INSERT INTO announcements (`user_id`, `start_point`, `end_point`, `type`, `weight`, `volume`,`status`, `message`) VALUES (:user_id, :start_point, :end_point, :type, :weight, :volume,:status, :message)");
+        $stmt = $pdo->prepare("INSERT INTO announcements (`user_id`, `start_point`, `end_point`, `type`, `weight`, `volume`,`status`, `message`, `price`) VALUES (:user_id, :start_point, :end_point, :type, :weight, :volume,:status, :message, :price)");
         $stmt->bindValue(":user_id", $user_id, PDO::PARAM_INT);
         $stmt->bindValue(":start_point", $start_point, PDO::PARAM_INT);
         $stmt->bindValue(":end_point", $end_point, PDO::PARAM_STR);
@@ -349,8 +360,12 @@ class Announcement extends Model implements JsonSerializable
         $stmt->bindValue(":volume", $volume);
         $stmt->bindValue(":status", "pending", PDO::PARAM_STR);
         $stmt->bindValue(":message", $message);
-
-
+        $price = Price::price($start_point, $end_point);
+        if ($price != null){
+            $stmt->bindValue(":price", $price->getPrice());
+        }else{
+            $stmt->bindValue(":price", 0);
+        }
         try {
             if ($stmt->execute()){
                 return true;
@@ -363,7 +378,7 @@ class Announcement extends Model implements JsonSerializable
     }
 
 
-    /**
+    /** Delete an announcement
      * @param $announcement_id
      * @return bool
      */
@@ -376,6 +391,26 @@ class Announcement extends Model implements JsonSerializable
         }
         return  false;
     }
+
+
+    /** Update announcement status after user confirmation
+     * @param $announcement_id
+     * @return bool
+     */
+    public static function confirm($announcement_id){
+        $pdo = DB::connect();
+        $stmt = $pdo->prepare("UPDATE announcements SET status = 'approved' WHERE announcement_id = :announcement_id");
+        $stmt->bindValue(":announcement_id", $announcement_id, PDO::PARAM_INT);
+        try {
+            if ($stmt->execute()){
+                return true;
+            }
+        }catch (Exception $e){
+            echo $e->getMessage();
+        }
+        return false;
+    }
+
 
     /**
      * @return int
@@ -480,6 +515,16 @@ class Announcement extends Model implements JsonSerializable
     {
         return self::$table_name;
     }
+
+    /**
+     * @return bool
+     */
+    public function isArchived(): bool
+    {
+        return $this->archived;
+    }
+
+
 
 
     public function jsonSerialize()

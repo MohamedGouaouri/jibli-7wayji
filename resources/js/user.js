@@ -83,12 +83,6 @@ $("#accept-application-btn").click((e) => {
     let announcementId = Number.parseInt($(btn).attr("data-announcement-id"));
     let transporterId = Number.parseInt($(btn).attr("data-transporter-id"));
 
-    // $(".modal-body")
-    //     .append($("<div>Vous avez accepter la transaction avec ce transporteur non certie donc vous devez vous entdre sur un prix, on recommende le prix propose par la plateforme</div>"))
-    //     .append($(`<div><b>Start point</b> ${data.announcements[i].start_point} </div>`))
-    //     .append($("<div>Son numero de telephone `${data.transaction.transporter.phone_number}`</div>"))
-    //     .append($("<div>Le nom du transportue `${data.transaction.transporter.familyName}`</div>"))
-    // ;
     $.ajax({
         type: "POST",
         url: "accept_application",
@@ -147,5 +141,10 @@ $("#refuse-application-btn").click((e) => {
         }
     }).done(data => {
         console.log(data);
+        if (data.success) {
+            $("#refused-success-alert").append(data.message);
+        }else{
+            $("#refused-error-alert").append(data.message)
+        }
     })
 })

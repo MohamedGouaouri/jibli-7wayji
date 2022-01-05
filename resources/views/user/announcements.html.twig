@@ -40,13 +40,12 @@
                             <div class="ml-5">
                                 {% if announcement.getStatus() == "pending" %}
                                     <a class="btn btn-primary" href="details?id={{ announcement.getAnnouncementId() }}">Details</a>
-                                    <button class="btn btn-warning" data-id="{{ announcement.getAnnouncementId() }}">Edit</button>
                                     <button class="btn btn-danger delete" data-id="{{ announcement.getAnnouncementId() }}">Delete</button>
                                 {% endif %}
                                 {% if announcement.getStatus() == "approved" %}
                                     <a class="btn btn-primary" href="details?id={{ announcement.getAnnouncementId() }}">Details</a>
-                                    <button class="btn btn-warning disabled" data-id="{{ announcement.getAnnouncementId() }}">Edit</button>
-                                    <button class="btn btn-danger disabled" data-id="{{ announcement.getAnnouncementId() }}">Delete</button>
+                                    <button class="btn btn-danger disabled" data-id="{{ announcement.getAnnouncementId() }}" disabled>Delete</button>
+                                    <a class="btn btn-primary" data-id="" href="{{ 'feedback' }}">Noter le transporteur</a>
                                 {% endif %}
                                 {% if announcement.getStatus() == "rejected" %}
 {#                                  no action  #}
