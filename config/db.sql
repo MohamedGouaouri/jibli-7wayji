@@ -234,3 +234,8 @@ FROM prices p
 DROP VIEW IF EXISTS archived_announcements_view;
 CREATE VIEW archived_announcements_view AS
 SELECT R.*, w1.wilaya_name AS start_wilaya_name, w2.wilaya_name AS end_wilaya_name FROM (SELECT a.*, name, family_name, email, password, address  FROM announcements a JOIN users u ON u.user_id = a.user_id) AS R, wilayas w1, wilayas w2 WHERE R.start_point = w1.wilaya_id AND w2.wilaya_id = R.end_point AND archived = TRUE;
+
+
+# Trajectories view
+CREATE VIEW trajectories AS
+SELECT c1.transporter_id as transporter_id, c1.wilaya_id as start_point, c2.wilaya_id as end_point FROM covered_wilayas as c1,covered_wilayas as c2;

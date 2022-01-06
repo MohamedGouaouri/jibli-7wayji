@@ -168,6 +168,25 @@ class Transporter extends User implements JsonSerializable
     }
 
 
+    public static function getByTrajectory($start_point, $end_point){
+        $pdo = DB::connect();
+        $stmt = $pdo->prepare("SELECT * FROM trajectories WHERE start_point = :start_point AND end_point = :end_point");
+        $stmt->bindValue(":start_point", $start_point, PDO::PARAM_INT);
+        $stmt->bindValue(":end_point", $end_point, PDO::PARAM_INT);
+        try {
+            if ($stmt->execute()){
+                $trajectories_db = $stmt->fetchAll();
+                $transporters = array();
+                foreach ($trajectories_db as $trajectory){
+                    array_push($transporters, Transporter::get_by_id($trajectory["transporter_id"]));
+                }
+                return $transporters;
+            }
+        }catch (Exception $e){
+
+        }
+        return null;
+    }
 
 
 

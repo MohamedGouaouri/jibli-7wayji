@@ -64,8 +64,8 @@ Route::post("register", function (){
     $address = $_POST["address"];
     $is_client = strcmp($_POST["client_or_transporter"], "client") == 0; // TODO: Change this to get the value dynamically
     $wilayas = array();
-    foreach ($_POST["wilayas"] as $w){
-        array_push($wilayas, $w);
+    foreach ($_POST["start_points"] as $w){
+        array_push($wilayas, (int)$w);
     }
     $controller = new RegistrationController();
     $registered = $controller->register($name, $family_name, $email, $password, $address, $is_client, $wilayas);
@@ -112,8 +112,9 @@ Route::post("new_announcement", function (){
     $message = trim($_POST["message"]);
     $announcement_controller = new AnnouncementController();
     $added = $announcement_controller->addNewAnnouncement($start_point, $end_point, $type, $weight, $volume, $message);
+    $transporters = Transporter::getByTrajectory((int)$start_point, (int)$end_point);
     header("Content-Type: application/json");
-    echo json_encode(["added" => $added]);
+    echo json_encode(["added" => $added, "transporters" => $transporters]);
 });
 
 
@@ -156,9 +157,6 @@ Route::get("certification", function (){
 
 
 
-Route::get("404", function (){
-    View::make("404.html.twig");
-});
 
 // ============================ ANNOUNCEMENT ==================
 Route::get("details", function (){
@@ -206,11 +204,13 @@ Route::get("admin", function (){
 
 // ============================ Unit testing routes =============================
 Route::get("test", function (){
-
-    header("Content-Type: application/json");
-    echo json_encode(Price::price(1, 1)->jsonSerialize());
+    var_dump(Transporter::getByTrajectory(1, 2));
 });
 
 Route::post("test", function (){
-
+//    $wilayas = array();
+//    foreach ($_POST["wilayas"] as $w){
+//        array_push($wilayas, (int)$w);
+//    }
+//    var_dump($wilayas);
 });

@@ -109,6 +109,22 @@ $("#how-it-works a").click((e) => {
 
 
 // ====================== ADD NEW ANNOUNCEMENT ==========================
+
+const createTransporterCard = (name, familyName, email, phoneNumber) => {
+    return $("<div class='col-md-3 mb-4'></div>")
+        .append(
+            $("<div class='card'></div>")
+                .append($('<div class="card-body"></div>')
+                    .append($(`<h5 class="card-title">TITLE</h5>`))
+                    .append($(`<div><b class="mr-2">Name: </b> ${name} </div>`))
+                    .append($(`<div><b class="mr-2">Family name: </b> ${familyName} </div>`))
+                    .append($(`<div><b class="mr-2">Email: </b> ${email} </div>`))
+                    .append($(`<div><b class="mr-2">Phone number</b> ${phoneNumber} </div>`))
+                    .append($(`<a href="#" class="btn btn-outline-primary btn-sm m-5">Demander</a>`))
+                )
+        )
+}
+
 $("#newAnnouncementForm").submit((e) => {
     e.preventDefault();
     let url = "new_announcement";
@@ -134,6 +150,13 @@ $("#newAnnouncementForm").submit((e) => {
             setTimeout(() => {
                 $("#added-success-alert").hide();
             }, 2000)
+            let transporters = data.transporters;
+            for (let i = 0; i < transporters.length; i++) {
+                let transporter = transporters[i];
+                console.log(transporter);
+                $("#transporters-list").append(createTransporterCard(transporter.name, transporter.family_name, transporter.email, transporter.phone_number));
+                // $("#transporters-list").append("hello");
+            }
         }
     });
 
