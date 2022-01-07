@@ -200,6 +200,13 @@ Route::get("admin", function (){
     View::make("admin/admin.html.twig");
 });
 
+Route::get("admin_clients", function (){
+    View::make("admin/clients.html.twig");
+});
+
+Route::get("admin_transporters", function (){
+    View::make("admin/transporters.html.twig");
+});
 
 
 

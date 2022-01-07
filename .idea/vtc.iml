@@ -16,5 +16,6 @@
     <orderEntry type="library" name="typeit" level="application" />
     <orderEntry type="library" name="all" level="application" />
     <orderEntry type="library" name="mdbootstrap" level="application" />
+    <orderEntry type="library" name="bootstrap-table" level="application" />
   </component>
 </module>

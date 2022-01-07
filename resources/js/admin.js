@@ -35,3 +35,21 @@ $(document).ready(function () {
     $('#dtBasicExample').DataTable();
     $('.dataTables_length').addClass('bs-select');
 });
+
+
+// ================================= Page navigation =============================
+$(document).ready(function () {
+    $("#get-clients").click((e) => {
+        let url = 'admin_clients'
+        $.get(url, function (data) {
+            $("#content").html(data);
+        })
+    })
+
+    $("#get-transporters").click((e) => {
+        let url = 'admin_transporters'
+        $.get(url, function (data) {
+            $("#content").html(data);
+        })
+    })
+});

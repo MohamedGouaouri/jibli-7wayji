@@ -39,18 +39,18 @@
                         <span>General</span>
                     </li>
                     <li class="sidebar-dropdown">
-                        <a href="#">
+                        <a >
                             <i class="fa fa-user"></i>
                             <span>Users</span>
                         </a>
                         <div class="sidebar-submenu">
                             <ul>
                                 <li>
-                                    <a href="#">Clients
+                                    <a id="get-clients">Clients
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">Transporters</a>
+                                    <a id="get-transporters">Transporters</a>
                                 </li>
                             </ul>
                         </div>
@@ -88,20 +88,30 @@
     <!-- sidebar-wrapper  -->
     <main class="page-content">
         <div class="container-fluid">
-            {% include './_includes/clients.html.twig' %}
+{#            {% include './_includes/clients.html.twig' %}#}
+{#            {% include './_includes/transporters.html.twig' %}#}
+{#            {% include './_includes/announcements.html.twig' %}#}
+{#            {% include './_includes/pricing .html.twig' %}#}
+{#            {% include './_includes/analytics.html.twig' %}#}
+            <div id="content">
+
+            </div>
         </div>
     </main>
     <!-- page-content" -->
 </div>
 <!-- page-wrapper -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.2/dist/chart.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
         crossorigin="anonymous"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
 <script src="{{ 'resources/js/admin.js' }}"></script>
+<script src="{{ 'resources/js/admin_stats.js' }}"></script>
+
 </body>
 
 </html>
