@@ -23,11 +23,18 @@ class TransporterController
     public function certify(){
         if (Auth::isAuthorizedTransporter()){
             // TODO: Update DB
-            if ($this->sendCertificationDemand(Auth::user()->getUserId())){
-                $file = "documents/cert.pdf";
-                StatusController::send_documents($file);
+            $transporter = Transporter::get_by_id(Auth::user()->getUserId());
+            if (!$transporter->isCertified()){
+                if ($this->sendCertificationDemand(Auth::user()->getUserId())){
+                    $file = "documents/cert.pdf";
+                    StatusController::send_documents($file);
+                }else{
+                    header("Content-Type: application/json");
+                    echo json_encode(["error"=>true, "message" => "Vous pouvez pas faire une demande de certification"]);
+                }
             }else{
-                echo json_encode(["error"=>false, "message" => "Vous pouvez pas faire une demande de certifaction"]);
+                header("Content-Type: application/json");
+                echo json_encode(["error" => true, "message" => "Vous avez deja fait une demande de certification"]);
             }
         }
     }

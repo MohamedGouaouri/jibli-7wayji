@@ -6,24 +6,12 @@ $("#cert-btn").click(() => {
     let certErrorElement = $("#cert-error-alert");
     certSuccessElement.hide();
     certErrorElement.hide();
+
     $.ajax({
         url: url,
         cache: false,
-        xhr: function () {
-            let xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 2) {
-                    if (xhr.status === 200) {
-                        xhr.responseType = "blob";
-                    } else {
-                        xhr.responseType = "text";
-                    }
-                }
-            };
-            return xhr;
-        },
-
     }).done(function (data) {
+
         if (!data.error){
             //Convert the Byte Data to BLOB object.
             let blob = new Blob([data.blob], { type: "application/octetstream" });
@@ -46,8 +34,9 @@ $("#cert-btn").click(() => {
             certSuccessElement.append("Votre demande de certification a ete envoye, on vous envoi la liste des documents a ...");
             certSuccessElement.show();
         }{
+
             // An error
-            certErrorElement.append("Une erreur s'est produit lors de la demande, ca peut etre du que vous avez deja effectuer une demande");
+            certErrorElement.append(data.message);
             certErrorElement.show();
         }
     });

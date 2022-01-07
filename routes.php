@@ -212,7 +212,8 @@ Route::get("admin_transporters", function (){
 
 // ============================ Unit testing routes =============================
 Route::get("test", function (){
-    var_dump((new PricingController())->calcPrice(26));
+//    var_dump((new PricingController())->calcPrice(26));
+    (new TransporterController())->certify();
 });
 
 Route::post("test", function (){

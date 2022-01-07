@@ -9,7 +9,7 @@ class TransactionController
             $transporter = Transporter::get_by_id($transporter_id);
             if ($transporter->isCertified()){
                 // Certified transporters have a different path
-                // Steps
+                // Steps:
                 //  1. Update announcement status
                 //  2. calculate the amount of money to give to the transporter
                 //  3. Update transporter inventory
@@ -25,7 +25,9 @@ class TransactionController
                 if ($transaction != null){
                     // update announcement status
                     Announcement::confirm($announcement_id);
+                    // update applications
                     TransporterApplication::delete($transporter_id, $announcement_id);
+                    // send response
                     header("Content-Type: application/json");
                     echo json_encode(["success" => true, "transaction" => $transaction, "certified" => true]);
                     return;
