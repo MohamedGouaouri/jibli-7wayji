@@ -12,6 +12,7 @@ View::$loader = new FilesystemLoader([
     __DIR__ . DIRECTORY_SEPARATOR . "resources/views/user",
     __DIR__ . DIRECTORY_SEPARATOR . "resources/views/transporter",
     __DIR__ . DIRECTORY_SEPARATOR . "resources/views/announcements",
+    __DIR__ . DIRECTORY_SEPARATOR . "resources/views/admin",
     ]);
 View::$twig = new Environment(View::$loader);
 
@@ -204,7 +205,7 @@ Route::get("admin", function (){
 
 // ============================ Unit testing routes =============================
 Route::get("test", function (){
-    var_dump(Transporter::getByTrajectory(1, 2));
+    var_dump((new PricingController())->calcPrice(26));
 });
 
 Route::post("test", function (){

@@ -189,6 +189,19 @@ class Transporter extends User implements JsonSerializable
     }
 
 
+    public static function updateInventory(int $transporter_id, float $new_val): bool {
+        $pdo = DB::connect();
+        $stmt = $pdo->prepare("UPDATE transporters SET inventory = :new_val WHERE transporter_id = :id");
+        $stmt->bindValue(":id", $transporter_id, PDO::PARAM_INT);
+        $stmt->bindValue(":new_val", $new_val);
+        try {
+           return $stmt->execute();
+        }catch (Exception $e){
+
+        }
+        return false;
+    }
+
 
     public function isCertified(): bool
     {

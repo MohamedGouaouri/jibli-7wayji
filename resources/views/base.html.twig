@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
     <link href="{{ 'resources/css/main.css' }}" rel="stylesheet"/>
 </head>
 <body>
@@ -31,17 +32,17 @@
             <div class="navbar-nav ml-auto">
             {% if isAuthenticated %}
                 <div class="dropdown show">
-                    <button class="btn btn-secondary nav-item nav-link dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-item nav-link dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         {{ is_transporter ? 'Transporter' : 'Client '}}
-                    </button>
+                    </a>
                     {% if is_transporter %}
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="transporter_profile">Profile</a>
+                            <a class="dropdown-item" href="transporter_profile">Transporter portal</a>
                             <a class="dropdown-item" href="{{ 'logout' }}">Logout</a>
                         </div>
                     {% else %}
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="{{ 'client_profile' }}">Profile</a>
+                            <a class="dropdown-item" href="{{ 'client_profile' }}">Client portal</a>
                             <a class="dropdown-item" href="{{ 'logout' }}">Logout</a>
                         </div>
                     {% endif %}
@@ -71,6 +72,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
     <script src="https://unpkg.com/typeit@8.1.0/dist/index.umd.js"></script>
     <script src="{{ 'resources/js/nicescroll.js' }}"></script>
     <script src="{{ 'resources/js/home.js' }}"></script>

@@ -15,5 +15,6 @@
     <orderEntry type="library" name="popper.js" level="application" />
     <orderEntry type="library" name="typeit" level="application" />
     <orderEntry type="library" name="all" level="application" />
+    <orderEntry type="library" name="mdbootstrap" level="application" />
   </component>
 </module>

@@ -133,8 +133,6 @@ $("#refuse-application-btn").click((e) => {
     let btn = e.target;
     let announcementId = Number.parseInt($(btn).attr("data-announcement-id"));
     let transporterId = Number.parseInt($(btn).attr("data-transporter-id"));
-
-
     $.ajax({
         type: "POST",
         url: "refuse_application",

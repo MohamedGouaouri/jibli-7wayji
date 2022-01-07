@@ -7,12 +7,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Responsive sidebar template with sliding effect and dropdown menu based on bootstrap 3">
-    <title>Sidebar template</title>
+    <title>Admin dashboard</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
           crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ 'resources/css/admin.css' }}">
-
+{#    <link rel="stylesheet" href="{{  }}">#}
 </head>
 
 <body>
@@ -39,129 +40,43 @@
                     </li>
                     <li class="sidebar-dropdown">
                         <a href="#">
-                            <i class="fa fa-tachometer-alt"></i>
-                            <span>Clients</span>
+                            <i class="fa fa-user"></i>
+                            <span>Users</span>
                         </a>
                         <div class="sidebar-submenu">
                             <ul>
                                 <li>
-                                    <a href="#">Dashboard 1
-                                        <span class="badge badge-pill badge-success">Pro</span>
+                                    <a href="#">Clients
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">Dashboard 2</a>
-                                </li>
-                                <li>
-                                    <a href="#">Dashboard 3</a>
+                                    <a href="#">Transporters</a>
                                 </li>
                             </ul>
                         </div>
                     </li>
-                    <li class="sidebar-dropdown">
+                    <li>
                         <a href="#">
-                            <i class="fa fa-shopping-cart"></i>
-                            <span>Transporters</span>
-                        </a>
-                        <div class="sidebar-submenu">
-                            <ul>
-                                <li>
-                                    <a href="#">Products
-
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">Orders</a>
-                                </li>
-                                <li>
-                                    <a href="#">Credit cart</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="sidebar-dropdown">
-                        <a href="#">
-                            <i class="far fa-gem"></i>
+                            <i class="fa fa-newspaper"></i>
                             <span>Announcements</span>
                         </a>
-                        <div class="sidebar-submenu">
-                            <ul>
-                                <li>
-                                    <a href="#">General</a>
-                                </li>
-                                <li>
-                                    <a href="#">Panels</a>
-                                </li>
-                                <li>
-                                    <a href="#">Tables</a>
-                                </li>
-                                <li>
-                                    <a href="#">Icons</a>
-                                </li>
-                                <li>
-                                    <a href="#">Forms</a>
-                                </li>
-                            </ul>
-                        </div>
                     </li>
-                    <li class="sidebar-dropdown">
+                    <li>
                         <a href="#">
-                            <i class="fa fa-chart-line"></i>
+                            <i class="fa fa-money-bill-alt"></i>
+                            <span>Pricing</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-chart-bar"></i>
                             <span>Analytics</span>
                         </a>
-                        <div class="sidebar-submenu">
-                            <ul>
-                                <li>
-                                    <a href="#">Pie chart</a>
-                                </li>
-                                <li>
-                                    <a href="#">Line chart</a>
-                                </li>
-                                <li>
-                                    <a href="#">Bar chart</a>
-                                </li>
-                                <li>
-                                    <a href="#">Histogram</a>
-                                </li>
-                            </ul>
-                        </div>
                     </li>
-                    <li class="sidebar-dropdown">
+                    <li>
                         <a href="#">
                             <i class="fa fa-globe"></i>
                             <span>News</span>
-                        </a>
-                        <div class="sidebar-submenu">
-                            <ul>
-                                <li>
-                                    <a href="#">Google maps</a>
-                                </li>
-                                <li>
-                                    <a href="#">Open street map</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="header-menu">
-                        <span>Extra</span>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-book"></i>
-                            <span>Documentation</span>
-                            <span class="badge badge-pill badge-primary">Beta</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-calendar"></i>
-                            <span>Calendar</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-folder"></i>
-                            <span>Examples</span>
                         </a>
                     </li>
                 </ul>
@@ -173,7 +88,7 @@
     <!-- sidebar-wrapper  -->
     <main class="page-content">
         <div class="container-fluid">
-
+            {% include './_includes/clients.html.twig' %}
         </div>
     </main>
     <!-- page-content" -->
@@ -185,6 +100,7 @@
         crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
         crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
 <script src="{{ 'resources/js/admin.js' }}"></script>
 </body>
 

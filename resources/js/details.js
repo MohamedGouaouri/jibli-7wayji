@@ -1,24 +1,26 @@
 
 $("#apply-btn").click(() => {
     let url = "apply";
-    console.log($("#announcement-id").val());
+    let announcement_id = Number.parseInt($("#announcement-id").val());
+    let applicationSuccessElement = $("#application-success");
+    let applicationErrorElement = $("#application-error");
     $.ajax({
         type: "POST",
         url: url,
         data: {
-            "id": $("#announcement-id").val()
+            "id": announcement_id
         }
     }).done(data => {
         console.log(data);
         if (data.success){
-            $("#application-success").show();
-            $("#application-success").append(data.message);
+            applicationSuccessElement.show();
+            applicationSuccessElement.append(data.message);
             setTimeout(() => {
                 $("#application-success").hide();
             }, 2000);
         }else{
-            $("#application-error").show();
-            $("#application-error").append(data.message);
+            applicationErrorElement.show();
+            applicationErrorElement.append(data.message);
             setTimeout(() => {
                 $("#application-error").hide();
             },2000);
