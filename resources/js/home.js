@@ -128,8 +128,6 @@ const createTransporterCard = (name, familyName, email, phoneNumber) => {
 $("#newAnnouncementForm").submit((e) => {
     e.preventDefault();
     let url = "new_announcement";
-    console.log($("#add_start_point option:selected").val());
-    console.log($("#add_end_point option:selected").val());
     $.ajax({
         type: "POST",
         url: url,

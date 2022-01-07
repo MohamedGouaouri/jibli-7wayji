@@ -187,6 +187,19 @@ Route::post("refuse_application", function (){
 });
 
 
+// Transaction history
+Route::get("history", function (){
+    if (Auth::isAuthorizedTransporter()){
+        $transporter = Auth::user();
+        View::make("transporter/history.html.twig", [
+            "is_transporter" => true,
+            "isAuthenticated" => true,
+            "transactions" => Transaction::getOfTransporter($transporter->getUserId())
+        ]);
+    }
+});
+
+
 
 // Give feedback for a transporter
 Route::get("feedback", function (){
@@ -213,13 +226,17 @@ Route::get("admin_transporters", function (){
 // ============================ Unit testing routes =============================
 Route::get("test", function (){
 //    var_dump((new PricingController())->calcPrice(26));
-    (new TransporterController())->certify();
+//    (new TransporterController())->certify();
+    header("Content-Type: application/json");
+//    var_dump();
+//    json_encode($_FILES["announcement_image"]["name"]);
+     json_encode(["message" => "hello"]);
 });
 
 Route::post("test", function (){
-//    $wilayas = array();
-//    foreach ($_POST["wilayas"] as $w){
-//        array_push($wilayas, (int)$w);
-//    }
-//    var_dump($wilayas);
+    header("Content-Type: application/json");
+//    var_dump();
+//    $filename = $_FILES['image']['name'];
+//    echo json_encode(["test" => $filename]);
+    echo json_encode($_FILES);
 });
