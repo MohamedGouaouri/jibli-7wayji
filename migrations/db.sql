@@ -100,6 +100,7 @@ CREATE TABLE IF NOT EXISTS transport(
     announcement_id INT NOT NULL,
     transporter_id INT NOT NULL,
     validated BOOLEAN DEFAULT FALSE,
+    done BOOLEAN DEFAULT FALSE, # indicates whether the transporter has finished his work or not
     PRIMARY KEY (transporter_id, announcement_id),
     FOREIGN KEY (announcement_id) REFERENCES announcements(announcement_id),
     FOREIGN KEY (transporter_id) REFERENCES transporters(transporter_id)

@@ -21,6 +21,7 @@
                 <tr>
                     <th scope="col">Announcement</th>
                     <th scope="col">Transporter</th>
+                    <th scope="col">Phone number</th>
                     <th scope="col">transporter status</th>
                     <th scope="col">Price</th>
                     <th scope="col">Action</th>
@@ -31,6 +32,7 @@
                     <tr>
                         <th scope="row">{{ loop.index }}</th>
                         <td>{{ application.getTransporter().getName() }} {{ application.getTransporter().getFamilyName() }}</td>
+                        <td>{{ application.getTransporter().getPhoneNumber() }}</td>
                         <td>{{ application.getTransporter().isCertified() ? 'Certfied' : 'Not certified' }}</td>
                         <td>{{ application.getAnnouncement().getPrice() }}</td>
                         <td>
@@ -42,8 +44,6 @@
                         </td>
                     </tr>
                 {% endfor %}
-
-
 
                 </tbody>
             </table>
@@ -61,7 +61,6 @@
                             </button>
                         </div>
                         <div class="modal-body">
-
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

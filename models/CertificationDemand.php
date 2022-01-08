@@ -3,17 +3,6 @@
 
 class CertificationDemand extends Model
 {
-
-    public static function all()
-    {
-        // TODO: Implement all() method.
-    }
-
-    public static function limit($rows)
-    {
-        // TODO: Implement limit() method.
-    }
-
     public static function save_certification_demand($transporter_id): bool {
         $pdo = DB::connect();
         try {
@@ -26,5 +15,8 @@ class CertificationDemand extends Model
         }catch (Exception $e){
             return false;
         }
+    }
+    public static function validate_certification_demand(){
+
     }
 }

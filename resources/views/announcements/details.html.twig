@@ -58,7 +58,7 @@
 
                         <div class="row mt-3">
                             <span class="price">Price {{ announcement.getPrice() }} $</span>
-                            {% if not isClient %}
+                            {% if is_transporter %}
                                 {% if announcement.getStatus() != 'approved' %}
                                     <div class="ml-auto">
                                         {#            Change this based on notification                    #}

@@ -136,6 +136,22 @@ Route::get("applications", function (){
     (new ApplicationController())->index();
 });
 
+Route::get("current", function (){
+    $user = Auth::user();
+    View::make("transporter/running_transports.html.twig", ["title" => "VTC client portal",
+        "isAuthenticated" => true,
+        "is_transporter"=>Auth::isAuthorizedTransporter(),
+        "user" => $user,
+        "current" => Transaction::getRunningTransports($user->getUserId())
+    ]);
+});
+
+Route::post("finish", function (){
+    $transporter_id = $_POST["transporter_id"];
+    $announcement_id = $_POST["announcement_id"];
+    (new TransactionController())->finishTransport($transporter_id, $announcement_id);
+});
+
 
 /// ============================ BEGIN Profile management ========================
 
@@ -225,12 +241,10 @@ Route::get("admin_transporters", function (){
 
 // ============================ Unit testing routes =============================
 Route::get("test", function (){
-//    var_dump((new PricingController())->calcPrice(26));
-//    (new TransporterController())->certify();
-    header("Content-Type: application/json");
-//    var_dump();
-//    json_encode($_FILES["announcement_image"]["name"]);
-     json_encode(["message" => "hello"]);
+//    header("Content-Type: application/json");
+//    json_encode(Transaction::getRunningTransports(1));
+//    echo "hello";
+    var_dump(Transaction::getRunningTransports(6));
 });
 
 Route::post("test", function (){

@@ -10,6 +10,7 @@ class AnnouncementController extends Controller{
             View::make("user/announcements.html.twig", [
                 "title" => "VTC client portal",
                 "isAuthenticated" => true,
+                "is_transporter"=>Auth::isAuthorizedTransporter(),
                 "user" => $user,
                 "announcements" => $result,
             ]);
