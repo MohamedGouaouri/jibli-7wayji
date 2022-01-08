@@ -54,5 +54,9 @@ $("button").click((e) => {
             "transporter_id": Number.parseInt(btn.attr("data-transporter-id")),
             "announcement_id": Number.parseInt(btn.attr("data-announcement-id"))
         }
+    }).done(data => {
+        $("#finish-success-alert").show();
+        $("#finish-success-alert").append("On vous remercie")
+
     })
 })

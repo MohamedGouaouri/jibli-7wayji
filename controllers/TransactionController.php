@@ -35,6 +35,8 @@ class TransactionController
                 $current_inventory = $transporter->getInventory();
                 // update the inventory
                 Transporter::updateInventory($transporter_id, $current_inventory + $price);
+                // archive announcement
+                Announcement::archive($announcement_id);
                 header("Content-Type: application/json");
                 echo json_encode(["success" => true, "transport" => $transport, "certified" => true]);
                 return;

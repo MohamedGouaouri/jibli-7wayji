@@ -1,11 +1,17 @@
 {% extends 'user_base.html.twig' %}
 {% block title %}
-    History
+    Current transactions
 {% endblock %}
 
 {% block content %}
     <div class="container-fluid">
-        <div class="row" id="announcements">
+        <div class="row">
+            <div class="alert alert-success alert-dismissible show fade m-3" role="alert" id="finish-success-alert" style="width: 100% ;display: none">
+
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
             <table class="table table-hover" id="announcements-table">
                 <thead>
                 <tr>
