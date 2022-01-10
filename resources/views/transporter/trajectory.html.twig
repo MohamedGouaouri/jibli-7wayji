@@ -1,0 +1,50 @@
+{% extends 'user_base.html.twig' %}
+{% block title %}
+    Trajectory
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <table class="table table-hover" id="trajectory">
+                <thead>
+                <tr class="text-center">
+                    <th scope="col">Wilaya id</th>
+                    <th scope="col">Wilaya name</th>
+                    <th scope="col">Covered</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for wilaya in covered %}
+                    <tr>
+                        <td class="text-center">{{ wilaya.getWilayaId() }}</td>
+                        <td class="text-center">{{ wilaya.getWilayaName() }}</td>
+                        <td class="text-center">{{ 'Yes' }}</td>
+                        <td class="text-center">
+                            <div>
+                                <button class="btn btn-success" data-row-index="{{ loop.index }}" data-wilaya-id="{{ wilaya.getWilayaId() }}" disabled id="add-wilaya">Add</button>
+                                <button class="btn btn-danger" data-row-index="{{ loop.index }}" data-wilaya-id="{{ wilaya.getWilayaId() }}" id="delete-wilaya">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                {% for wilaya in not_covered %}
+                    <tr>
+                        <td class="text-center">{{ wilaya.getWilayaId() }}</td>
+                        <td class="text-center">{{ wilaya.getWilayaName() }}</td>
+                        <td class="text-center">{{ 'No' }}</td>
+                        <td class="text-center">
+                            <div>
+                                <button class="btn btn-success" data-row-index="{{ loop.index }}" data-wilaya-id="{{ wilaya.getWilayaId() }}" id="add-wilaya">Add</button>
+                                <button class="btn btn-danger" data-row-index="{{ loop.index }}" data-wilaya-id="{{ wilaya.getWilayaId() }}" id="delete-wilaya" disabled>Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

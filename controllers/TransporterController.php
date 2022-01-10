@@ -27,14 +27,15 @@ class TransporterController
             if (!$transporter->isCertified()){
                 if ($this->sendCertificationDemand(Auth::user()->getUserId())){
                     $file = "documents/cert.pdf";
-                    StatusController::send_documents($file);
+//                    StatusController::send_documents($file);
+                    json_encode(["error"=>false, "message" => "Votre demande de certification a ete enrigistre"]);
                 }else{
                     header("Content-Type: application/json");
                     echo json_encode(["error"=>true, "message" => "Vous pouvez pas faire une demande de certification"]);
                 }
             }else{
                 header("Content-Type: application/json");
-                echo json_encode(["error" => true, "message" => "Vous avez deja fait une demande de certification"]);
+                echo json_encode(["error" => true, "message" => "Vous ete deja un transporteur certifie"]);
             }
         }
     }

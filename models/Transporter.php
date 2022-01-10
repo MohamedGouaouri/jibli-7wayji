@@ -155,10 +155,22 @@ class Transporter extends User implements JsonSerializable
         return null;
     }
 
-
+    // Trajectory related methods
     public static function add_wilaya($transporter_id, $wilaya_id): bool {
         $pdo = DB::connect();
         $stmt = $pdo->prepare("INSERT INTO covered_wilayas VALUES (:transporter_id, :wilaya_id)");
+        $stmt->bindValue(":transporter_id", $transporter_id, PDO::PARAM_INT);
+        $stmt->bindValue(":wilaya_id", $wilaya_id, PDO::PARAM_INT);
+        if ($stmt->execute()){
+            return true;
+        }
+        return false;
+    }
+    
+    
+    public static function delete_wilaya($transporter_id, $wilaya_id){
+        $pdo = DB::connect();
+        $stmt = $pdo->prepare("DELETE FROM covered_wilayas WHERE transporter_id = :transporter_id AND wilaya_id = :wilaya_id");
         $stmt->bindValue(":transporter_id", $transporter_id, PDO::PARAM_INT);
         $stmt->bindValue(":wilaya_id", $wilaya_id, PDO::PARAM_INT);
         if ($stmt->execute()){
@@ -186,6 +198,44 @@ class Transporter extends User implements JsonSerializable
 
         }
         return null;
+    }
+
+
+    // get all covered wilayas
+    public static function getCoveredWilayas($transporter_id){
+        $pdo = DB::connect();
+        $stmt = $pdo->prepare("SELECT * FROM covered_wilayas_view WHERE transporter_id = :transporter_id");
+        $stmt->bindValue(":transporter_id", $transporter_id, PDO::PARAM_INT);
+        $covered_wilayas = array();
+        try {
+            if ($stmt->execute()){
+                $covered_wilayas_db = $stmt->fetchAll();
+                foreach ($covered_wilayas_db as $value){
+                    array_push($covered_wilayas, new Wilaya($value["wilaya_id"], $value["wilaya_name"]));
+                }
+            }
+        }catch (Exception $e){
+
+        }
+        return $covered_wilayas;
+    }
+
+    public static function getNonCoveredWilayas($transporter_id){
+        $pdo = DB::connect();
+        $stmt = $pdo->prepare("SELECT * FROM wilayas WHERE wilaya_id NOT IN (SELECT wilaya_id FROM covered_wilayas_view WHERE transporter_id = :transporter_id)");
+        $stmt->bindValue(":transporter_id", $transporter_id, PDO::PARAM_INT);
+        $covered_wilayas = array();
+        try {
+            if ($stmt->execute()){
+                $covered_wilayas_db = $stmt->fetchAll();
+                foreach ($covered_wilayas_db as $value){
+                    array_push($covered_wilayas, new Wilaya($value["wilaya_id"], $value["wilaya_name"]));
+                }
+            }
+        }catch (Exception $e){
+
+        }
+        return $covered_wilayas;
     }
 
 

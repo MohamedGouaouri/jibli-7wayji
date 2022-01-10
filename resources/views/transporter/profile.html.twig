@@ -46,14 +46,14 @@
                     </div>
 
                     <div class="row mt-3">
-                        <div class="col-md-12"><label class="labels">Mobile Number</label><input  readonly type="text" class="form-control" value="0561586786"></div>
+                        <div class="col-md-12"><label class="labels">Mobile Number</label><input  readonly type="text" class="form-control" value="{{ user.getPhoneNumber}}"></div>
 {#                        <div class="col-md-12"><label class="labels">Address Line 1</label><input type="text" class="form-control" placeholder="enter address line 1" value=""></div>#}
 {#                        <div class="col-md-12"><label class="labels">State</label><input type="text" class="form-control" placeholder="enter address line 2" value=""></div>#}
                         <div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control" value="{{ user.getEmail() }}" readonly></div>
                     </div>
 
                     <div class="row mt-3">
-                        Your current inventory is <span class="ml-2">{{ user.getInventory() }} DZ</span>
+                        Your current inventory is <span class="ml-2">{{ user.getInventory() }} DZD</span>
                     </div>
                     
                     <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button" id="cert-btn">Se certifier</button></div>

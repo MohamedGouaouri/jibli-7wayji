@@ -31,7 +31,7 @@ $("#cert-btn").click(() => {
             //     $("body").remove(a);
             // }
 
-            certSuccessElement.append("Votre demande de certification a ete envoye, on vous envoi la liste des documents a ...");
+            certSuccessElement.append(data.message);
             certSuccessElement.show();
         }else{
             // An error
@@ -43,7 +43,7 @@ $("#cert-btn").click(() => {
 
 
 // ============================= Finish delivery ============================
-$("button").click((e) => {
+$("#running button").click((e) => {
     let btn = $(e.target);
     let url = "finish";
     console.log(Number.parseInt(btn.attr("data-transporter-id")));
@@ -57,6 +57,44 @@ $("button").click((e) => {
     }).done(data => {
         $("#finish-success-alert").show();
         $("#finish-success-alert").append("On vous remercie")
-
+        $(`#running tr[data-row-index=${btn.attr("data-row-index")}]`).remove();
     })
+})
+
+$("#trajectory button#add-wilaya").click((e) => {
+    let btn = $(e.target);
+    let url = "update_add";
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: {
+            "wilaya_id": Number.parseInt(btn.attr("data-wilaya-id"))
+        }
+    }).done(data => {
+        console.log(data);
+        if (data.success){
+            btn.prop("disabled", true);
+            btn.next().prop("disabled", false);
+        }
+    })
+
+})
+$("#trajectory button[id='delete-wilaya']").click((e) => {
+    let btn = $(e.target);
+    let url = "update_delete";
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: {
+            "wilaya_id": Number.parseInt(btn.attr("data-wilaya-id"))
+        }
+    }).done(data => {
+        console.log(data);
+        if (data.success){
+            btn.prop("disabled", true);
+            btn.prev().prop("disabled", false);
+        }
+    })
+
+
 })

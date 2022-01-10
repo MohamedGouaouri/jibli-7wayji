@@ -13,13 +13,13 @@ class RegistrationController
         ]);
     }
 
-    public function register($name, $family_name, $email, $password, $address, $is_client, $wilayas): bool {
+    public function register($name, $family_name, $email, $phone_number, $password, $address, $is_client, $wilayas): bool {
         if ($is_client){
-            $added = User::add($name, $family_name, "", $email, password_hash($password, PASSWORD_BCRYPT), $address);
+            $added = User::add($name, $family_name, $phone_number, $email, password_hash($password, PASSWORD_BCRYPT), $address);
             return $added;
         }
         else{
-            Transporter::add($name, $family_name, "", $email, password_hash($password, PASSWORD_BCRYPT), $address);
+            Transporter::add($name, $family_name, $phone_number, $email, password_hash($password, PASSWORD_BCRYPT), $address);
             // register wilayas for a transporter
             $transporter = Transporter::get_by_email($email);
             foreach ($wilayas as $wilaya){

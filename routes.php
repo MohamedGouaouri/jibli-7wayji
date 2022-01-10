@@ -16,11 +16,15 @@ View::$loader = new FilesystemLoader([
     ]);
 View::$twig = new Environment(View::$loader);
 
-Route::get("index.php", function (){
+Route::get(/**
+ *
+ */ "index.php", function (){
     (new HomeController())->index();
 });
 
-Route::post("index.php", function (){
+Route::post(/**
+ *
+ */ "index.php", function (){
     $from = $_POST["start_point"];
     $to = $_POST["end_point"];
     (new HomeController())->search($from, $to);
@@ -29,7 +33,9 @@ Route::post("index.php", function (){
 
 
 // =============================== LOGIN ================================
-Route::get("login", function (){
+Route::get(/**
+ *
+ */ "login", function (){
     if (Auth::isAuthorizedClient() || Auth::isAuthorizedTransporter()){
         Route::router("vtc", "index.php");
         return;
@@ -37,7 +43,9 @@ Route::get("login", function (){
     View::make("auth/login.html.twig", ["title" => "VTC application"]);
 });
 
-Route::post("login", function (){
+Route::post(/**
+ *
+ */ "login", function (){
 
     $email = $_POST["email"];
     $password = $_POST["password"];
@@ -52,11 +60,15 @@ Route::post("login", function (){
 
 
 // ============================ Registration ==========================
-Route::get("register", function (){
+Route::get(/**
+ *
+ */ "register", function (){
     (new RegistrationController())->index();
 });
 
-Route::post("register", function (){
+Route::post(/**
+ *
+ */ "register", function (){
 
     $name = $_POST["name"];
     $family_name = $_POST["family_name"];
@@ -64,12 +76,13 @@ Route::post("register", function (){
     $password = $_POST["password"];
     $address = $_POST["address"];
     $is_client = strcmp($_POST["client_or_transporter"], "client") == 0; // TODO: Change this to get the value dynamically
+    $phone_number = $_POST["phone_number"];
     $wilayas = array();
-    foreach ($_POST["start_points"] as $w){
+    foreach ($_POST["wilayas"] as $w){
         array_push($wilayas, (int)$w);
     }
     $controller = new RegistrationController();
-    $registered = $controller->register($name, $family_name, $email, $password, $address, $is_client, $wilayas);
+    $registered = $controller->register($name, $family_name, $email, $phone_number, $password, $address, $is_client, $wilayas);
 
     if ($registered){
         // Redirect to login page
@@ -85,7 +98,9 @@ Route::post("register", function (){
 // ================================ END logout management ===================
 
 // ================================= BEGIN LOGOUT ============================
-Route::get("logout", function (){
+Route::get(/**
+ *
+ */ "logout", function (){
     (new LoginController())->logout();
     Route::router("vtc", "login");
 });
@@ -94,7 +109,9 @@ Route::get("logout", function (){
 
 
 // =================================== BEGIN USER ACTIONS ====================
-Route::get("client", function (){
+Route::get(/**
+ *
+ */ "client", function (){
     (new ClientController())->index();
 });
 
@@ -102,7 +119,9 @@ Route::get("client", function (){
 
 
 // Add announcement post request
-Route::post("new_announcement", function (){
+Route::post(/**
+ *
+ */ "new_announcement", function (){
     // get request parameters
     $start_point = $_POST["start_point"];
     $end_point = $_POST["end_point"];
@@ -120,23 +139,31 @@ Route::post("new_announcement", function (){
 
 
 // Show user announcements
-Route::get("announcements", function (){
+Route::get(/**
+ *
+ */ "announcements", function (){
     (new AnnouncementController())->index();
 });
 
 // Delete announcement
-Route::post("delete_announcement", function (){
+Route::post(/**
+ *
+ */ "delete_announcement", function (){
     $announcement_id = $_POST["announcement_id"];
     (new AnnouncementController())->delete($announcement_id);
 });
 
 
 // TODO: Implement this route which shows all transporter applications for a specific
-Route::get("applications", function (){
+Route::get(/**
+ *
+ */ "applications", function (){
     (new ApplicationController())->index();
 });
 
-Route::get("current", function (){
+Route::get(/**
+ *
+ */ "current", function (){
     $user = Auth::user();
     View::make("transporter/running_transports.html.twig", ["title" => "VTC client portal",
         "isAuthenticated" => true,
@@ -146,7 +173,41 @@ Route::get("current", function (){
     ]);
 });
 
-Route::post("finish", function (){
+// update current trajectory routes
+Route::get("trajectory", function (){
+    if (Auth::isAuthorizedTransporter()){
+        $transporter = Auth::user();
+        View::make("transporter/trajectory.html.twig", [
+            "is_transporter" => true,
+            "isAuthenticated" => true,
+            "not_covered" => Transporter::getNonCoveredWilayas($transporter->getUserId()),
+            "covered" => Transporter::getCoveredWilayas($transporter->getUserId())
+        ]);
+    }
+});
+
+Route::post("update_add", function (){
+    $wilaya_id = (int)$_POST["wilaya_id"];
+    $transporter = Auth::user();
+    Transporter::add_wilaya($transporter->getUserId(), $wilaya_id);
+    header("Content-Type: application/json");
+    echo json_encode(["success" => true, "message" => "added"]);
+
+});
+Route::post("update_delete", function (){
+    $wilaya_id = (int)$_POST["wilaya_id"];
+    $transporter = Auth::user();
+    Transporter::delete_wilaya($transporter->getUserId(), $wilaya_id);
+    header("Content-Type: application/json");
+    echo json_encode(["success" => true, "message" => "deleted"]);
+});
+
+
+
+Route::post(/**
+ *  Transporter calls this route to inform the system that transport is done
+ *
+ */ "finish", function (){
     $transporter_id = $_POST["transporter_id"];
     $announcement_id = $_POST["announcement_id"];
     (new TransactionController())->finishTransport($transporter_id, $announcement_id);
@@ -155,18 +216,24 @@ Route::post("finish", function (){
 
 /// ============================ BEGIN Profile management ========================
 
-Route::get("client_profile", function (){
+Route::get(/**
+ *
+ */ "client_profile", function (){
     (new ClientController())->profile();
 });
 
-Route::get("transporter_profile", function (){
+Route::get(/**
+ *
+ */ "transporter_profile", function (){
 
     (new TransporterController())->profile();
 });
 
 
 // Certification demands
-Route::get("certification", function (){
+Route::get(/**
+ *
+ */ "certification", function (){
     (new TransporterController())->certify();
 });
 /// ====================================== END Profile management =======================
@@ -176,35 +243,53 @@ Route::get("certification", function (){
 
 
 // ============================ ANNOUNCEMENT ==================
-Route::get("details", function (){
+Route::get(/**
+ *
+ */ "details", function (){
     $announcement_id = $_GET["id"];
     (new AnnouncementController())->show($announcement_id);
 });
 
 
 
-Route::post("apply", function (){
+Route::post(/**
+ *
+ */ "apply", function (){
     (new ApplicationController())->apply();
 });
 
 
 // accept transporter application route
-Route::post("accept_application", function (){
+Route::post(/**
+ *
+ */ "accept_application", function (){
     $transporter_id = $_POST["transporter_id"];
     $announcement_id = $_POST["announcement_id"];
     (new TransactionController())->makeTransaction($transporter_id, $announcement_id, true);
 });
 
 // refuse transporter application route
-Route::post("refuse_application", function (){
+Route::post(/**
+ *
+ */ "refuse_application", function (){
     $transporter_id = $_POST["transporter_id"];
     $announcement_id = $_POST["announcement_id"];
     (new ApplicationController())->refuse($transporter_id, $announcement_id);
 });
 
 
+// client uses this route to make a demand to a transporter
+// for a transport
+//Route::post("demand", function (){
+//    $announcement_id = 0;
+//    $transporter_id = 0;
+//});
+
+
 // Transaction history
-Route::get("history", function (){
+Route::get(/**
+ *
+ */ "history", function (){
     if (Auth::isAuthorizedTransporter()){
         $transporter = Auth::user();
         View::make("transporter/history.html.twig", [
@@ -218,36 +303,46 @@ Route::get("history", function (){
 
 
 // Give feedback for a transporter
-Route::get("feedback", function (){
+Route::get(/**
+ *
+ */ "feedback", function (){
     View::make("user/feedback/index.html.twig");
 });
 
 
 
 // ============================== ADMIN routes ====================================
-Route::get("admin", function (){
+Route::get(/**
+ *
+ */ "admin", function (){
     View::make("admin/admin.html.twig");
 });
 
-Route::get("admin_clients", function (){
+Route::get(/**
+ *
+ */ "admin_clients", function (){
     View::make("admin/clients.html.twig");
 });
 
-Route::get("admin_transporters", function (){
+Route::get(/**
+ *
+ */ "admin_transporters", function (){
     View::make("admin/transporters.html.twig");
 });
 
 
 
 // ============================ Unit testing routes =============================
-Route::get("test", function (){
-//    header("Content-Type: application/json");
-//    json_encode(Transaction::getRunningTransports(1));
-//    echo "hello";
-    var_dump(Transaction::getRunningTransports(6));
+Route::get(/**
+ *
+ */ "test", function (){
+
+    echo json_encode(Transporter::getNonCoveredWilayas(6));
 });
 
-Route::post("test", function (){
+Route::post(/**
+ *
+ */ "test", function (){
     header("Content-Type: application/json");
 //    var_dump();
 //    $filename = $_FILES['image']['name'];
