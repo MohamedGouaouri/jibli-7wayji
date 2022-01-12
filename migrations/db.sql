@@ -76,7 +76,8 @@ CREATE TABLE IF NOT EXISTS announcements(
     status VARCHAR(20) NOT NULL,
     message TEXT,
     posted_at DATETIME DEFAULT NOW(),
-    validated BOOLEAN DEFAULT FALSE,
+    validated BOOLEAN DEFAULT FALSE, # transporter and client confirmation
+    admin_validated BOOLEAN DEFAULT FALSE,
     price DOUBLE DEFAULT 0.0,
     archived BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -216,7 +217,7 @@ SELECT u.user_id as client_id, u.name, u.family_name, u.email, u.password, u.add
 # Views
 DROP VIEW IF EXISTS announcements_view;
 CREATE VIEW announcements_view AS
-SELECT R.*, w1.wilaya_name AS start_wilaya_name, w2.wilaya_name AS end_wilaya_name FROM (SELECT a.*, name, family_name, email, password, address  FROM announcements a JOIN users u ON u.user_id = a.user_id) AS R, wilayas w1, wilayas w2 WHERE R.start_point = w1.wilaya_id AND w2.wilaya_id = R.end_point AND archived = FALSE;
+SELECT R.*, w1.wilaya_name AS start_wilaya_name, w2.wilaya_name AS end_wilaya_name FROM (SELECT a.*, name, family_name, email, password, address  FROM announcements a JOIN users u ON u.user_id = a.user_id) AS R, wilayas w1, wilayas w2 WHERE R.start_point = w1.wilaya_id AND w2.wilaya_id = R.end_point AND archived = FALSE AND admin_validated = TRUE;
 
 DROP VIEW IF EXISTS transporters_view;
 CREATE VIEW transporters_view AS
