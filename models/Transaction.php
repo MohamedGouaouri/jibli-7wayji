@@ -94,6 +94,28 @@ class Transaction extends Model implements JsonSerializable
         }
         return $transports;
     }
+    public static function getOfClient($client_id): array {
+        $pdo = DB::connect();
+        $stmt = $pdo->prepare("SELECT a.*, transporter_id, transport.validated as validated_transport ,done FROM transport JOIN announcements a on transport.announcement_id = a.announcement_id AND user_id = :client_id");
+        $transports = array();
+        try {
+            if ($stmt->execute()){
+                $transports_db = $stmt->fetchAll();
+                foreach ($transports_db as $value){
+                    // TODO: Filter running transactions
+                    array_push($transports, new Transaction(
+                        Transporter::get_by_id($value["transporter_id"]),
+                        Announcement::byId($value["announcement_id"]),
+                        $value["validated_transport"], // because of renaming columns in join
+                        $value["done"]
+                    ));
+                }
+            }
+        }catch (Exception $e){
+
+        }
+        return $transports;
+    }
 
     /**
      * Get all running transaction which means done = false and validated = true

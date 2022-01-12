@@ -7,10 +7,8 @@
         <label for="search-user"></label>
         <input type="text" placeholder="search" id="search-user" class="form-control-lg my-2">
     </div>
-    <div>
 
-    </div>
-    <table id="dtBasicExample"
+    <table id="clients"
            class="table table-striped table-bordered table-sm"
            cellspacing="0"
            width="100%"
@@ -36,79 +34,85 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>Tiger Nixon</td>
-            <td>System Architect</td>
-            <td>Edinburgh</td>
-            <td>61</td>
-            <td>2011/04/25</td>
-            <td>$320,800</td>
-            <td>
-                <div class="d-flex flex-row align-items-baseline">
-                    <div >
-                        <a class="btn btn-blue">Voir profile</a>
+        {% for client in clients %}
+            <tr data-user-id="{{ client.getUserId() }}">
+                <td>{{ loop.index }}</td>
+                <td>{{ client.getName() }}</td>
+                <td>{{ client.getFamilyName() }}</td>
+                <td>{{ client.getEmail() }}</td>
+                <td>{{ client.getPhoneNumber() }}</td>
+                <td>{{ client.getAddress() }}</td>
+                <td>
+                    <div class="d-flex flex-row align-items-baseline">
+                        <div >
+{#                            when clicked show a modal #}
+                            <a class="btn btn-blue" >Voir profile</a>
+                        </div>
+                        <div>
+{#                           bann a user#}
+                            <button class="btn btn-danger ban-user" data-user-id="{{ client.getUserId() }}">Ban user</button>
+                        </div>
                     </div>
-                    <div>
-                        <button class="btn btn-danger">Ban user</button>
-                    </div>
-                </div>
-            </td>
-        </tr>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
 
+
+    <div class="mt-5">
+        <h1>Banned clients</h1>
+    </div>
+    <div>
+        <label for="search-user"></label>
+        <input type="text" placeholder="search" id="search-user" class="form-control-lg my-2">
+    </div>
+    <table id="banned-clients"
+           class="table table-striped table-bordered table-sm"
+           cellspacing="0"
+           width="100%"
+           data-pagination="true"
+           data-search="true"
+    >
+        <thead>
         <tr>
-            <td>Shad Decker</td>
-            <td>Regional Director</td>
-            <td>Edinburgh</td>
-            <td>51</td>
-            <td>2008/11/13</td>
-            <td>$183,000</td>
-            <td>
-                <div class="d-flex flex-row align-items-baseline">
-                    <div>
-                        <a class="btn btn-blue">Voir profile</a>
-                    </div>
-                    <div>
-                        <button class="btn btn-danger">Ban user</button>
-                    </div>
-                </div>
-            </td>
+            <th class="th-sm">Id
+            </th>
+            <th class="th-sm">Name
+            </th>
+            <th class="th-sm">Family name
+            </th>
+            <th class="th-sm">Email
+            </th>
+            <th class="th-sm">Phone number
+            </th>
+            <th class="th-sm">Address
+            </th>
+            <th class="th-sm">Actions
+            </th>
         </tr>
-        <tr>
-            <td>Michael Bruce</td>
-            <td>Javascript Developer</td>
-            <td>Singapore</td>
-            <td>29</td>
-            <td>2011/06/27</td>
-            <td>$183,000</td>
-            <td>
-                <div class="d-flex flex-row align-items-baseline">
-                    <div>
-                        <a class="btn btn-blue">Voir profile</a>
+        </thead>
+        <tbody>
+        {% for client in banned_clients %}
+            <tr data-user-id="{{ client.getUserId() }}">
+                <td>{{ loop.index }}</td>
+                <td>{{ client.getName() }}</td>
+                <td>{{ client.getFamilyName() }}</td>
+                <td>{{ client.getEmail() }}</td>
+                <td>{{ client.getPhoneNumber() }}</td>
+                <td>{{ client.getAddress() }}</td>
+                <td>
+                    <div class="d-flex flex-row align-items-baseline">
+                        <div>
+                            {#                           bann a user#}
+                            <button class="btn btn-success unban-user" data-user-id="{{ client.getUserId() }}">Unban user</button>
+                        </div>
                     </div>
-                    <div>
-                        <button class="btn btn-danger">Ban user</button>
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>Donna Snider</td>
-            <td>Customer Support</td>
-            <td>New York</td>
-            <td>27</td>
-            <td>2011/01/25</td>
-            <td>$112,000</td>
-            <td>
-                <div class="d-flex flex-row align-items-baseline">
-                    <div>
-                        <a class="btn btn-blue">Voir profile</a>
-                    </div>
-                    <div>
-                        <button class="btn btn-danger">Ban user</button>
-                    </div>
-                </div>
-            </td>
-        </tr>
+                </td>
+            </tr>
+        {% endfor %}
         </tbody>
         <tfoot>
         </tfoot>

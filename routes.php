@@ -131,7 +131,7 @@ Route::post(/**
     $way = $_POST["way"];
     $message = trim($_POST["message"]);
     $announcement_controller = new AnnouncementController();
-    $added = $announcement_controller->addNewAnnouncement($start_point, $end_point, $type, $weight, $volume, $message);
+    $added = $announcement_controller->addNewAnnouncement($start_point, $end_point, $type, $weight, $volume, $way, $message);
     $transporters = Transporter::getByTrajectory((int)$start_point, (int)$end_point);
     header("Content-Type: application/json");
     echo json_encode(["added" => $added, "transporters" => $transporters]);
@@ -295,7 +295,16 @@ Route::get(/**
         View::make("transporter/history.html.twig", [
             "is_transporter" => true,
             "isAuthenticated" => true,
+            "user" => Auth::user(),
             "transactions" => Transaction::getOfTransporter($transporter->getUserId())
+        ]);
+    }else if (Auth::isAuthorizedClient()){
+        // history for clients
+        View::make("transporter/history.html.twig", [
+            "is_transporter" => false,
+            "isAuthenticated" => true,
+            "user" => Auth::user(),
+            "transactions" => Transaction::getOfClient(Auth::user()->getUserId())
         ]);
     }
 });
@@ -315,14 +324,41 @@ Route::get(/**
 Route::get(/**
  *
  */ "admin", function (){
+     //check if admin is authenticated
     View::make("admin/admin.html.twig");
 });
 
 Route::get(/**
  *
  */ "admin_clients", function (){
-    View::make("admin/clients.html.twig");
+    // 1. check if admin is connected
+    // 2. Get all clients
+
+    View::make("admin/clients.html.twig", [
+        "clients" => User::allClients(),
+        "banned_clients" => User::allBanned()
+    ]);
 });
+
+// Ban a user
+Route::post("ban_user", function (){
+    // check if admin authenticated
+    $user_id = $_POST["user_id"];
+    User::banUser($user_id);
+    header("Content-Type: application/json");
+    echo json_encode(["success" => true, "message" => "User banned successfully"]);
+});
+
+Route::post("unban_user", function (){
+    // check if admin authenticated
+    $user_id = $_POST["user_id"];
+    User::unbanUser($user_id);
+    header("Content-Type: application/json");
+    echo json_encode(["success" => true, "message" => "User unbanned successfully"]);
+});
+
+
+
 
 Route::get(/**
  *

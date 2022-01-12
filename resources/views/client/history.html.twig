@@ -1,0 +1,33 @@
+{% extends 'user_base.html.twig' %}
+{% block title %}
+    History
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row" id="announcements">
+            <table class="table table-hover" id="announcements-table">
+                <thead>
+                <tr>
+                    <th scope="col">Announcement</th>
+                    <th scope="col">From</th>
+                    <th scope="col">To</th>
+                    <th scope="col">By</th>
+                    <th scope="col">Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for transaction in transactions %}
+                    <tr data-row-index={{ loop.index }}>
+                        <th scope="row">{{ loop.index }}</th>
+                        <td>{{ transaction.getAnnouncement().getStartPoint().getWilayaName() }}</td>
+                        <td>{{ transaction.getAnnouncement().getEndPoint().getWilayaName() }}</td>
+                        <td>{{ transaction.getTransporter().getUser().getName() }}</td>
+                        <td>{{ transaction.getAnnouncement().getPrice() }} DZD</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

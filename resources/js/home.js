@@ -148,13 +148,13 @@ $("#newAnnouncementForm").submit((e) => {
             setTimeout(() => {
                 $("#added-success-alert").hide();
             }, 2000)
-            let transporters = data.transporters;
-            for (let i = 0; i < transporters.length; i++) {
-                let transporter = transporters[i];
-                console.log(transporter);
-                $("#transporters-list").append(createTransporterCard(transporter.name, transporter.family_name, transporter.email, transporter.phone_number));
-                // $("#transporters-list").append("hello");
-            }
+            // let transporters = data.transporters;
+            // for (let i = 0; i < transporters.length; i++) {
+            //     let transporter = transporters[i];
+            //     console.log(transporter);
+            //     $("#transporters-list").append(createTransporterCard(transporter.name, transporter.family_name, transporter.email, transporter.phone_number));
+            //     // $("#transporters-list").append("hello");
+            // }
         }
     });
 

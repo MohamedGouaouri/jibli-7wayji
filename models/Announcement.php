@@ -348,16 +348,17 @@ class Announcement extends Model implements JsonSerializable
      * @param $message
      * @return bool
      */
-    public static function add($user_id, $start_point, $end_point, $type, $weight, $volume, $message){
+    public static function add($user_id, $start_point, $end_point, $type, $weight, $volume, $way, $message){
         $pdo = DB::connect();
 
-        $stmt = $pdo->prepare("INSERT INTO announcements (`user_id`, `start_point`, `end_point`, `type`, `weight`, `volume`,`status`, `message`, `price`) VALUES (:user_id, :start_point, :end_point, :type, :weight, :volume,:status, :message, :price)");
+        $stmt = $pdo->prepare("INSERT INTO announcements (`user_id`, `start_point`, `end_point`, `type`, `weight`, `volume`,`way`, `status`, `message`, `price`) VALUES (:user_id, :start_point, :end_point, :type, :weight, :volume, :way,:status, :message, :price)");
         $stmt->bindValue(":user_id", $user_id, PDO::PARAM_INT);
         $stmt->bindValue(":start_point", $start_point, PDO::PARAM_INT);
         $stmt->bindValue(":end_point", $end_point, PDO::PARAM_STR);
         $stmt->bindValue(":type", $type, PDO::PARAM_STR);
         $stmt->bindValue(":weight", $weight);
         $stmt->bindValue(":volume", $volume);
+        $stmt->bindValue(":way", $way);
         $stmt->bindValue(":status", "pending", PDO::PARAM_STR);
         $stmt->bindValue(":message", $message);
         $price = Price::price($start_point, $end_point);

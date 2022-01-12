@@ -23,7 +23,8 @@ CREATE TABLE IF NOT EXISTS users(
     email VARCHAR(50) NOT NULL UNIQUE ,
     phone_number VARCHAR(20) DEFAULT '9999999999',
     password VARCHAR(255) NOT NULL,
-    address VARCHAR(100) NOT NULL
+    address VARCHAR(100) NOT NULL,
+    banned BOOLEAN DEFAULT FALSE
 );
 
 
@@ -73,11 +74,11 @@ CREATE TABLE IF NOT EXISTS announcements(
     type VARCHAR(20) NOT NULL ,
     weight DOUBLE NOT NULL ,
     volume DOUBLE NOT NULL ,
+    way SMALLINT,
     status VARCHAR(20) NOT NULL,
     message TEXT,
     posted_at DATETIME DEFAULT NOW(),
-    validated BOOLEAN DEFAULT FALSE, # transporter and client confirmation
-    admin_validated BOOLEAN DEFAULT FALSE,
+    validated BOOLEAN DEFAULT FALSE,
     price DOUBLE DEFAULT 0.0,
     archived BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -213,16 +214,16 @@ INSERT INTO types_transport (type_name) VALUES ('voiture'), ('fourgon'), ('camio
 ## Get clients view
 DROP VIEW IF EXISTS clients;
 CREATE VIEW clients AS
-SELECT u.user_id as client_id, u.name, u.family_name, u.email, u.password, u.address FROM users u WHERE u.user_id NOT IN (SELECT transporter_id FROM transporters);
+SELECT u.user_id as client_id, u.name, u.family_name, u.phone_number ,u.email, u.password, u.address FROM users u WHERE u.user_id NOT IN (SELECT transporter_id FROM transporters) AND banned = FALSE;
 # Views
 DROP VIEW IF EXISTS announcements_view;
 CREATE VIEW announcements_view AS
-SELECT R.*, w1.wilaya_name AS start_wilaya_name, w2.wilaya_name AS end_wilaya_name FROM (SELECT a.*, name, family_name, email, password, address  FROM announcements a JOIN users u ON u.user_id = a.user_id) AS R, wilayas w1, wilayas w2 WHERE R.start_point = w1.wilaya_id AND w2.wilaya_id = R.end_point AND archived = FALSE AND admin_validated = TRUE;
+SELECT R.*, w1.wilaya_name AS start_wilaya_name, w2.wilaya_name AS end_wilaya_name FROM (SELECT a.*, name, family_name, email, password, address  FROM announcements a JOIN users u ON u.user_id = a.user_id WHERE u.banned = FALSE) AS R, wilayas w1, wilayas w2 WHERE R.start_point = w1.wilaya_id AND w2.wilaya_id = R.end_point AND archived = FALSE AND validated = TRUE;
 
 DROP VIEW IF EXISTS transporters_view;
 CREATE VIEW transporters_view AS
     SELECT t.*, u.name, u.family_name, u.phone_number, u.email, u.password, u.address
-    FROM transporters t JOIN users u on t.transporter_id = u.user_id;
+    FROM transporters t JOIN users u on t.transporter_id = u.user_id WHERE u.banned = FALSE;
 
 
 DROP VIEW IF EXISTS prices_view;
@@ -235,7 +236,7 @@ FROM prices p
 # Get archived announcements
 DROP VIEW IF EXISTS archived_announcements_view;
 CREATE VIEW archived_announcements_view AS
-SELECT R.*, w1.wilaya_name AS start_wilaya_name, w2.wilaya_name AS end_wilaya_name FROM (SELECT a.*, name, family_name, email, password, address  FROM announcements a JOIN users u ON u.user_id = a.user_id) AS R, wilayas w1, wilayas w2 WHERE R.start_point = w1.wilaya_id AND w2.wilaya_id = R.end_point AND archived = TRUE;
+SELECT R.*, w1.wilaya_name AS start_wilaya_name, w2.wilaya_name AS end_wilaya_name FROM (SELECT a.*, name, family_name, email, password, address  FROM announcements a JOIN users u ON u.user_id = a.user_id WHERE banned = FALSE) AS R, wilayas w1, wilayas w2 WHERE R.start_point = w1.wilaya_id AND w2.wilaya_id = R.end_point AND archived = TRUE;
 
 
 # Trajectories view

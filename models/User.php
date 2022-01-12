@@ -6,11 +6,10 @@ class User extends Model implements JsonSerializable {
     protected string $name;
     protected string $family_name;
     protected string $phone_number;
-
-
     protected string $email;
     protected string $password;
     protected string $address;
+    protected bool $banned;
 
 
     /**
@@ -23,7 +22,7 @@ class User extends Model implements JsonSerializable {
      * @param string $password
      * @param string $address
      */
-    public function __construct($user_id, string $name, string $family_name, string $phone_number ,string $email, string $password, string $address)
+    public function __construct($user_id, string $name, string $family_name, string $phone_number ,string $email, string $password, string $address, bool $banned = false)
     {
         $this->user_id = $user_id;
         $this->name = $name;
@@ -32,6 +31,7 @@ class User extends Model implements JsonSerializable {
         $this->email = $email;
         $this->password = $password;
         $this->address = $address;
+        $this->banned = $banned;
     }
 
     public static function add($name, $family_name, $phone_number, $email, $password, $address): bool {
@@ -71,6 +71,7 @@ class User extends Model implements JsonSerializable {
                     $client["email"],
                     $client["password"],
                     $client["address"],
+                    $client["banned"]
                 );
                 return $usr;
             }
@@ -94,6 +95,7 @@ class User extends Model implements JsonSerializable {
                     $client["email"],
                     $client["password"],
                     $client["address"],
+                    $client["banned"],
                 );
             }
 
@@ -101,6 +103,64 @@ class User extends Model implements JsonSerializable {
         }
         return null;
     }
+
+
+    // Get all clients (non transporters)
+    public static function allClients(){
+        $clients_db = DB::query("SELECT * FROM clients"); // clients is a view
+        $clients = array();
+        foreach ($clients_db as $client) {
+            array_push($clients, new User(
+                $client["client_id"], // because of view
+                $client["name"],
+                $client["family_name"],
+                $client["phone_number"],
+                $client["email"],
+                $client["password"],
+                $client["address"],
+            ));
+        }
+        return $clients;
+    }
+    public static function allBanned(){
+        $clients_db = DB::query("SELECT * FROM users WHERE banned = TRUE"); // clients is a view
+        $clients = array();
+        foreach ($clients_db as $client) {
+            array_push($clients, new User(
+                $client["user_id"],
+                $client["name"],
+                $client["family_name"],
+                $client["phone_number"],
+                $client["email"],
+                $client["password"],
+                $client["address"],
+                $client["banned"],
+            ));
+        }
+        return $clients;
+    }
+
+    // ban user
+    public static function banUser($user_id){
+        $pdo = DB::connect();
+        $stmt = $pdo->prepare("UPDATE users SET banned = TRUE WHERE user_id = :user_id");
+        $stmt->bindValue(":user_id", $user_id);
+        if ($stmt->execute()){
+            return true;
+        }
+        return  false;
+    }
+    // unban user
+    public static function unbanUser($user_id){
+        $pdo = DB::connect();
+        $stmt = $pdo->prepare("UPDATE users SET banned = FALSE WHERE user_id = :user_id");
+        $stmt->bindValue(":user_id", $user_id);
+        if ($stmt->execute()){
+            return true;
+        }
+        return  false;
+    }
+
 
 
     // ========================= Getters =================
@@ -161,6 +221,16 @@ class User extends Model implements JsonSerializable {
     {
         return $this->phone_number;
     }
+
+    /**
+     * @return bool
+     */
+    public function isBanned(): bool
+    {
+        return $this->banned;
+    }
+
+
 
     public function jsonSerialize()
     {

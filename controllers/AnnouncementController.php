@@ -77,6 +77,7 @@ class AnnouncementController extends Controller{
                                        $type,
                                        $weight,
                                        $volume,
+                                       $way,
                                        $message): bool {
 
 
@@ -89,6 +90,7 @@ class AnnouncementController extends Controller{
             $type,
             $weight,
             $volume,
+            $way,
             $message);
     }
 
