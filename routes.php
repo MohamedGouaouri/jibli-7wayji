@@ -78,8 +78,11 @@ Route::post(/**
     $is_client = strcmp($_POST["client_or_transporter"], "client") == 0; // TODO: Change this to get the value dynamically
     $phone_number = $_POST["phone_number"];
     $wilayas = array();
-    foreach ($_POST["wilayas"] as $w){
-        array_push($wilayas, (int)$w);
+    if (!$is_client){
+
+        foreach ($_POST["wilayas"] as $w){
+            array_push($wilayas, (int)$w);
+        }
     }
     $controller = new RegistrationController();
     $registered = $controller->register($name, $family_name, $email, $phone_number, $password, $address, $is_client, $wilayas);
@@ -340,6 +343,14 @@ Route::get(/**
     ]);
 });
 
+Route::get(/**
+ *
+ */ "banned_users", function (){
+    View::make("admin/banned.html.twig", [
+        "banned_users" => User::allBanned()
+    ]);
+});
+
 // Ban a user
 Route::post("ban_user", function (){
     // check if admin authenticated
@@ -363,7 +374,27 @@ Route::post("unban_user", function (){
 Route::get(/**
  *
  */ "admin_transporters", function (){
-    View::make("admin/transporters.html.twig");
+    View::make("admin/transporters.html.twig",[
+        "transporters" => Transporter::all()
+    ]);
+});
+
+// validate transporter
+Route::post("validate_transporter", function (){
+    $transporter_id = $_POST["transporter_id"];
+    Transporter::validate($transporter_id);
+    header("Content-Type: application/json");
+    echo json_encode(["success" => true, "message" => "La demande de transport a ete confirme"]);
+});
+
+
+// Validate certification demand
+
+// Announcement management by the admin
+Route::get("admin_announcements", function (){
+    View::make("admin/announcements.html.twig", [
+        "announcements" => Announcement::all(false)
+    ]);
 });
 
 
@@ -372,8 +403,7 @@ Route::get(/**
 Route::get(/**
  *
  */ "test", function (){
-
-    echo json_encode(Transporter::getNonCoveredWilayas(6));
+    var_dump(Announcement::all(false));
 });
 
 Route::post(/**

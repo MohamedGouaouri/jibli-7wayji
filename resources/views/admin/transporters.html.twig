@@ -40,97 +40,53 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>Tiger Nixon</td>
-            <td>System Architect</td>
-            <td>Edinburgh</td>
-            <td>61</td>
-            <td>2011/04/25</td>
-            <td>$320,800</td>
-            <td>Yes</td>
-            <td>confirmed</td>
-            <td>
-                <div class="d-flex flex-row align-items-baseline">
-                    <div >
-                        <a class="btn btn-blue">Voir profile</a>
-                    </div>
-                    <div>
-                        <button class="btn btn-danger">Ban user</button>
-                    </div>
-                </div>
-            </td>
-        </tr>
+        {% for transporter in transporters %}
+            <tr data-transporter-id="{{ transporter.getUserId() }}">
+                <td>{{ loop.index }}</td>
+                <td>{{ transporter.getName() }}</td>
+                <td>{{ transporter.getFamilyName() }}</td>
+                <td>{{ transporter.getEmail() }}</td>
+                <td>{{ transporter.getPhoneNumber() }}</td>
+                <td>{{ transporter.getInventory() }}</td>
+                <td>{{ transporter.isCertfied ? "Yes" : "No" }}</td>
+                <td>{{ transporter.isValidated() ? "confrimed" : "not confirmed" }}</td>
+                <td>
+                    <div class="d-flex flex-row align-items-baseline">
+                        {% if not transporter.isValidated() %}
+                            <div class="m-2">
+                                <a class="btn btn-green validate" data-transporter-id="{{ transporter.getUserId() }}">Confirm</a>
+                            </div>
 
-        <tr>
-            <td>Shad Decker</td>
-            <td>Regional Director</td>
-            <td>Edinburgh</td>
-            <td>51</td>
-            <td>2008/11/13</td>
-            <td>$183,000</td>
-            <td>No</td>
-            <td>confirmed</td>
-            <td>
-                <div class="d-flex flex-row align-items-baseline">
-                    <div>
-                        <a class="btn btn-blue">Voir profile</a>
+                        {% else %}
+                            <div >
+                                <a class="btn btn-blue" data-transporter-id="{{ transporter.getUserId() }}">Voir profile</a>
+                            </div>
+                            <div>
+                                <button class="btn btn-danger ban-transporter" data-transporter-id="{{ transporter.getUserId() }}">Ban transporter</button>
+                            </div>
+                        {% endif %}
+
                     </div>
-                    <div>
-                        <button class="btn btn-danger">Ban user</button>
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>Michael Bruce</td>
-            <td>Javascript Developer</td>
-            <td>Singapore</td>
-            <td>29</td>
-            <td>2011/06/27</td>
-            <td>$183,000</td>
-            <td>Yes</td>
-            <td>confirmed</td>
-            <td>
-                <div class="d-flex flex-row align-items-baseline">
-                    <div>
-                        <a class="btn btn-blue">Voir profile</a>
-                    </div>
-                    <div>
-                        <button class="btn btn-danger">Ban user</button>
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>Donna Snider</td>
-            <td>Customer Support</td>
-            <td>New York</td>
-            <td>27</td>
-            <td>2011/01/25</td>
-            <td>$112,000</td>
-            <td>Yes</td>
-            <td>confirmed</td>
-            <td>
-                <div class="d-flex flex-row align-items-baseline">
-                    <div>
-                        <a class="btn btn-blue">Voir profile</a>
-                    </div>
-                    <div>
-                        <button class="btn btn-danger">Ban user</button>
-                    </div>
-                </div>
-            </td>
-        </tr>
+                </td>
+            </tr>
+        {% endfor %}
+
+
         </tbody>
         <tfoot>
         </tfoot>
     </table>
 
 
+{#    ========================================= Begin demande de certification =========================================#}
     <div>
         <h1>
             Demande de certficats
         </h1>
+        <div>
+            <label for="search-user"></label>
+            <input type="text" placeholder="search" id="search-user" class="form-control-lg my-2">
+        </div>
         <table id="dtBasicExample"
                class="table table-striped table-bordered table-sm"
                cellspacing="0"
@@ -228,5 +184,7 @@
             <tfoot>
             </tfoot>
         </table>
+
     </div>
+{#    ================================================== End demande de certification table ================================#}
 </div>

@@ -62,15 +62,15 @@ class Announcement extends Model implements JsonSerializable
     {
         // TODO: Implement all() method.
         $announcements = array();
-        $db_result =  DB::query("SELECT * FROM " . self::$table_name . ", users, wilayas WHERE clients.client_id = announcements.client_id AND clients.start_point = wilayas.wilaya_id AND clients.end_point = wilayas.wilaya_id");
+        $db_result =  DB::query("SELECT * FROM all_announcements_view");
         if ($is_transporter){
             foreach ($db_result as $r){
                 $transporter = Transporter::get_by_id($r["user_id"]);
                 array_push($announcements, new Announcement(
                     $r["announcement_id"],
                     $transporter,
-                    new Wilaya($r["wilaya_id"],$r["wilaya_name"]),
-                    new Wilaya($r["wilaya_id"],$r["wilaya_name"]),
+                    new Wilaya($r["start_point"],$r["start_wilaya_name"]),
+                    new Wilaya($r["end_point"],$r["end_wilaya_name"]),
                     $r["type"],
                     $r["weight"],
                     $r["volume"],

@@ -17,6 +17,7 @@ class CertificationDemand extends Model
         }
     }
     public static function validate_certification_demand(){
-
+        $pdo = DB::connect();
+//        $stmt = $pdo->prepare("UPDATE")
     }
 }

@@ -21,106 +21,66 @@
         <tr>
             <th class="th-sm">Id
             </th>
-            <th class="th-sm">Name
+            <th class="th-sm">Owner
             </th>
-            <th class="th-sm">Family name
+            <th class="th-sm">Start point
             </th>
-            <th class="th-sm">Email
+            <th class="th-sm">End point
             </th>
-            <th class="th-sm">Phone number
+            <th class="th-sm">Type
             </th>
-            <th class="th-sm">Inventory
+            <th class="th-sm">Weight
             </th>
-            <th class="th-sm">Certified
+            <th class="th-sm">Volume
             </th>
-            <th class="th-sm">Validation
+            <th class="th-sm">Status
+            </th>
+            <th class="th-sm">Posted at
+            </th>
+            <th class="th-sm">Validated?
+            </th>
+            <th class="th-sm">Price
+            </th>
+            <th class="th-sm">Archived
             </th>
             <th class="th-sm">Actions
             </th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>Tiger Nixon</td>
-            <td>System Architect</td>
-            <td>Edinburgh</td>
-            <td>61</td>
-            <td>2011/04/25</td>
-            <td>$320,800</td>
-            <td>Yes</td>
-            <td>confirmed</td>
-            <td>
-                <div class="d-flex flex-row align-items-baseline">
-                    <div >
-                        <a class="btn btn-blue">Voir profile</a>
-                    </div>
-                    <div>
-                        <button class="btn btn-danger">Ban user</button>
-                    </div>
-                </div>
-            </td>
-        </tr>
+        {% for announcement in announcements%}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ announcement.getUser().getName() }}</td>
+                <td>{{ announcement.getStartPoint().getWilayaName() }}</td>
+                <td>{{ announcement.getEndPoint().getWilayaName() }}</td>
+                <td>{{ announcement.getType() }}</td>
+                <td>{{ announcement.getWeight() }}</td>
+                <td>{{ announcement.getVolume() }}</td>
+                <td>{{ announcement.getStatus() }}</td>
+                <td>{{ announcement.getPostedAt() }}</td>
+                <td>{{ announcement.isValidated ? "Yes" : "Non" }}</td>
+                <td>{{ announcement.getPrice() }}</td>
+                <td>{{ announcement.isArchived() ? "Yes" : "No" }}</td>
+                <td>
+                    <div class="d-flex flex-row align-items-baseline">
 
-        <tr>
-            <td>Shad Decker</td>
-            <td>Regional Director</td>
-            <td>Edinburgh</td>
-            <td>51</td>
-            <td>2008/11/13</td>
-            <td>$183,000</td>
-            <td>No</td>
-            <td>confirmed</td>
-            <td>
-                <div class="d-flex flex-row align-items-baseline">
-                    <div>
-                        <a class="btn btn-blue">Voir profile</a>
+                        {% if not announcement.isValidated() %}
+                            <div>
+                                <button class="btn btn-green">Validate</button>
+                            </div>
+                        {% else %}
+                            {% if not announcement.isArchived() %}
+                                <div>
+                                    <button class="btn btn-danger">Delete</button>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+
                     </div>
-                    <div>
-                        <button class="btn btn-danger">Ban user</button>
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>Michael Bruce</td>
-            <td>Javascript Developer</td>
-            <td>Singapore</td>
-            <td>29</td>
-            <td>2011/06/27</td>
-            <td>$183,000</td>
-            <td>Yes</td>
-            <td>confirmed</td>
-            <td>
-                <div class="d-flex flex-row align-items-baseline">
-                    <div>
-                        <a class="btn btn-blue">Voir profile</a>
-                    </div>
-                    <div>
-                        <button class="btn btn-danger">Ban user</button>
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>Donna Snider</td>
-            <td>Customer Support</td>
-            <td>New York</td>
-            <td>27</td>
-            <td>2011/01/25</td>
-            <td>$112,000</td>
-            <td>Yes</td>
-            <td>confirmed</td>
-            <td>
-                <div class="d-flex flex-row align-items-baseline">
-                    <div>
-                        <a class="btn btn-blue">Voir profile</a>
-                    </div>
-                    <div>
-                        <button class="btn btn-danger">Ban user</button>
-                    </div>
-                </div>
-            </td>
-        </tr>
+                </td>
+            </tr>
+        {% endfor %}
         </tbody>
         <tfoot>
         </tfoot>
@@ -150,8 +110,8 @@
                 </th>
                 <th class="th-sm">Phone number
                 </th>
-                <th class="th-sm">Actions
-                </th>
+{#                <th class="th-sm">Actions#}
+{#                </th>#}
             </tr>
             </thead>
             <tbody>
@@ -161,16 +121,7 @@
                 <td class="text-center">New York</td>
                 <td class="text-center">27</td>
                 <td class="text-center">2011/01/25</td>
-                <td class="d-flex align-items-center justify-content-center">
-                    <div class="d-flex flex-row align-items-baseline">
-                        <div>
-                            <a class="btn btn-green">Valider</a>
-                        </div>
-                        <div>
-                            <button class="btn btn-danger">Reject</button>
-                        </div>
-                    </div>
-                </td>
+
             </tr>
 
             <tr>
@@ -179,16 +130,6 @@
                 <td class="text-center">New York</td>
                 <td class="text-center">27</td>
                 <td class="text-center">2011/01/25</td>
-                <td class="d-flex align-items-center justify-content-center">
-                    <div class="d-flex flex-row align-items-baseline">
-                        <div>
-                            <a class="btn btn-green">Valider</a>
-                        </div>
-                        <div>
-                            <button class="btn btn-danger">Reject</button>
-                        </div>
-                    </div>
-                </td>
             </tr>
             <tr>
                 <td class="text-center">Donna Snider</td>
@@ -196,16 +137,6 @@
                 <td class="text-center">New York</td>
                 <td class="text-center">27</td>
                 <td class="text-center">2011/01/25</td>
-                <td class="d-flex align-items-center justify-content-center">
-                    <div class="d-flex flex-row align-items-baseline">
-                        <div>
-                            <a class="btn btn-green">Valider</a>
-                        </div>
-                        <div>
-                            <button class="btn btn-danger">Reject</button>
-                        </div>
-                    </div>
-                </td>
             </tr>
             <tr>
                 <td class="text-center">Donna Snider</td>
@@ -213,16 +144,6 @@
                 <td class="text-center">New York</td>
                 <td class="text-center">27</td>
                 <td class="text-center">2011/01/25</td>
-                <td class="d-flex align-items-center justify-content-center">
-                    <div class="d-flex flex-row align-items-baseline">
-                        <div>
-                            <a class="btn btn-green">Valider</a>
-                        </div>
-                        <div>
-                            <button class="btn btn-danger">Reject</button>
-                        </div>
-                    </div>
-                </td>
             </tr>
             </tbody>
             <tfoot>
@@ -252,8 +173,7 @@
                 </th>
                 <th class="th-sm">Phone number
                 </th>
-                <th class="th-sm">Actions
-                </th>
+
             </tr>
             </thead>
             <tbody>
@@ -263,16 +183,6 @@
                 <td class="text-center">New York</td>
                 <td class="text-center">27</td>
                 <td class="text-center">2011/01/25</td>
-                <td class="d-flex align-items-center justify-content-center">
-                    <div class="d-flex flex-row align-items-baseline">
-                        <div>
-                            <a class="btn btn-green">Valider</a>
-                        </div>
-                        <div>
-                            <button class="btn btn-danger">Reject</button>
-                        </div>
-                    </div>
-                </td>
             </tr>
 
             <tr>
@@ -281,16 +191,6 @@
                 <td class="text-center">New York</td>
                 <td class="text-center">27</td>
                 <td class="text-center">2011/01/25</td>
-                <td class="d-flex align-items-center justify-content-center">
-                    <div class="d-flex flex-row align-items-baseline">
-                        <div>
-                            <a class="btn btn-green">Valider</a>
-                        </div>
-                        <div>
-                            <button class="btn btn-danger">Reject</button>
-                        </div>
-                    </div>
-                </td>
             </tr>
             <tr>
                 <td class="text-center">Donna Snider</td>
@@ -298,16 +198,7 @@
                 <td class="text-center">New York</td>
                 <td class="text-center">27</td>
                 <td class="text-center">2011/01/25</td>
-                <td class="d-flex align-items-center justify-content-center">
-                    <div class="d-flex flex-row align-items-baseline">
-                        <div>
-                            <a class="btn btn-green">Valider</a>
-                        </div>
-                        <div>
-                            <button class="btn btn-danger">Reject</button>
-                        </div>
-                    </div>
-                </td>
+
             </tr>
             <tr>
                 <td class="text-center">Donna Snider</td>
@@ -315,16 +206,7 @@
                 <td class="text-center">New York</td>
                 <td class="text-center">27</td>
                 <td class="text-center">2011/01/25</td>
-                <td class="d-flex align-items-center justify-content-center">
-                    <div class="d-flex flex-row align-items-baseline">
-                        <div>
-                            <a class="btn btn-green">Valider</a>
-                        </div>
-                        <div>
-                            <button class="btn btn-danger">Reject</button>
-                        </div>
-                    </div>
-                </td>
+
             </tr>
             </tbody>
             <tfoot>

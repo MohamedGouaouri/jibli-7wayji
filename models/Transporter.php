@@ -77,8 +77,6 @@ class Transporter extends User implements JsonSerializable
 
     public static function all()
     {
-        echo "hello"
-;        // TODO: Implement all() method.
         $transporters = array();
         $db_result = DB::query("SELECT * FROM transporters_view");
         foreach ($db_result as $r){
@@ -246,6 +244,22 @@ class Transporter extends User implements JsonSerializable
         $stmt->bindValue(":new_val", $new_val);
         try {
            return $stmt->execute();
+        }catch (Exception $e){
+
+        }
+        return false;
+    }
+
+
+    // validate transporter
+    public static function validate($transporter_id){
+        $pdo = DB::connect();
+        $stmt = $pdo->prepare("UPDATE transporters SET validated = TRUE WHERE transporter_id = :transporter_id");
+        $stmt->bindValue(":transporter_id", $transporter_id, PDO::PARAM_INT);
+        try {
+            if ($stmt->execute()){
+                return true;
+            }
         }catch (Exception $e){
 
         }
