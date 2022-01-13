@@ -67,12 +67,12 @@
 
                         {% if not announcement.isValidated() %}
                             <div>
-                                <button class="btn btn-green">Validate</button>
+                                <button class="btn btn-green validate" data-announcement-id="{{ announcement.getAnnouncementId() }}">Validate</button>
                             </div>
                         {% else %}
                             {% if not announcement.isArchived() %}
                                 <div>
-                                    <button class="btn btn-danger">Delete</button>
+                                    <button class="btn btn-danger delete" data-announcement-id="{{ announcement.getAnnouncementId() }}">Delete</button>
                                 </div>
                             {% endif %}
                         {% endif %}

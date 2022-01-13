@@ -162,6 +162,27 @@ $(document).ready(function () {
         let url = "admin_announcements";
         $.get(url, function (data) {
             $("#content").html(data);
+            $("button.validate").click((e) => {
+                let btn = $(e.target);
+                let url = "validate_announcement";
+                let announcement_id = btn.attr("data-announcement-id");
+                $.ajax({
+                    type: "POST",
+                    url:url,
+                    data: {
+                        "announcement_id": announcement_id
+                    }
+                }).done(data => {
+                    if (data.success){
+                        $(".alert").empty().append(data.message).show()
+                        setTimeout(() => {
+                            $(".alert").hide();
+
+                        }, 2000);
+                        $("#get-announcements").click();
+                    }
+                })
+            })
         })
     });
 

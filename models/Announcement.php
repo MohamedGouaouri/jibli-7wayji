@@ -412,6 +412,22 @@ class Announcement extends Model implements JsonSerializable
         return false;
     }
 
+    public static function admin_validate($announcement_id){
+        $pdo = DB::connect();
+        $stmt = $pdo->prepare("UPDATE announcements SET validated = TRUE WHERE announcement_id = :announcement_id");
+        $stmt->bindValue(":announcement_id", $announcement_id, PDO::PARAM_INT);
+        try {
+            if ($stmt->execute()){
+                return true;
+            }
+        }catch (Exception $e){
+            echo $e->getMessage();
+        }
+        return false;
+    }
+
+
+    // admin will archive this
     public static function archive($announcement_id){
         $pdo = DB::connect();
         $stmt = $pdo->prepare("UPDATE announcements SET archived = TRUE WHERE announcement_id = :announcement_id");

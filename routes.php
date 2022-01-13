@@ -328,7 +328,7 @@ Route::get(/**
  *
  */ "admin", function (){
      //check if admin is authenticated
-    View::make("admin/admin.html.twig");
+    (new AdminController())->index();
 });
 
 Route::get(/**
@@ -337,35 +337,26 @@ Route::get(/**
     // 1. check if admin is connected
     // 2. Get all clients
 
-    View::make("admin/clients.html.twig", [
-        "clients" => User::allClients(),
-        "banned_clients" => User::allBanned()
-    ]);
+    (new AdminController())->clients_index();
 });
 
 Route::get(/**
  *
  */ "banned_users", function (){
-    View::make("admin/banned.html.twig", [
-        "banned_users" => User::allBanned()
-    ]);
+    (new AdminController())->banned_users();
 });
 
 // Ban a user
 Route::post("ban_user", function (){
     // check if admin authenticated
     $user_id = $_POST["user_id"];
-    User::banUser($user_id);
-    header("Content-Type: application/json");
-    echo json_encode(["success" => true, "message" => "User banned successfully"]);
+    (new AdminController())->ban_user($user_id);
 });
 
 Route::post("unban_user", function (){
     // check if admin authenticated
     $user_id = $_POST["user_id"];
-    User::unbanUser($user_id);
-    header("Content-Type: application/json");
-    echo json_encode(["success" => true, "message" => "User unbanned successfully"]);
+    (new AdminController())->unban_user($user_id);
 });
 
 
@@ -374,17 +365,13 @@ Route::post("unban_user", function (){
 Route::get(/**
  *
  */ "admin_transporters", function (){
-    View::make("admin/transporters.html.twig",[
-        "transporters" => Transporter::all()
-    ]);
+    (new AdminController())->transporters_index();
 });
 
 // validate transporter
 Route::post("validate_transporter", function (){
     $transporter_id = $_POST["transporter_id"];
-    Transporter::validate($transporter_id);
-    header("Content-Type: application/json");
-    echo json_encode(["success" => true, "message" => "La demande de transport a ete confirme"]);
+    (new AdminController())->validate_transporter($transporter_id);
 });
 
 
@@ -392,9 +379,16 @@ Route::post("validate_transporter", function (){
 
 // Announcement management by the admin
 Route::get("admin_announcements", function (){
-    View::make("admin/announcements.html.twig", [
-        "announcements" => Announcement::all(false)
-    ]);
+    (new AdminController())->announcements_index();
+});
+
+// Validate announcement
+Route::post("validate_announcement", function (){
+    $announcement_id = $_POST["announcement_id"];
+    Announcement::admin_validate($announcement_id);
+    header("Content-Type: application/json");
+    echo json_encode(["success" => true, "message" => "Vous avez valider cette annonce"]);
+
 });
 
 
