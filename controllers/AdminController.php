@@ -61,4 +61,35 @@ class AdminController
             "archived_transaction" => Transaction::getArchivedTransports()
         ]);
     }
+
+    public function pricing_index()
+    {
+        View::make("admin/pricing.html.twig", [
+            "pricing" => Price::all()
+        ]);
+    }
+
+    public function analytics_index()
+    {
+        View::make("admin/analytics.html.twig");
+    }
+
+    public function api()
+    {
+        $controller = new AnalyticsController();
+        header("Content-Type: application/json");
+        echo json_encode([
+            "users" => [
+                "nb_users" => $controller->nbUsers(),
+                "nb_transporters" => $controller->nbTransporters(),
+                "nb_banned" => $controller->nbBannedUsers(),
+
+            ],
+            "announcements" => [
+                "nb_validated" => $controller->nbValidatedAnnouncements(),
+                "nb_archived" => $controller->nbArchivedAnnouncements(),
+                "nb_non_validated" => $controller->nbNonValidatedAnnouncements()
+            ]
+        ]);
+    }
 }

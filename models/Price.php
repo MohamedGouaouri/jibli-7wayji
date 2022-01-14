@@ -46,6 +46,29 @@ class Price extends Model implements JsonSerializable
         $this->price = $price;
     }
 
+    public static function all(){
+        $pdo = DB::connect();
+        $stmt = $pdo->prepare("SELECT * FROM prices_view");
+        $prices = array();
+        try {
+
+            if ($stmt->execute()){
+                $prices_db = $stmt->fetchAll();
+
+                foreach ($prices_db as $pricing){
+                    array_push($prices, new Price(
+                        new Wilaya($pricing["start_point"], $pricing["start_wilaya_name"]),
+                        new Wilaya($pricing["end_point"], $pricing["end_wilaya_name"]),
+                        $pricing["price"]
+                    ));
+                }
+            }
+        }catch (Exception $e){
+            echo $e->getMessage();
+        }
+        return $prices;
+    }
+
 
     public static function price(int $from, int $to): ?Price{
         $pdo = DB::connect();
@@ -109,6 +132,7 @@ class Price extends Model implements JsonSerializable
         }
         return false;
     }
+
 
 
 

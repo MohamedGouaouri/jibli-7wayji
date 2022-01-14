@@ -399,8 +399,19 @@ Route::post("delete_announcement", function (){
     echo json_encode(["success" => true, "message" => "Vous avez archiver cette annonce"]);
 });
 
-Route::get("admin_pricing", function (){
 
+// pricing view
+Route::get("admin_pricing", function (){
+    (new AdminController())->pricing_index();
+});
+
+// analytics view
+Route::get("admin_analytics", function (){
+    (new AdminController())->analytics_index();
+});
+
+Route::get("admin_analytics_api", function (){
+    (new AdminController())->api();
 });
 
 
@@ -410,7 +421,7 @@ Route::get("admin_pricing", function (){
 Route::get(/**
  *
  */ "test", function (){
-    var_dump(Announcement::all(false));
+    (new AdminController())->api();
 });
 
 Route::post(/**
