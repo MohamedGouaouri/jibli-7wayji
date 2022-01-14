@@ -391,6 +391,15 @@ Route::post("validate_announcement", function (){
 
 });
 
+// delete announcement (archive it)
+Route::post("delete_announcement", function (){
+    $announcement_id = $_POST["announcement_id"];
+    Announcement::archive($announcement_id);
+    header("Content-Type: application/json");
+    echo json_encode(["success" => true, "message" => "Vous avez archiver cette annonce"]);
+});
+
+
 
 
 // ============================ Unit testing routes =============================

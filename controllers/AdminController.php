@@ -56,7 +56,9 @@ class AdminController
     public function announcements_index()
     {
         View::make("admin/announcements.html.twig", [
-            "announcements" => Announcement::all(false)
+            "announcements" => Announcement::all(false),
+            "current_transports" => Transaction::getAllRunningTransports(),
+            "archived_transaction" => Transaction::getArchivedTransports()
         ]);
     }
 }

@@ -10,10 +10,8 @@
     <div>
 
     </div>
-    <table id="dtBasicExample"
+    <table id=""
            class="table table-striped table-bordered table-sm"
-           cellspacing="0"
-           width="100%"
            data-pagination="true"
            data-search="true"
     >
@@ -33,8 +31,8 @@
             </th>
             <th class="th-sm">Volume
             </th>
-            <th class="th-sm">Status
-            </th>
+{#            <th class="th-sm">Status#}
+{#            </th>#}
             <th class="th-sm">Posted at
             </th>
             <th class="th-sm">Validated?
@@ -57,7 +55,7 @@
                 <td>{{ announcement.getType() }}</td>
                 <td>{{ announcement.getWeight() }}</td>
                 <td>{{ announcement.getVolume() }}</td>
-                <td>{{ announcement.getStatus() }}</td>
+{#                <td>{{ announcement.getStatus() }}</td>#}
                 <td>{{ announcement.getPostedAt() }}</td>
                 <td>{{ announcement.isValidated ? "Yes" : "Non" }}</td>
                 <td>{{ announcement.getPrice() }}</td>
@@ -91,10 +89,8 @@
         <h1>
             Current transactions
         </h1>
-        <table id="dtBasicExample"
+        <table id=""
                class="table table-striped table-bordered table-sm"
-               cellspacing="0"
-               width="100%"
                data-pagination="true"
                data-search="true"
         >
@@ -102,49 +98,23 @@
             <tr>
                 <th class="th-sm">Id
                 </th>
-                <th class="th-sm">Name
+                <th class="th-sm">Transporter
                 </th>
-                <th class="th-sm">Family name
-                </th>
-                <th class="th-sm">Email
-                </th>
-                <th class="th-sm">Phone number
+                <th class="th-sm">Client
                 </th>
 {#                <th class="th-sm">Actions#}
 {#                </th>#}
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td class="text-center">Donna Snider</td>
-                <td class="text-center">Customer Support</td>
-                <td class="text-center">New York</td>
-                <td class="text-center">27</td>
-                <td class="text-center">2011/01/25</td>
+            {% for current_transaction in current_transports %}
+                <tr>
+                    <td class="text-center">{{ loop.index }}</td>
+                    <td class="text-center">{{ current_transaction.getTransporter().getName()  }} {{ current_transaction.getTransporter().getFamilyName() }}</td>
+                    <td class="text-center">{{ current_transaction.getAnnouncement().getUser().getName()  }} {{ current_transaction.getAnnouncement().getUser().getFamilyName() }}</td>
+                </tr>
+            {% endfor %}
 
-            </tr>
-
-            <tr>
-                <td class="text-center">Donna Snider</td>
-                <td class="text-center">Customer Support</td>
-                <td class="text-center">New York</td>
-                <td class="text-center">27</td>
-                <td class="text-center">2011/01/25</td>
-            </tr>
-            <tr>
-                <td class="text-center">Donna Snider</td>
-                <td class="text-center">Customer Support</td>
-                <td class="text-center">New York</td>
-                <td class="text-center">27</td>
-                <td class="text-center">2011/01/25</td>
-            </tr>
-            <tr>
-                <td class="text-center">Donna Snider</td>
-                <td class="text-center">Customer Support</td>
-                <td class="text-center">New York</td>
-                <td class="text-center">27</td>
-                <td class="text-center">2011/01/25</td>
-            </tr>
             </tbody>
             <tfoot>
             </tfoot>
@@ -154,10 +124,8 @@
         <h1>
             Archived transactions
         </h1>
-        <table id="dtBasicExample"
+        <table id=""
                class="table table-striped table-bordered table-sm"
-               cellspacing="0"
-               width="100%"
                data-pagination="true"
                data-search="true"
         >
@@ -165,49 +133,23 @@
             <tr>
                 <th class="th-sm">Id
                 </th>
-                <th class="th-sm">Name
+                <th class="th-sm">Transporter
                 </th>
-                <th class="th-sm">Family name
+                <th class="th-sm">Client
                 </th>
-                <th class="th-sm">Email
-                </th>
-                <th class="th-sm">Phone number
-                </th>
-
+                {#                <th class="th-sm">Actions#}
+                {#                </th>#}
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td class="text-center">Donna Snider</td>
-                <td class="text-center">Customer Support</td>
-                <td class="text-center">New York</td>
-                <td class="text-center">27</td>
-                <td class="text-center">2011/01/25</td>
-            </tr>
+            {% for archived_transaction in archived_transactions %}
+                <tr>
+                    <td class="text-center">{{ loop.index }}</td>
+                    <td class="text-center">{{ archived_transaction.getTransporter().getName()  }} {{ archived_transaction.getTransporter().getFamilyName() }}</td>
+                    <td class="text-center">{{ archived_transaction.getAnnouncement().getUser().getName()  }} {{ archived_transaction.getAnnouncement().getUser().getFamilyName() }}</td>
+                </tr>
+            {% endfor %}
 
-            <tr>
-                <td class="text-center">Donna Snider</td>
-                <td class="text-center">Customer Support</td>
-                <td class="text-center">New York</td>
-                <td class="text-center">27</td>
-                <td class="text-center">2011/01/25</td>
-            </tr>
-            <tr>
-                <td class="text-center">Donna Snider</td>
-                <td class="text-center">Customer Support</td>
-                <td class="text-center">New York</td>
-                <td class="text-center">27</td>
-                <td class="text-center">2011/01/25</td>
-
-            </tr>
-            <tr>
-                <td class="text-center">Donna Snider</td>
-                <td class="text-center">Customer Support</td>
-                <td class="text-center">New York</td>
-                <td class="text-center">27</td>
-                <td class="text-center">2011/01/25</td>
-
-            </tr>
             </tbody>
             <tfoot>
             </tfoot>

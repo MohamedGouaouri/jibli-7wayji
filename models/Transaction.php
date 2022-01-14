@@ -137,7 +137,51 @@ class Transaction extends Model implements JsonSerializable
                         Transporter::get_by_id($transporter_id),
                         Announcement::byId($r["announcement_id"]),
                         $r["validated"],
-                        true
+                        $r["done"]
+                    ));
+                }
+            }
+        }catch (Exception $e){
+            return null;
+        }
+        return $running;
+    }
+    public static function getAllRunningTransports(){
+        $pdo = DB::connect();
+        $stmt = $pdo->prepare("SELECT * FROM running_transports_view");
+
+        $running = array();
+        try {
+            if ($stmt->execute()){
+                $running_db = $stmt->fetchAll();
+                foreach ($running_db as $r){
+                    array_push($running, new Transaction(
+                        Transporter::get_by_id($r["transporter_id"]),
+                        Announcement::byId($r["announcement_id"]),
+                        $r["validated"],
+                        $r["done"]
+                    ));
+                }
+            }
+        }catch (Exception $e){
+            return null;
+        }
+        return $running;
+    }
+    public static function getArchivedTransports(){
+        $pdo = DB::connect();
+        $stmt = $pdo->prepare("SELECT * FROM transport WHERE done = TRUE");
+
+        $running = array();
+        try {
+            if ($stmt->execute()){
+                $running_db = $stmt->fetchAll();
+                foreach ($running_db as $r){
+                    array_push($running, new Transaction(
+                        Transporter::get_by_id($r["transporter_id"]),
+                        Announcement::byId($r["announcement_id"]),
+                        $r["validated"],
+                        $r["done"]
                     ));
                 }
             }

@@ -182,6 +182,27 @@ $(document).ready(function () {
                         $("#get-announcements").click();
                     }
                 })
+            }) // end validate ad
+            $("button.delete").click((e) => {
+                let btn = $(e.target);
+                let url = "delete_announcement";
+                let announcement_id = btn.attr("data-announcement-id");
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        "announcement_id": announcement_id
+                    }
+                }).done(data => {
+                    if (data.success){
+                        $(".alert").empty().append(data.message).show()
+                        setTimeout(() => {
+                            $(".alert").hide();
+
+                        }, 2000);
+                        $("#get-announcements").click();
+                    }
+                })
             })
         })
     });
