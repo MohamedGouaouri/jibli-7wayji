@@ -399,6 +399,10 @@ Route::post("delete_announcement", function (){
     echo json_encode(["success" => true, "message" => "Vous avez archiver cette annonce"]);
 });
 
+Route::get("admin_pricing", function (){
+
+});
+
 
 
 

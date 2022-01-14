@@ -35,11 +35,17 @@ jQuery(function ($) {
 
 // ================================= Page navigation =============================
 $(document).ready(function () {
+
+    // clients subpage
+
     $("#get-clients").click((e) => {
         let url = 'admin_clients'
         $.get(url, function (data) {
             $("#content").html(data);
             // ban user
+            // let clientsTable = $("#clients-table")
+            // clientsTable.DataTable()
+            $("table").DataTable();
             $("button.ban-user").click((e) => {
                 let btn = $(e.target);
                 let user_id = btn.attr("data-user-id");
@@ -54,7 +60,7 @@ $(document).ready(function () {
                 }).done(data => {
                     if (data.success){
                         $(".alert").empty().append(data.message).show()
-                        $(`table#clients tr[data-user-id=${user_id}]`).remove();
+                        // $(`table#clients tr[data-user-id=${user_id}]`).remove();
                         setTimeout(() => {
                             $(".alert").hide();
 
@@ -69,10 +75,12 @@ $(document).ready(function () {
     })
 
 
+    // transporters page
     $("#get-transporters").click((e) => {
         let url = 'admin_transporters'
         $.get(url, function (data) {
             $("#content").html(data);
+            $("table").DataTable();
             $("a.validate").click((e) => {
                 // Handle transporter validation event
                 let btn = $(e.target);
@@ -111,7 +119,7 @@ $(document).ready(function () {
                 }).done(data => {
                     if (data.success){
                         $(".alert").empty().append(data.message).show()
-                        $(`table#clients tr[data-user-id=${transporter_id}]`).remove();
+                        // $(`table#clients tr[data-user-id=${transporter_id}]`).remove();
                         setTimeout(() => {
                             $(".alert").hide();
 
@@ -130,6 +138,7 @@ $(document).ready(function () {
         let url = "banned_users";
         $.get(url, function (data) {
             $("#content").html(data);
+            $("table").DataTable();
             $("button.unban-user").click((e) => {
                 let btn = $(e.target);
                 let user_id = btn.attr("data-user-id");
@@ -144,7 +153,7 @@ $(document).ready(function () {
                 }).done(data => {
                     if (data.success){
                         $(".alert").empty().append(data.message).show()
-                        $(`table#clients tr[data-user-id=${user_id}]`).remove();
+                        // $(`table#clients tr[data-user-id=${user_id}]`).remove();
                         setTimeout(() => {
                             $(".alert").hide();
 
@@ -162,6 +171,7 @@ $(document).ready(function () {
         let url = "admin_announcements";
         $.get(url, function (data) {
             $("#content").html(data);
+            $("table").DataTable();
             $("button.validate").click((e) => {
                 let btn = $(e.target);
                 let url = "validate_announcement";

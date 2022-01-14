@@ -73,6 +73,43 @@ class Price extends Model implements JsonSerializable
         return null;
     }
 
+    /**
+     * @param int $from
+     * @param int $to
+     * @param float $price
+     * @return bool
+     */
+    public static function addPricing(int $from, int $to, float $price)
+    {
+        $pdo = DB::connect();
+        $stmt = $pdo->prepare("INSERT INTO prices (`start_point`, `end_point`, `price`) VALUES (:from, :to, :price)");
+        $stmt->bindValue(":from", $from);
+        $stmt->bindValue(":to", $to);
+        $stmt->bindValue(":price", $price);
+        try {
+            return $stmt->execute();
+        }catch (Exception $e){
+
+        }
+        return false;
+    }
+
+    // update pricing
+    public static function updatePricing(int $from, int $to, float $price)
+    {
+        $pdo = DB::connect();
+        $stmt = $pdo->prepare("UPDATE prices SET price = :price WHERE start_point = :from AND end_point = :to");
+        $stmt->bindValue(":from", $from);
+        $stmt->bindValue(":to", $to);
+        $stmt->bindValue(":price", $price);
+        try {
+            return $stmt->execute();
+        }catch (Exception $e){
+
+        }
+        return false;
+    }
+
 
 
     public function jsonSerialize()

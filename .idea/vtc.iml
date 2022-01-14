@@ -17,5 +17,7 @@
     <orderEntry type="library" name="all" level="application" />
     <orderEntry type="library" name="mdbootstrap" level="application" />
     <orderEntry type="library" name="bootstrap-table" level="application" />
+    <orderEntry type="library" name="dataTables.bootstrap4" level="application" />
+    <orderEntry type="library" name="jquery.dataTables" level="application" />
   </component>
 </module>

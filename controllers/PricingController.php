@@ -21,4 +21,13 @@ class PricingController
         $raw_price = $announcement->getPrice();
         return $this->percentage * $raw_price;
     }
+
+    public function addPrice($from, $to, $price){
+        return Price::addPricing($from, $to, $price);
+    }
+
+    public function updatePrice($from, $to, $price){
+        return Price::updatePricing($from, $to, $price);
+    }
+
 }
