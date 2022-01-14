@@ -415,6 +415,11 @@ Route::get("admin_analytics_api", function (){
 });
 
 
+// news edit
+Route::get("admin_news", function (){
+    View::make("admin/news.html.twig");
+});
+
 
 
 // ============================ Unit testing routes =============================

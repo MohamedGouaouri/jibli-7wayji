@@ -297,6 +297,16 @@ $(document).ready(function () {
         })
     })
 
+    // news view
+    $("#get-news").click((e) => {
+        let url = "admin_news";
+        $.get(url, (content) => {
+            $("#content").html(content);
+            tinymce.init({
+                selector: '#mytextarea'
+            });
+        });
+    })
     // default view
     $("#get-clients").click();
 });
