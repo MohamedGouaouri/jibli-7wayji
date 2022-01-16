@@ -183,6 +183,7 @@ Route::get("trajectory", function (){
         View::make("transporter/trajectory.html.twig", [
             "is_transporter" => true,
             "isAuthenticated" => true,
+            "user" => $transporter,
             "not_covered" => Transporter::getNonCoveredWilayas($transporter->getUserId()),
             "covered" => Transporter::getCoveredWilayas($transporter->getUserId())
         ]);

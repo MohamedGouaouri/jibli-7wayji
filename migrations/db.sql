@@ -251,3 +251,7 @@ SELECT R.*, w1.wilaya_name AS start_wilaya_name, w2.wilaya_name AS end_wilaya_na
 # Certification demand view
 CREATE VIEW certification_demand_view AS
 SELECT tv.*, d.status as demand_status, d.demand_date FROM certification_demands d JOIN transporters_view tv on tv.transporter_id = d.transporter_id;
+
+# Covered wilayas view
+CREATE VIEW covered_wilayas_view AS
+SELECT covered_wilayas.transporter_id, covered_wilayas.wilaya_id, w.wilaya_name FROM covered_wilayas JOIN wilayas w on covered_wilayas.wilaya_id = w.wilaya_id;

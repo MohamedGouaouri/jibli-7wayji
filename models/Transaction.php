@@ -73,7 +73,7 @@ class Transaction extends Model implements JsonSerializable
 
     public static function getOfTransporter($transporter_id): array {
         $pdo = DB::connect();
-        $stmt = $pdo->prepare("SELECT * FROM transport WHERE transporter_id = :transporter_id");
+        $stmt = $pdo->prepare("SELECT * FROM transport WHERE transporter_id = :transporter_id AND done = TRUE");
         $stmt->bindValue(":transporter_id", $transporter_id, PDO::PARAM_INT);
         $transports = array();
         try {
