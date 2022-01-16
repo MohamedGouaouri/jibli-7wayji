@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+    <div class="padding">
+        <div class="container" id="news">
+            <section id="gallery">
+                <div class="container">
+                    <div class="row">
+                        <div>
+                            <h1>{{ news.getTitle() }}</h1>
+                            <h4>{{ news.getSynopsis() }}</h4>
+                            <p>{{ news.getContent() }}</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+{% endblock %}

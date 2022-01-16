@@ -440,6 +440,26 @@ class Announcement extends Model implements JsonSerializable
         return false;
     }
 
+
+    // propose transporter
+    public static function possible_transporters($announcement_id){
+        $pdo = DB::connect();
+        $stmt = $pdo->prepare("SELECT * FROM possible_transporters_view WHERE announcement_id = :announcement_id");
+        $stmt->bindValue(":announcement_id", $announcement_id ,PDO::PARAM_INT);
+        $transporters = array();
+        try {
+            if ($stmt->execute()){
+                $result_db = $stmt->fetchAll();
+                foreach ($result_db as $value){
+                    array_push($transporters, Transporter::get_by_id($value["transporter_id"]));
+                }
+            }
+        }catch (Exception $e){
+
+        }
+        return $transporters;
+    }
+
     /**
      * @return int
      */

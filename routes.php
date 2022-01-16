@@ -13,6 +13,7 @@ View::$loader = new FilesystemLoader([
     __DIR__ . DIRECTORY_SEPARATOR . "resources/views/transporter",
     __DIR__ . DIRECTORY_SEPARATOR . "resources/views/announcements",
     __DIR__ . DIRECTORY_SEPARATOR . "resources/views/admin",
+    __DIR__ . DIRECTORY_SEPARATOR . "resources/views/news",
     ]);
 View::$twig = new Environment(View::$loader);
 
@@ -346,6 +347,27 @@ Route::post("feedback", function (){
 });
 
 
+// news
+Route::get("news", function (){
+
+    (new NewsController())->index();
+});
+Route::get("news_details", function (){
+    $id = $_GET["id"];
+    (new NewsController())->show($id);
+});
+
+
+// Contact page
+Route::get("contact", function (){
+    View::make("contact.html.twig", [
+        "email" => "",
+        "address" => "Alger",
+        "mobile" => "0561586786"
+    ]);
+});
+
+
 
 // ============================== ADMIN routes ====================================
 Route::get(/**
@@ -450,8 +472,9 @@ Route::get("admin_news", function (){
 Route::get(/**
  *
  */ "test", function (){
-    header("Content-Type: application/json");
-    echo json_encode(CertificationDemand::all());
+//    header("Content-Type: application/json");
+//    echo json_encode(CertificationDemand::all());
+    var_dump(Announcement::possible_transporters(2));
 });
 
 Route::post(/**
@@ -461,5 +484,5 @@ Route::post(/**
 //    var_dump();
 //    $filename = $_FILES['image']['name'];
 //    echo json_encode(["test" => $filename]);
-    echo json_encode($_FILES);
+    echo json_encode($_POST["image"]["name"]);
 });

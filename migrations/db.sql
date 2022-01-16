@@ -81,6 +81,7 @@ CREATE TABLE IF NOT EXISTS announcements(
     validated BOOLEAN DEFAULT FALSE,
     price DOUBLE DEFAULT 100000, # just for testing
     archived BOOLEAN DEFAULT FALSE,
+    image_path VARCHAR(255),
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (start_point) REFERENCES wilayas(wilaya_id),
     FOREIGN KEY (end_point) REFERENCES wilayas(wilaya_id)
@@ -177,8 +178,11 @@ CREATE TABLE IF NOT EXISTS transporter_signals(
 # News
 DROP TABLE IF EXISTS news;
 CREATE TABLE IF NOT EXISTS news(
+    id INT PRIMARY KEY AUTO_INCREMENT,
     title TEXT,
-    content TEXT
+    synopsis VARCHAR(20),
+    content TEXT,
+    paths VARCHAR(255)
 );
 
 
@@ -254,3 +258,25 @@ SELECT tv.*, d.status as demand_status, d.demand_date FROM certification_demands
 # Covered wilayas view
 CREATE VIEW covered_wilayas_view AS
 SELECT covered_wilayas.transporter_id, covered_wilayas.wilaya_id, w.wilaya_name FROM covered_wilayas JOIN wilayas w on covered_wilayas.wilaya_id = w.wilaya_id;
+
+
+CREATE VIEW running_transports_view AS
+SELECT * FROM transport WHERE validated = TRUE AND done = FALSE;
+# SELECT COUNT(*) as nb_users FROM users WHERE banned = TRUE;
+# SELECT COUNT(*) as nb_validated FROM announcements WHERE validated = TRUE AND archived = FALSE;
+
+# Ad types
+
+# DROP TABLE IF EXISTS announcement_types;
+# CREATE TABLE IF NOT EXISTS announcement_types (
+#     id INT PRIMARY KEY ,
+#     type VARCHAR(50)
+# )
+
+# Contact table
+# DROP TABLE IF EXISTS contact;
+# CREATE TABLE IF NOT EXISTS announcement_types (
+#    name VARCHAR(50),
+#    mobile VARCHAR(50),
+#    address VARCHAR(50)
+# );

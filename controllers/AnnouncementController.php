@@ -38,6 +38,7 @@ class AnnouncementController extends Controller{
                 "isAuthenticated" => true,
                 "user" => $user,
                 "announcement" => $this->getById($id),
+                "possible_transporters" => Announcement::possible_transporters($id)
             ]);
             return;
         }

@@ -46,8 +46,7 @@
                             <div class="row"><b>Weight: </b><div class="ml-2">{{ announcement.getWeight() }}</div></div>
                             <div class="row"><b>Volume: </b><div class="ml-2">{{ announcement.getVolume() }}</div></div>
                         </div>
-                        <input hidden value="{{ announcement.getAnnouncementId() }}" id="announcement-id">
-                        ID is: {{ announcement.getAnnouncementId() }}
+                        <label for="announcement-id"></label><input hidden value="{{ announcement.getAnnouncementId() }}" id="announcement-id">
                         <div class="row mt-2">
                             <h3>Description</h3>
                         </div>
@@ -82,5 +81,25 @@
                 </div>
             {% endif %}
         </div>
+        {% if announcement.getUser().getUserId() == user.getUserId() %}
+            <div class="row">
+                {#            <div>#}
+                {#                <h2>Les transporteurs proposes</h2>#}
+                {#            </div>#}
+                {% for transporter in possible_transporters %}
+                    <div class="col-lg-4 mb-4">
+                        <div class="card">
+                            {#                            <img src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" alt="" >#}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ transporter.getName() }} {{ transporter.getFamilyName() }}</h5>
+                                <p class="card-text">{{ transporter.getPhoneNumber() }}</p>
+
+                                <a href="" class="btn btn-outline-primary btn-sm">Demander transport</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

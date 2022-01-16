@@ -7,11 +7,11 @@
 
   {% block content %}
   {% include '_includes/slideshow.html.twig' %}
-  {% include '_includes/presentation.html.twig' %}
+{#  {% include '_includes/presentation.html.twig' %}#}
 
-  <div id="fixed1">
+{#  <div id="fixed1">#}
 
-  </div>
+{#  </div>#}
 
     <div class="padding">
       <div class="container" id="annonces">
@@ -139,10 +139,10 @@
                 <textarea name="description" id="message" class="form-control" maxlength="255">
                 </textarea>
               </div>
-{#              <div class="m-2">#}
-{#                <label class="form-label" for="image">Upload an image</label>#}
-{#                <input type="file" class="form-control" id="image" name="announcement_image"/>#}
-{#              </div>#}
+              <div class="m-2">
+                <label class="form-label" for="image">Upload an image</label>
+                <input type="file" class="form-control" id="image" name="announcement_image"/>
+              </div>
               <button type="submit" class="btn btn-primary my-1 form-control my-5 mx-2">Submit</button>
             </form>
           </div>
@@ -150,26 +150,26 @@
       </div>
 
       {#  List of transporters that a client can contact for his announcement #}
-      <div class="padding">
-        <div class="container-fluid">
-          <div class="row" id="transporters-list">
+{#      <div class="padding">#}
+{#        <div class="container-fluid">#}
+{#          <div class="row" id="transporters-list">#}
 
-          </div>
-        </div>
-      </div>
+{#          </div>#}
+{#        </div>#}
+{#      </div>#}
 
     {% endif %}
 
 {#  <div id="fixed2">#}
 
 {#  </div>#}
-    {% include '_includes/news.html.twig' %}
+{#    {% include '_includes/news.html.twig' %}#}
 
-  <div id="fixed3">
+{#  <div id="fixed3">#}
 
-  </div>
+{#  </div>#}
     <!-- Statistics -->
-    {% include '_includes/stats.html.twig' %}
+{#    {% include '_includes/stats.html.twig' %}#}
 
     {# scroll top button   #}
     <button id="scrollTopBtn" class="fa fa-arrow-up"></button>
