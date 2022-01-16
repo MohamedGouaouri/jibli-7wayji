@@ -304,7 +304,7 @@ Route::get(/**
         ]);
     }else if (Auth::isAuthorizedClient()){
         // history for clients
-        View::make("transporter/history.html.twig", [
+        View::make("client/history.html.twig", [
             "is_transporter" => false,
             "isAuthenticated" => true,
             "user" => Auth::user(),

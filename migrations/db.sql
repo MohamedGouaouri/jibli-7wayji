@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS announcements(
     message TEXT,
     posted_at DATETIME DEFAULT NOW(),
     validated BOOLEAN DEFAULT FALSE,
-    price DOUBLE DEFAULT 0.0,
+    price DOUBLE DEFAULT 100000, # just for testing
     archived BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (start_point) REFERENCES wilayas(wilaya_id),

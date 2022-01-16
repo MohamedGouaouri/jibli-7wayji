@@ -97,6 +97,7 @@ class Transaction extends Model implements JsonSerializable
     public static function getOfClient($client_id): array {
         $pdo = DB::connect();
         $stmt = $pdo->prepare("SELECT a.*, transporter_id, transport.validated as validated_transport ,done FROM transport JOIN announcements a on transport.announcement_id = a.announcement_id AND user_id = :client_id");
+        $stmt->bindValue(":client_id", $client_id, PDO::PARAM_INT);
         $transports = array();
         try {
             if ($stmt->execute()){
@@ -172,12 +173,12 @@ class Transaction extends Model implements JsonSerializable
         $pdo = DB::connect();
         $stmt = $pdo->prepare("SELECT * FROM transport WHERE done = TRUE");
 
-        $running = array();
+        $archived = array();
         try {
             if ($stmt->execute()){
-                $running_db = $stmt->fetchAll();
-                foreach ($running_db as $r){
-                    array_push($running, new Transaction(
+                $archived_db = $stmt->fetchAll();
+                foreach ($archived_db as $r){
+                    array_push($archived, new Transaction(
                         Transporter::get_by_id($r["transporter_id"]),
                         Announcement::byId($r["announcement_id"]),
                         $r["validated"],
@@ -188,7 +189,7 @@ class Transaction extends Model implements JsonSerializable
         }catch (Exception $e){
             return null;
         }
-        return $running;
+        return $archived;
     }
 
     public static function finishTransport($transporter_id, $announcement_id): bool {

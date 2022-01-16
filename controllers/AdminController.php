@@ -59,7 +59,7 @@ class AdminController
         View::make("admin/announcements.html.twig", [
             "announcements" => Announcement::all(false),
             "current_transports" => Transaction::getAllRunningTransports(),
-            "archived_transaction" => Transaction::getArchivedTransports()
+            "archived_transactions" => Transaction::getArchivedTransports()
         ]);
     }
 
