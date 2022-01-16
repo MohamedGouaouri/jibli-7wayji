@@ -1,8 +1,25 @@
 <?php
 
 
-class CertificationDemand extends Model
+class CertificationDemand extends Model implements JsonSerializable
 {
+    private Transporter $transporter;
+    private string $status;
+    private string $date;
+
+    /**
+     * CertificationDemand constructor.
+     * @param Transporter $transporter
+     * @param string $status
+     * @param string $date
+     */
+    public function __construct(Transporter $transporter, string $status, string $date)
+    {
+        $this->transporter = $transporter;
+        $this->status = $status;
+        $this->date = $date;
+    }
+
     public static function save_certification_demand($transporter_id): bool {
         $pdo = DB::connect();
         try {
@@ -19,5 +36,55 @@ class CertificationDemand extends Model
     public static function validate_certification_demand(){
         $pdo = DB::connect();
 //        $stmt = $pdo->prepare("UPDATE")
+    }
+
+    // get all certification demands
+    public static function all(){
+        $result = DB::query("SELECT * FROM certification_demands");
+        $demands = array();
+        foreach ($result as $value){
+            array_push($demands, new CertificationDemand(
+                Transporter::get_by_id($value["transporter_id"]),
+                $value["status"],
+                $value["demand_date"]
+            ));
+        }
+        return $demands;
+    }
+
+    /**
+     * @return Transporter
+     */
+    public function getTransporter(): Transporter
+    {
+        return $this->transporter;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDate(): string
+    {
+        return $this->date;
+    }
+
+
+
+    public function jsonSerialize()
+    {
+        // TODO: Implement jsonSerialize() method.
+        return [
+            "transporter" => $this->getTransporter(),
+            "status" => $this->getStatus(),
+            "date" => $this->getDate()
+        ];
     }
 }

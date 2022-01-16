@@ -42,7 +42,8 @@ class AdminController
     public function transporters_index()
     {
         View::make("admin/transporters.html.twig",[
-            "transporters" => Transporter::all()
+            "transporters" => Transporter::all(),
+            "certification_demands" => CertificationDemand::all()
         ]);
     }
 

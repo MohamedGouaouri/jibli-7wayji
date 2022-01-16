@@ -426,7 +426,8 @@ Route::get("admin_news", function (){
 Route::get(/**
  *
  */ "test", function (){
-    (new AdminController())->api();
+    header("Content-Type: application/json");
+    echo json_encode(CertificationDemand::all());
 });
 
 Route::post(/**

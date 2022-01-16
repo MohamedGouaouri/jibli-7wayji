@@ -77,8 +77,7 @@
         </h1>
         <table id=""
                class="table table-striped table-bordered table-sm"
-               cellspacing="0"
-               width="100%"
+
                data-pagination="true"
                data-search="true"
         >
@@ -94,80 +93,36 @@
                 </th>
                 <th class="th-sm">Phone number
                 </th>
+                <th class="th-sm">Date de demande
+                </th>
+                <th class="th-sm">status
+                </th>
                 <th class="th-sm">Actions
                 </th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td class="text-center">Donna Snider</td>
-                <td class="text-center">Customer Support</td>
-                <td class="text-center">New York</td>
-                <td class="text-center">27</td>
-                <td class="text-center">2011/01/25</td>
-                <td class="d-flex align-items-center justify-content-center">
-                    <div class="d-flex flex-row align-items-baseline">
-                        <div>
-                            <a class="btn btn-green">Valider</a>
+            {% for demand in certification_demands %}
+                <tr>
+                    <td class="text-center">{{ loop.index }}</td>
+                    <td class="text-center">{{ demand.getTransporter().getName() }}</td>
+                    <td class="text-center">{{ demand.getTransporter().getFamilyName() }}</td>
+                    <td class="text-center">{{ demand.getTransporter().getEmail() }}</td>
+                    <td class="text-center">{{ demand.getTransporter().getPhoneNumber() }}</td>
+                    <td class="text-center">{{ demand.getDate() }}</td>
+                    <td class="text-center">{{ demand.getStatus() }}</td>
+                    <td class="d-flex align-items-center justify-content-center">
+                        <div class="d-flex flex-row align-items-baseline">
+                            <div>
+                                <a class="btn btn-green">Valider</a>
+                            </div>
+                            <div>
+                                <button class="btn btn-danger">Reject</button>
+                            </div>
                         </div>
-                        <div>
-                            <button class="btn btn-danger">Reject</button>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="text-center">Donna Snider</td>
-                <td class="text-center">Customer Support</td>
-                <td class="text-center">New York</td>
-                <td class="text-center">27</td>
-                <td class="text-center">2011/01/25</td>
-                <td class="d-flex align-items-center justify-content-center">
-                    <div class="d-flex flex-row align-items-baseline">
-                        <div>
-                            <a class="btn btn-green">Valider</a>
-                        </div>
-                        <div>
-                            <button class="btn btn-danger">Reject</button>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="text-center">Donna Snider</td>
-                <td class="text-center">Customer Support</td>
-                <td class="text-center">New York</td>
-                <td class="text-center">27</td>
-                <td class="text-center">2011/01/25</td>
-                <td class="d-flex align-items-center justify-content-center">
-                    <div class="d-flex flex-row align-items-baseline">
-                        <div>
-                            <a class="btn btn-green">Valider</a>
-                        </div>
-                        <div>
-                            <button class="btn btn-danger">Reject</button>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class="text-center">Donna Snider</td>
-                <td class="text-center">Customer Support</td>
-                <td class="text-center">New York</td>
-                <td class="text-center">27</td>
-                <td class="text-center">2011/01/25</td>
-                <td class="d-flex align-items-center justify-content-center">
-                    <div class="d-flex flex-row align-items-baseline">
-                        <div>
-                            <a class="btn btn-green">Valider</a>
-                        </div>
-                        <div>
-                            <button class="btn btn-danger">Reject</button>
-                        </div>
-                    </div>
-                </td>
-            </tr>
+                    </td>
+                </tr>
+            {% endfor %}
             </tbody>
             <tfoot>
             </tfoot>
