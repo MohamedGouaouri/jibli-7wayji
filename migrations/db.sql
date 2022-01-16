@@ -108,14 +108,14 @@ CREATE TABLE IF NOT EXISTS transport(
     FOREIGN KEY (transporter_id) REFERENCES transporters(transporter_id)
 );
 
-DROP TABLE IF EXISTS transport_archive;
-CREATE TABLE IF NOT EXISTS transport_archive(
-    announcement_id INT NOT NULL,
-    transporter_id INT NOT NULL,
-    PRIMARY KEY (transporter_id, announcement_id),
-    FOREIGN KEY (announcement_id) REFERENCES announcements(announcement_id),
-    FOREIGN KEY (transporter_id) REFERENCES transporters(transporter_id)
-);
+# DROP TABLE IF EXISTS transport_archive;
+# CREATE TABLE IF NOT EXISTS transport_archive(
+#     announcement_id INT NOT NULL,
+#     transporter_id INT NOT NULL,
+#     PRIMARY KEY (transporter_id, announcement_id),
+#     FOREIGN KEY (announcement_id) REFERENCES announcements(announcement_id),
+#     FOREIGN KEY (transporter_id) REFERENCES transporters(transporter_id)
+# );
 
 
 
@@ -148,7 +148,7 @@ CREATE TABLE IF NOT EXISTS notes(
     user_id INT NOT NULL ,
     transporter_id INT NOT NULL,
     note SMALLINT,
-    PRIMARY KEY (user_id, transporter_id),
+    message TEXT,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (transporter_id) REFERENCES transporters(transporter_id)
 );
@@ -159,7 +159,6 @@ CREATE TABLE IF NOT EXISTS client_signals(
     user_id INT,
     transporter_id INT,
     message TEXT,
-    PRIMARY KEY (user_id, transporter_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (transporter_id) REFERENCES transporters(transporter_id)
 );
@@ -170,7 +169,7 @@ CREATE TABLE IF NOT EXISTS transporter_signals(
     transporter_id INT,
     user_id INT,
     message TEXT,
-    PRIMARY KEY (transporter_id, user_id),
+
     FOREIGN KEY (transporter_id) REFERENCES transporters(transporter_id),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );

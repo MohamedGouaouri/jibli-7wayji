@@ -319,7 +319,30 @@ Route::get(/**
 Route::get(/**
  *
  */ "feedback", function (){
-    View::make("user/feedback/index.html.twig");
+    if (Auth::isAuthorizedClient() || Auth::isAuthorizedTransporter()){
+        $user = Auth::user();
+        View::make("user/feedback/index.html.twig", [
+            "isAuthenticated" => true,
+            "user" => $user
+        ]);
+    }
+});
+
+Route::post("feedback", function (){
+    if (Auth::isAuthorizedClient() || Auth::isAuthorizedTransporter()){
+        $user = Auth::user();
+        $noted_transporter_id = (int)$_POST["transporter_id"];
+        $note = (int)$_POST["note"];
+        $message = $_POST["message"];
+        $added = (new FeedbackController())->add($user->getUserId(), $noted_transporter_id, $note, $message);
+        header("Content-Type: application/json");
+        if ($added){
+            echo json_encode(["success" => true, "message" => "Merci pour votre feedback"]);
+        }
+        else{
+            echo json_encode(["success" => false, "message" => "Vous pouvez pas effectuer un feedback feedback"]);
+        }
+    }
 });
 
 

@@ -149,3 +149,26 @@ $("#refuse-application-btn").click((e) => {
         }
     })
 })
+
+$("#feedback-form").submit((e) => {
+    e.preventDefault();
+    let url = new URLSearchParams(window.location.search);
+
+    let transporter_id = Number.parseInt(url.get("transporter_id"));
+    let note = $("#note").val();
+    let message = $("#message").val();
+    $.ajax({
+        type: "POST",
+        url: "feedback",
+        data: {
+            "transporter_id": transporter_id,
+            "note": note,
+            "message": message
+        }
+    }).done(data => {
+        console.log(data);
+        // if (data.success){
+        //     console.log()
+        // }
+    })
+})
