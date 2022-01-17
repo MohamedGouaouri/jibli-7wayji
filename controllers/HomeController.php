@@ -43,4 +43,9 @@ class HomeController extends Controller
         header("Content-Type: application/json");
         echo json_encode(["success" => true, "announcements" => $result]);
     }
+
+    public function presentation()
+    {
+        View::make("presentation.html.twig");
+    }
 }

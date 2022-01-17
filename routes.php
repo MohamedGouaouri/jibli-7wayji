@@ -31,6 +31,10 @@ Route::post(/**
     (new HomeController())->search($from, $to);
 });
 
+Route::get("presentation", function (){
+    (new HomeController())->presentation();
+});
+
 
 
 // =============================== LOGIN ================================
@@ -361,7 +365,7 @@ Route::get("news_details", function (){
 // Contact page
 Route::get("contact", function (){
     View::make("contact.html.twig", [
-        "email" => "",
+        "email" => "admin@vtc.dz",
         "address" => "Alger",
         "mobile" => "0561586786"
     ]);
