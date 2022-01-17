@@ -95,6 +95,55 @@ $("#trajectory button[id='delete-wilaya']").click((e) => {
             btn.prev().prop("disabled", false);
         }
     })
+})
 
+
+$("#accept-demand-btn").click((e) => {
+    let btn = e.target;
+    console.log($(btn).attr("data-announcement-id"));
+    let announcementId = Number.parseInt($(btn).attr("data-announcement-id"));
+    let transporterId = Number.parseInt($(btn).attr("data-transporter-id"));
+
+    $.ajax({
+        type: "POST",
+        url: "accept_application",
+        data: {
+            "announcement_id": announcementId,
+            "transporter_id": transporterId
+        }
+    }).done((data) => {
+        console.log(data);
+        $(".modal-body").empty();
+        if (data.success){
+            let transporter = data.transaction.transporter;
+
+            if (!transporter.certified){
+
+                // $(".modal-body")
+                //     .append($("<div>Vous avez accepter la transaction avec ce transporteur non certie donc vous devez vous entdre sur un prix, on recommende le prix propose par la plateforme</div>"))
+                //     .append($(`<div><b>Le nom du transporteur: </b> ${data.transaction.transporter.family_name} ${data.transaction.transporter.name}</div>`))
+                //     .append($(`<div><b>Son numero de telephone: </b> ${data.transaction.transporter.phone_number}</div>`))
+                //     .append($(`<div><b>L'email du transportue: </b> ${data.transaction.transporter.email}</div>`))
+                // ;
+            }
+            else {
+                // $(".modal-body")
+                //     .append($("<div>Vous avez accepter la transaction avec ce transporteur certfie donc rix un pourcentage de X% sera retranche</div>"))
+                //     .append($(`<div><b>Le nom du transporteur: </b> ${data.transaction.transporter.family_name} ${data.transaction.transporter.name}</div>`))
+                //     .append($(`<div><b>Son numero de telephone: </b> ${data.transaction.transporter.phone_number}</div>`))
+                //     .append($(`<div><b>L'email du transportue: </b> ${data.transaction.transporter.email}</div>`))
+                // ;
+
+            }
+
+            // TODO: Remove entry from the table
+        }else {
+            console.log("Error");
+            $("#modal-logo").attr("src", "resources/assets/img/error.png")
+            $(".modal-body").append($("<div>Vous avez deja accepte accepter la demande</div>"))
+        }
+    })
+});
+$("#refuse-demand-btn").click((e) => {
 
 })

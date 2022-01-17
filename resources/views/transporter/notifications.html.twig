@@ -1,0 +1,72 @@
+{% extends 'user_base.html.twig' %}
+{% block title %}
+    Client demands
+{% endblock %}
+{% block content%}
+    <div class="container-fluid">
+        <div class="row applications ml-5">
+            <div class="alert alert-success alert-dismissible show fade m-3" role="alert" id="refused-success-alert" style="width: 100% ;display: none">
+
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="alert alert-danger alert-dismissible show fade m-3" role="alert" id="refused-error-alert" style="width: 100% ;display: none">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">Announcement</th>
+                    <th scope="col">Client</th>
+                    <th scope="col">Phone number</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for demand in demands %}
+                    <tr>
+                        <th scope="row">{{ loop.index }}</th>
+                        <td>{{ demand.getAnnouncement().getUser().getName() }} {{ demand.getAnnouncement().getUser().getFamilyName() }}</td>
+                        <td>{{ demand.getAnnouncement().getUser().getPhoneNumber() }}</td>
+                        <td>{{ demand.getAnnouncement().getPrice() }}</td>
+                        <td>
+                            <div>
+                                <a href=details?id={{ demand.getAnnouncement().getAnnouncementId() }} class="btn btn-primary" >Announcement Details</a>
+                                <button class="btn btn-success" id="accept-demand-btn" data-announcement-id="{{ demand.getAnnouncement().getAnnouncementId() }}"  data-transporter-id="{{ demand.getTransporter().getUserId() }}" data-toggle="modal" data-target="#exampleModal">Accept</button>
+                                <button class="btn btn-danger" id="refuse-demand-btn" data-announcement-id="{{ demand.getAnnouncement().getAnnouncementId() }}"  data-transporter-id="{{ demand.getTransporter().getUserId() }}">Refuse</button>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+            <!-- Accept modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div style="display: flex; align-content: baseline;">
+                                <img alt="" src="{{ 'resources/assets/img/check.png' }}" height="50" width="50" id="modal-logo">
+                                <h5 class="modal-title" id="exampleModalLabel">Transaction accepted</h5>
+                            </div>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

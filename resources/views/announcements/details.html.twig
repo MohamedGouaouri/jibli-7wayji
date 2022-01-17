@@ -37,7 +37,6 @@
                         </div>
                         <div class="row mt-2">
                             <h3>Details</h3>
-
                         </div>
                         <div class="m-3">
                             <div class="row"><b>Start point: </b><div class="ml-2">{{ announcement.getStartPoint().getWilayaName() }}</div></div>
@@ -82,19 +81,21 @@
             {% endif %}
         </div>
         {% if announcement.getUser().getUserId() == user.getUserId() %}
-            <div class="row">
-                {#            <div>#}
-                {#                <h2>Les transporteurs proposes</h2>#}
-                {#            </div>#}
+            <div class="row d-flex flex-column">
+                <div>
+                    <h2>Les transporteurs proposes</h2>
+                </div>
                 {% for transporter in possible_transporters %}
                     <div class="col-lg-4 mb-4">
                         <div class="card">
-                            {#                            <img src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" alt="" >#}
                             <div class="card-body">
-                                <h5 class="card-title">{{ transporter.getName() }} {{ transporter.getFamilyName() }}</h5>
+                                <div class="d-flex align-items-baseline">
+                                    <h5 class="card-title">{{ transporter.getName() }} {{ transporter.getFamilyName() }}</h5>
+                                    <img class="ml-auto" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" alt="" height="50" width="50">
+                                </div>
                                 <p class="card-text">{{ transporter.getPhoneNumber() }}</p>
 
-                                <a href="" class="btn btn-outline-primary btn-sm">Demander transport</a>
+                                <button class="btn btn-primary btn-sm demand" data-transporter-id="{{ transporter.getUserId() }}">Demander transport</button>
                             </div>
                         </div>
                     </div>

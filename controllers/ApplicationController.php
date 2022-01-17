@@ -38,17 +38,24 @@ class ApplicationController
 
             $controller = new ApplicationController();
 
-            if ($controller->exists($transporter_id, $announcement_id)){
-                // Prevent the transporter from doing multiple application
+            if (!ClientDemand::exists($transporter_id, $announcement_id)){
+                if ($controller->exists($transporter_id, $announcement_id)){
+                    // Prevent the transporter from doing multiple application
 
-                echo json_encode(["success" => false, "message" => "You have already applied to this announcement"]);
-                return;
+                    echo json_encode(["success" => false, "message" => "You have already applied to this announcement"]);
+                    return;
+                }
+
+                $controller->add($transporter_id, $announcement_id);
+
+                header("Content-Type: application/json");
+                echo json_encode(["success" => true, "message" => "You application is sent"]);
+
+            }else{
+                header("Content-Type: application/json");
+                echo json_encode(["success" => false, "message" => "Ce client vous a deja demande de faire un transport"]);
+
             }
-
-            $controller->add($transporter_id, $announcement_id);
-
-            header("Content-Type: application/json");
-            echo json_encode(["success" => true, "message" => "You application is sent"]);
         }
 
     }
@@ -95,4 +102,17 @@ class ApplicationController
         }
     }
 
+    public function client_demand($announcement_id, $transporter_id){
+        if (Auth::isAuthorizedClient() || Auth::isAuthorizedTransporter()){
+            $added = ClientDemand::add($transporter_id, $announcement_id);
+            header("Content-Type: application/json");
+            if ($added){
+                echo json_encode(["success" => true, "message" => "Votre demande de transport a ete envoye"]);
+            }
+            else{
+                echo json_encode(["success" => false, "message" => "Vous pouvez pas refaire la demande de transport"]);
+            }
+
+        }
+    }
 }

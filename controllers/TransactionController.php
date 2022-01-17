@@ -46,5 +46,17 @@ class TransactionController
 
 
     // give feedback to transporter
+    public function client_demands()
+    {
+        if (Auth::isAuthorizedTransporter()){
+            $user = Auth::user();
+            View::make("transporter/notifications.html.twig", [
+                "isAuthenticated" => true,
+                "is_transporter" => true,
+                "user" => $user,
+                "demands" => ClientDemand::all()
+            ]);
+        }
+    }
 
 }

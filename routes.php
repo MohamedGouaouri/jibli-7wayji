@@ -238,6 +238,10 @@ Route::get(/**
     (new TransporterController())->profile();
 });
 
+Route::get("client_demands", function (){
+    (new TransactionController())->client_demands();
+});
+
 
 // Certification demands
 Route::get(/**
@@ -260,7 +264,7 @@ Route::get(/**
 });
 
 
-
+// Transporter application
 Route::post(/**
  *
  */ "apply", function (){
@@ -289,10 +293,11 @@ Route::post(/**
 
 // client uses this route to make a demand to a transporter
 // for a transport
-//Route::post("demand", function (){
-//    $announcement_id = 0;
-//    $transporter_id = 0;
-//});
+Route::post("demand", function (){
+    $announcement_id = $_POST["announcement_id"];
+    $transporter_id = $_POST["transporter_id"];
+    (new ApplicationController())->client_demand($announcement_id, $transporter_id);
+});
 
 
 // Transaction history
@@ -476,9 +481,9 @@ Route::get("admin_news", function (){
 Route::get(/**
  *
  */ "test", function (){
-//    header("Content-Type: application/json");
+    header("Content-Type: application/json");
 //    echo json_encode(CertificationDemand::all());
-    var_dump(Announcement::possible_transporters(2));
+    echo json_encode(ClientDemand::all());
 });
 
 Route::post(/**
