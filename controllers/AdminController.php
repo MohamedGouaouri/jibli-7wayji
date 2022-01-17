@@ -66,7 +66,8 @@ class AdminController
     public function pricing_index()
     {
         View::make("admin/pricing.html.twig", [
-            "pricing" => Price::all()
+            "pricing" => Price::all(),
+            "wilayas" => (new WilayaController())->get_all()
         ]);
     }
 
@@ -92,5 +93,41 @@ class AdminController
                 "nb_non_validated" => $controller->nbNonValidatedAnnouncements()
             ]
         ]);
+    }
+
+    public function update_pricing($from, $to, $price)
+    {
+        header("Content-Type: application/json");
+        // check if is_admin
+        if (Price::exists($from, $to)){
+            // just update
+            $updated = Price::updatePricing($from, $to, $price);
+            if ($updated){
+                echo json_encode([
+                    "success" => true,
+                    "message" => "Le prix a ete modifier avec success"
+                ]);
+            }
+            else{
+                echo json_encode([
+                    "success" => false,
+//                    "message" => "Le prix a ete modifier avec success"
+                ]);
+            }
+        }else{
+            $added = Price::addPricing($from, $to, $price);
+            if ($added){
+                echo json_encode([
+                    "success" => true,
+                    "message" => "Le prix a ete ajouter avec success"
+                ]);
+            }
+            else{
+                echo json_encode([
+                    "success" => true,
+//                    "message" => "Le prix a ete modifier avec success"
+                ]);
+            }
+        }
     }
 }

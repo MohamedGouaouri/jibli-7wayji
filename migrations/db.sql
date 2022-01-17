@@ -234,7 +234,7 @@ CREATE VIEW prices_view AS
 SELECT p.start_point, w.wilaya_name as start_wilaya_name, p.end_point, w2.wilaya_name AS end_wilaya_name, p.price
 FROM prices p
          JOIN wilayas w ON p.start_point = w.wilaya_id
-         JOIN wilayas w2 ON p.start_point = w2.wilaya_id;
+         JOIN wilayas w2 ON p.end_point = w2.wilaya_id;
 
 # Get archived announcements
 DROP VIEW IF EXISTS archived_announcements_view;

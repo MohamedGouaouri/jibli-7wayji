@@ -134,6 +134,21 @@ class Price extends Model implements JsonSerializable
     }
 
 
+    public static function exists($from, $to){
+        $pdo = DB::connect();
+        $stmt = $pdo->prepare("SELECT * FROM prices WHERE start_point = :from AND end_point = :to");
+        $stmt->bindValue(":from", $from, PDO::PARAM_INT);
+        $stmt->bindValue(":to", $to, PDO::PARAM_INT);
+        try {
+            $stmt->execute();
+            return $stmt->rowCount() > 0;
+        }catch (Exception $e){
+
+        }
+        return false;
+    }
+
+
 
 
     public function jsonSerialize()

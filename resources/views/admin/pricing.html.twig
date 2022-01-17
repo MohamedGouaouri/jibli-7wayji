@@ -29,7 +29,7 @@
                     <td class="d-flex align-items-center justify-content-center">
                         <div class="d-flex flex-row align-items-baseline">
                             <div>
-                                <a class="btn btn-elegant">Edit</a>
+                                <a class="btn btn-danger">Delete</a>
                             </div>
                         </div>
                     </td>
@@ -40,78 +40,36 @@
             </tfoot>
         </table>
     </div>
+
     <div>
         <div>
-            <h1>
-                Le prix unitaire des types d'annonces
-            </h1>
-            <table id="dtBasicExample"
-                   class="table table-striped table-bordered table-sm"
-                   cellspacing="0"
-                   width="100%"
-                   data-pagination="true"
-                   data-search="true"
-            >
-                <thead>
-                <tr>
-                    <th class="th-sm text-center">Type
-                    </th>
-                    <th class="th-sm text-center">Prix
-                    </th>
-                    <th class="th-sm text-center">Actions
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td class="text-center">Donna Snider</td>
-                    <td class="text-center">Customer Support</td>
-                    <td class="d-flex align-items-center justify-content-center">
-                        <div class="d-flex flex-row align-items-baseline">
-                            <div>
-                                <a class="btn btn-elegant">Edit</a>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="text-center">Donna Snider</td>
-                    <td class="text-center">Customer Support</td>
-                    <td class="d-flex align-items-center justify-content-center">
-                        <div class="d-flex flex-row align-items-baseline">
-                            <div>
-                                <a class="btn btn-elegant">Edit</a>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="text-center">Donna Snider</td>
-                    <td class="text-center">Customer Support</td>
-                    <td class="d-flex align-items-center justify-content-center">
-                        <div class="d-flex flex-row align-items-baseline">
-                            <div>
-                                <a class="btn btn-elegant">Edit</a>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="text-center">Donna Snider</td>
-                    <td class="text-center">Customer Support</td>
-                    <td class="d-flex align-items-center justify-content-center">
-                        <div class="d-flex flex-row align-items-baseline">
-                            <div>
-                                <a class="btn btn-elegant">Edit</a>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-                <tfoot>
-                </tfoot>
-            </table>
+            <h2>Ajouter ou modifier un prix</h2>
         </div>
+        <form id="pricing-form">
+            <div class="m-2">
+                <label for="price_start_point" class="required">Point de depart</label>
+                <select class="form-control form-select-lg" id="price_start_point" name="price_start_point">
+                    {% for wilaya in wilayas %}
+                        <option value="{{ wilaya.getWilayaId() }}">{{ wilaya.getWilayaName() }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="m-2">
+                <label for="price_end_point" class="required">Point d'arrive</label>
+                <select class="form-control" id="price_end_point" name="price_end_point">
+                    {% for wilaya in wilayas %}
+                        <option value="{{ wilaya.getWilayaId() }}">{{ wilaya.getWilayaName() }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="m-2">
+                <label for="price">Price</label>
+                <input class="form-control" id="price" type="number">
+            </div>
+            <div class="m-2">
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </div>
+        </form>
     </div>
+
 </div>

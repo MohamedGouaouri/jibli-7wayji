@@ -475,16 +475,26 @@ Route::get("admin_news", function (){
     View::make("admin/news.html.twig");
 });
 
+// Update pricing
+Route::post("update_pricing", function (){
+    $from = $_POST["start_point"];
+    $to = $_POST["end_point"];
+    $price = $_POST["price"];
+    (new AdminController())->update_pricing($from, $to, $price);
+});
+
 
 
 // ============================ Unit testing routes =============================
 Route::get(/**
  *
  */ "test", function (){
-    header("Content-Type: application/json");
+//    header("Content-Type: application/json");
 //    echo json_encode(CertificationDemand::all());
-    echo json_encode(ClientDemand::all());
-});
+//    echo json_encode(Price::exists(1, 1));
+//    (new AdminController())->update_pricing(1, 1, 100);
+    var_dump($_GET);
+ });
 
 Route::post(/**
  *

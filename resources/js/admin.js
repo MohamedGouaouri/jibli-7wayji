@@ -224,6 +224,28 @@ $(document).ready(function () {
             $("#content").html(data);
             // process
             $("table").DataTable();
+            $("#pricing-form").submit((e) => {
+                let url = "update_pricing"
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        "start_point": $("#price_start_point option:selected").val(),
+                        "end_point": $("#price_end_point option:selected").val(),
+                        "price": Number.parseFloat($("#price").val())
+                    }
+                }).done((data) =>{
+                    console.log(data);
+                    $(".alert").empty().append(data.message).show()
+                    setTimeout(() => {
+                        $(".alert").hide();
+
+                    }, 2000);
+                    $("#get-pricing").click();
+
+                } )
+            })
         })
     })
 
