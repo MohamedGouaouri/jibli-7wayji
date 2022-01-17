@@ -12,7 +12,35 @@ INSERT INTO wilayas VALUES (1, 'Adrar'),
                            (2, 'Chelef'),
                            (3, 'Laghouat'),
                            (4, 'Oum El Bouaghi'),
-                           (5, 'Batna');
+                           (5, 'Batna'),
+                           (6, 'Bejaya'),
+                           (7, 'Biskra'),
+                           (8, 'Bechar'),
+                           (9, 'Blida'),
+                           (10, 'Bouira'),
+                           (11, 'Tamanrasset'),
+                           (12, 'Tebessa'),
+                           (13, 'Tlemcen'),
+                           (14, 'Tiaret'),
+                           (15, 'Tizi Ouzou'),
+                           (16, 'Alger'),
+                           (17, 'Djelfa'),
+                           (18, 'Jijel'),
+                           (19, 'Setif'),
+                           (20, 'Saida'),
+                           (21, 'Skikda'),
+                           (22, 'Sidi Bel Abbes'),
+                           (23, 'Annaba'),
+                           (24, 'Guelma'),
+                           (25, 'Constantine'),
+                           (26, 'Medea'),
+                           (27, 'Mostaganem'),
+                           (28, 'Msila'),
+                           (29, 'Mascara'),
+                           (30, 'Ouargla'),
+                           (31, 'Oran'),
+                           (32, 'El Bayadh'),
+                           ()
 
 ## Users schema
 DROP TABLE IF EXISTS users;
@@ -28,16 +56,7 @@ CREATE TABLE IF NOT EXISTS users(
 );
 
 
-# Clients schema
-DROP TABLE IF EXISTS clients;
-# CREATE TABLE IF NOT EXISTS clients(
-#     client_id INT PRIMARY KEY AUTO_INCREMENT,
-#     name VARCHAR(50) NOT NULL,
-#     family_name VARCHAR(50) NOT NULL,
-#     email VARCHAR(50) NOT NULL UNIQUE ,
-#     password VARCHAR(255) NOT NULL,
-#     address VARCHAR(100) NOT NULL
-# );
+
 INSERT INTO users (name, family_name, email, password, address) VALUES
                 ('A', 'B', 'A1@esi.dz', PASSWORD('password'), 'address'),
                 ('A', 'B', 'A2@esi.dz', PASSWORD('password'), 'address'),
@@ -86,15 +105,16 @@ CREATE TABLE IF NOT EXISTS announcements(
     FOREIGN KEY (start_point) REFERENCES wilayas(wilaya_id),
     FOREIGN KEY (end_point) REFERENCES wilayas(wilaya_id)
 );
-INSERT INTO announcements (user_id, start_point, end_point, type, weight, volume, status, message)
-    VALUES (1, 1, 1, 'TYPE', 1000, 200, 'approved', 'Nothing'),
-           (1, 2, 1, 'TYPE', 1000, 200, 'approved', 'Nothing'),
-           (2, 1, 3, 'TYPE', 1000, 200, 'approved', 'Nothing'),
-           (2, 3, 1, 'TYPE', 1000, 200, 'approved', 'Nothing'),
-           (3, 4, 1, 'TYPE', 1000, 200, 'approved', 'Nothing'),
-           (3, 2, 2, 'TYPE', 1000, 200, 'approved', 'Nothing'),
-           (2, 1, 3, 'TYPE', 1000, 200, 'approved', 'Nothing'),
-           (1, 4, 2, 'TYPE', 1000, 200, 'approved', 'Nothing')
+INSERT INTO announcements (user_id, start_point, end_point, type, weight, volume, status, message, validated)
+    VALUES (1, 1, 1, 'TYPE', 1000, 200, 'approved', 'Nothing', 1),
+           (1, 2, 1, 'TYPE', 1000, 200, 'approved', 'Nothing', 1),
+           (2, 1, 3, 'TYPE', 1000, 200, 'approved', 'Nothing', 1),
+           (2, 3, 1, 'TYPE', 1000, 200, 'approved', 'Nothing', 1),
+           (3, 4, 1, 'TYPE', 1000, 200, 'approved', 'Nothing', 1),
+           (3, 2, 2, 'TYPE', 1000, 200, 'approved', 'Nothing', 1),
+           (2, 1, 3, 'TYPE', 1000, 200, 'approved', 'Nothing', 1),
+           (1, 4, 2, 'TYPE', 1000, 200, 'approved', 'Nothing', 1),
+           (1, 4, 2, 'TYPE', 1000, 200, 'approved', 'Nothing', 0)
     ;
 
 # transports
@@ -108,16 +128,6 @@ CREATE TABLE IF NOT EXISTS transport(
     FOREIGN KEY (announcement_id) REFERENCES announcements(announcement_id),
     FOREIGN KEY (transporter_id) REFERENCES transporters(transporter_id)
 );
-
-# DROP TABLE IF EXISTS transport_archive;
-# CREATE TABLE IF NOT EXISTS transport_archive(
-#     announcement_id INT NOT NULL,
-#     transporter_id INT NOT NULL,
-#     PRIMARY KEY (transporter_id, announcement_id),
-#     FOREIGN KEY (announcement_id) REFERENCES announcements(announcement_id),
-#     FOREIGN KEY (transporter_id) REFERENCES transporters(transporter_id)
-# );
-
 
 
 # client demands
@@ -262,21 +272,19 @@ SELECT covered_wilayas.transporter_id, covered_wilayas.wilaya_id, w.wilaya_name 
 
 CREATE VIEW running_transports_view AS
 SELECT * FROM transport WHERE validated = TRUE AND done = FALSE;
-# SELECT COUNT(*) as nb_users FROM users WHERE banned = TRUE;
-# SELECT COUNT(*) as nb_validated FROM announcements WHERE validated = TRUE AND archived = FALSE;
 
 # Ad types
 
-# DROP TABLE IF EXISTS announcement_types;
-# CREATE TABLE IF NOT EXISTS announcement_types (
-#     id INT PRIMARY KEY ,
-#     type VARCHAR(50)
-# )
+DROP TABLE IF EXISTS announcement_types;
+CREATE TABLE IF NOT EXISTS announcement_types (
+    id INT PRIMARY KEY ,
+    type VARCHAR(50)
+);
 
 # Contact table
-# DROP TABLE IF EXISTS contact;
-# CREATE TABLE IF NOT EXISTS announcement_types (
-#    name VARCHAR(50),
-#    mobile VARCHAR(50),
-#    address VARCHAR(50)
-# );
+DROP TABLE IF EXISTS contact;
+CREATE TABLE IF NOT EXISTS announcement_types (
+   name VARCHAR(50),
+   mobile VARCHAR(50),
+   address VARCHAR(50)
+);
