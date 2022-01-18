@@ -475,6 +475,14 @@ Route::get("admin_news", function (){
     View::make("admin/news.html.twig");
 });
 
+Route::post("admin_add_news", function (){
+    $title = $_POST["title"];
+    $synopsis = $_POST["synopsis"];
+    $content = $_POST["content"];
+
+    (new AdminController())->post_news($title, $synopsis, $content);
+});
+
 // Update pricing
 Route::post("update_pricing", function (){
     $from = $_POST["start_point"];
@@ -493,7 +501,7 @@ Route::get(/**
 //    echo json_encode(CertificationDemand::all());
 //    echo json_encode(Price::exists(1, 1));
 //    (new AdminController())->update_pricing(1, 1, 100);
-    var_dump($_GET);
+    var_dump(Transaction::getArchivedTransports());
  });
 
 Route::post(/**

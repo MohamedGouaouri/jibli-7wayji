@@ -130,4 +130,20 @@ class AdminController
             }
         }
     }
+
+    public function post_news($title, $synopsis, $content){
+        $added = News::add($title, $synopsis, $content, "");
+        header("Content-Type: application/json");
+        if ($added){
+            echo json_encode([
+                "success" => true,
+                "message" => "The post has been added"
+            ]);
+        }else{
+            echo json_encode([
+                "success" => false,
+                "message" => "We can't add this post"
+            ]);
+        }
+    }
 }

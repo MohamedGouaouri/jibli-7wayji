@@ -33,8 +33,19 @@ class News
      * @param string $content
      * @param array $paths
      */
-    public static function add(string $title, string $synopsis, string $content, array $paths){
+    public static function add(string $title, string $synopsis, string $content, string $paths){
+        $pdo = DB::connect();
+        $stmt = $pdo->prepare("INSERT INTO news (`title`, `synopsis`, `content`, `paths`) VALUES (:title, :synopsis, :content, :paths)");
+        $stmt->bindValue(":title", $title);
+        $stmt->bindValue(":synopsis", $synopsis);
+        $stmt->bindValue(":content", $content);
+        $stmt->bindValue("paths", $paths);
+        try {
+            return $stmt->execute();
+        }catch (Exception $e){
 
+        }
+        return false;
     }
 
     public static function all(){

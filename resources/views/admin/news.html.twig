@@ -1,8 +1,28 @@
 <div class="container-fluid">
-    <form method="post">
-        <label for="mytextarea"></label>
-        <textarea id="mytextarea" name="mytextarea">
-        </textarea>
-        <button class="btn btn-amber ml-auto">Post</button>
+    <h1>Vous avez des news a ajouter ?</h1>
+    <form id="add-news-form">
+        <!-- Name input -->
+        <div class="form-outline mb-4">
+            <label class="form-label" for="news-title">Title</label>
+            <input type="text" id="news-title" class="form-control" />
+        </div>
+
+        <!-- Email input -->
+        <div class="form-outline mb-4">
+            <label class="form-label" for="news-synopsis">Synopsis</label>
+            <input type="text" id="news-synopsis" class="form-control" />
+
+        </div>
+
+        <!-- Message input -->
+        <div class="form-outline mb-4">
+            <label class="form-label" for="news-content">Content</label>
+            <textarea class="form-control" id="news-content" rows="4"></textarea>
+
+        </div>
+
+
+        <!-- Submit button -->
+        <button type="submit" class="btn btn-primary btn-block mb-4">Post</button>
     </form>
 </div>

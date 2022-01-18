@@ -324,9 +324,29 @@ $(document).ready(function () {
         let url = "admin_news";
         $.get(url, (content) => {
             $("#content").html(content);
-            tinymce.init({
-                selector: '#mytextarea'
-            });
+            $("#add-news-form").submit((e) => {
+                e.preventDefault();
+                $.ajax({
+                    url: "admin_add_news",
+                    type: "POST",
+                    data: {
+                        "title": $("#news-title").val(),
+                        "synopsis": $("#news-synopsis").val(),
+                        "content": $("#content").val()
+                    }
+                }).done(data => {
+                    console.log(data);
+                })
+                if (data.success){
+                    $(".alert").empty().append(data.message).show()
+                    setTimeout(() => {
+                        $(".alert").hide();
+
+                    }, 2000);
+
+                }
+            })
+
         });
     })
     // default view

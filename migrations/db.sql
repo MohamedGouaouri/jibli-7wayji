@@ -39,8 +39,8 @@ INSERT INTO wilayas VALUES (1, 'Adrar'),
                            (29, 'Mascara'),
                            (30, 'Ouargla'),
                            (31, 'Oran'),
-                           (32, 'El Bayadh'),
-                           ()
+                           (32, 'El Bayadh')
+                           ;
 
 ## Users schema
 DROP TABLE IF EXISTS users;
@@ -236,7 +236,7 @@ SELECT R.*, w1.wilaya_name AS start_wilaya_name, w2.wilaya_name AS end_wilaya_na
 DROP VIEW IF EXISTS transporters_view;
 CREATE VIEW transporters_view AS
     SELECT t.*, u.name, u.family_name, u.phone_number, u.email, u.password, u.address
-    FROM transporters t JOIN users u on t.transporter_id = u.user_id WHERE u.banned = FALSE;
+    FROM transporters t JOIN users u on t.transporter_id = u.user_id ; ## removed banned = false
 
 
 DROP VIEW IF EXISTS prices_view;
