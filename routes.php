@@ -511,12 +511,21 @@ Route::post("update_pricing", function (){
 });
 
 
+// show signals dashboard
+Route::get("signals", function (){
+    View::make("admin/signals.html.twig", [
+        "client_signals" => ClientSignal::all(),
+        "transporter_signals" => TransporterSignal::all()
+    ]);
+});
+
+
 
 // ============================ Unit testing routes =============================
 Route::get(/**
  *
  */ "test", function (){
-
+    var_dump(ClientSignal::all());
  });
 
 Route::post(/**

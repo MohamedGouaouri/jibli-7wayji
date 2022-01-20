@@ -1,0 +1,97 @@
+
+<div>
+    <div>
+        <h1>Le signalement des clients</h1>
+    </div>
+
+        <table id=""
+               class="table table-striped table-bordered table-sm"
+               data-pagination="true"
+               data-search="true"
+        >
+        <thead>
+        <tr>
+            <th class="th-sm">Client Id
+            </th>
+            <th class="th-sm">Client Name
+            </th>
+            <th class="th-sm">Transporter Id
+            </th>
+            <th class="th-sm">Transporter Name
+            </th>
+            <th class="th-sm">Message
+            </th>
+            <th class="th-sm">Actions
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for signal in client_signals %}
+            <tr data-user-id="{{ user.getUserId() }}">
+                <td>{{ signal.getClient().getUserId() }}</td>
+                <td>{{ signal.getClient().getFamilyName() }} {{ signal.getClient().getName() }}</td>
+                <td>{{ signal.getTransporter().getUserId() }}</td>
+                <td>{{ signal.getTransporter().getFamilyName() }} {{ signal.getTransporter().getName() }}</td>
+                <td>{{ signal.getMessage() }}</td>
+                <td>
+                    <div class="d-flex flex-row align-items-baseline">
+                        <div>
+                            <button class="btn btn-blue" data-user-id="{{ signal.getUser().getUserId() }}">Action</button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+
+
+    <div>
+        <h1>Le signalement des transporteurs</h1>
+    </div>
+
+    <table id=""
+           class="table table-striped table-bordered table-sm"
+           data-pagination="true"
+           data-search="true"
+    >
+        <thead>
+        <tr>
+            <th class="th-sm">Transporter Id
+            </th>
+            <th class="th-sm">Transporter Name
+            </th>
+            <th class="th-sm">Client Id
+            </th>
+            <th class="th-sm">Client Name
+            </th>
+            <th class="th-sm">Message
+            </th>
+            <th class="th-sm">Actions
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for signal in transporter_signals %}
+            <tr data-user-id="{{ user.getUserId() }}">
+                <td>{{ signal.getTransporter().getUserId() }}</td>
+                <td>{{ signal.getTransporter().getFamilyName() }} {{ signal.getTransporter().getName() }}</td>
+                <td>{{ signal.getClient().getUserId() }}</td>
+                <td>{{ signal.getClient().getFamilyName() }} {{ signal.getClient().getName() }}</td>
+                <td>{{ signal.getMessage() }}</td>
+                <td>
+                    <div class="d-flex flex-row align-items-baseline">
+                        <div>
+                            <button class="btn btn-blue" data-user-id="{{ signal.getUser().getUserId() }}">Action</button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        </tfoot>
+    </table>
+</div>

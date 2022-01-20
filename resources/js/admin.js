@@ -217,6 +217,15 @@ $(document).ready(function () {
         })
     });
 
+    // get signals
+    $("#get-signals").click(() => {
+        let url = "signals";
+        $.get(url, (data) => {
+            // set html content
+            $("#content").html(data);
+        })
+    })
+
     // get pricing view
     $("#get-pricing").click((e) => {
         let url = "admin_pricing";
@@ -307,7 +316,7 @@ $(document).ready(function () {
                         ],
                         borderWidth: 1
                     }]
-                };;
+                };
 
                 const ctx2 = document.getElementById('myChart2').getContext('2d');
                 new Chart(ctx2, {
