@@ -16,4 +16,8 @@ class NewsController
             "news" => News::byId($id)
         ]);
     }
+
+    public function delete($id){
+        return News::delete($id);
+    }
 }

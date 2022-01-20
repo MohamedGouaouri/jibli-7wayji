@@ -333,6 +333,38 @@ $(document).ready(function () {
         let url = "admin_news";
         $.get(url, (content) => {
             $("#content").html(content);
+            // delete news
+            $("button.delete").click((e) => {
+                let btn = $(e.target);
+                let url = "admin_delete_news";
+                let id = Number.parseInt(btn.attr("data-news-id"));
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        "id": id
+                    }
+                }).done(data => {
+                    console.log(data);
+                    if (data.success){
+                        $(".alert-success").empty().append(data.message).show();
+                        setTimeout(() => {
+                            $(".alert-success").hide();
+
+                        }, 2000);
+                        $("#get-news").click();
+                    }
+                    else{
+                        $(".alert-danger").empty().append(data.message).show();
+                        setTimeout(() => {
+                            $(".alert-success").hide();
+
+                        }, 2000);
+                    }
+                })
+            })
+
+            // add news
             $("#add-news-form").submit((e) => {
                 e.preventDefault();
                 $.ajax({

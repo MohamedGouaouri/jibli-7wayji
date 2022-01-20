@@ -75,6 +75,23 @@ class News
         return  null;
     }
 
+    /** Deletes a news entry from db
+     * @param $id
+     * @return bool
+     */
+    public static function delete($id)
+    {
+        $pdo = DB::connect();
+        $stmt = $pdo->prepare("DELETE FROM news WHERE id = :id");
+        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+        try {
+            return $stmt->execute();
+        }catch (Exception $e){
+
+        }
+        return false;
+    }
+
     /**
      * @return int
      */

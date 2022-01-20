@@ -1,28 +1,72 @@
 <div class="container-fluid">
-    <h1>Vous avez des news a ajouter ?</h1>
-    <form id="add-news-form">
-        <!-- Name input -->
-        <div class="form-outline mb-4">
-            <label class="form-label" for="news-title">Title</label>
-            <input type="text" id="news-title" class="form-control" />
+    <div>
+        <h1>Les news du site</h1>
+        <div>
+            <table id=""
+                   class="table table-striped table-bordered table-sm"
+                   data-pagination="true"
+                   data-search="true"
+            >
+                <thead>
+                <tr>
+                    <th class="th-sm">Id
+                    </th>
+                    <th class="th-sm">Title
+                    </th>
+                    <th class="th-sm">Synopsis
+                    </th>
+                    <th class="th-sm">Actions
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for news in all_news %}
+                    <tr data-news-id="{{ news.getId() }}">
+                        <td>{{ loop.index }}</td>
+                        <td>{{ news.getTitle() }}</td>
+                        <td>{{ news.getSynopsis() }}</td>
+                        <td>
+                            <div class="d-flex flex-row align-items-baseline">
+                                <div>
+                                    <a href="news_details?id={{ news.getId() }}" target="_blank" class="btn btn-green" data-news-id="{{ news.getId() }}">Read</a>
+                                    <button class="btn btn-danger delete" data-news-id="{{ news.getId() }}">Delete</button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                <tfoot>
+                </tfoot>
+            </table>
         </div>
+    </div>
+    <div>
+        <h1>Vous avez des news a ajouter ?</h1>
+        <form id="add-news-form">
+            <!-- Name input -->
+            <div class="form-outline mb-4">
+                <label class="form-label" for="news-title">Title</label>
+                <input type="text" id="news-title" class="form-control" />
+            </div>
 
-        <!-- Email input -->
-        <div class="form-outline mb-4">
-            <label class="form-label" for="news-synopsis">Synopsis</label>
-            <input type="text" id="news-synopsis" class="form-control" />
+            <!-- Email input -->
+            <div class="form-outline mb-4">
+                <label class="form-label" for="news-synopsis">Synopsis</label>
+                <input type="text" id="news-synopsis" class="form-control" />
 
-        </div>
+            </div>
 
-        <!-- Message input -->
-        <div class="form-outline mb-4">
-            <label class="form-label" for="news-content">Content</label>
-            <textarea class="form-control" id="news-content" rows="4"></textarea>
+            <!-- Message input -->
+            <div class="form-outline mb-4">
+                <label class="form-label" for="news-content">Content</label>
+                <textarea class="form-control" id="news-content" rows="4"></textarea>
 
-        </div>
+            </div>
 
 
-        <!-- Submit button -->
-        <button type="submit" class="btn btn-primary btn-block mb-4">Post</button>
-    </form>
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-primary btn-block mb-4">Post</button>
+        </form>
+    </div>
 </div>

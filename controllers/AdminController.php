@@ -146,4 +146,22 @@ class AdminController
             ]);
         }
     }
+
+    public function delete_news($id)
+    {
+        $deleted = (new NewsController())->delete($id);
+        header("Content-Type: application/json");
+        if ($deleted){
+            echo json_encode([
+                "success" => true,
+                "message" => "News entry deleted"
+            ]);
+        }
+        else{
+            echo json_encode([
+                "success" => false,
+                "message" => "Error on delete"
+            ]);
+        }
+    }
 }

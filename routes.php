@@ -491,7 +491,9 @@ Route::get("admin_analytics_api", function (){
 
 // news edit
 Route::get("admin_news", function (){
-    View::make("admin/news.html.twig");
+    View::make("admin/news.html.twig", [
+        "all_news" => News::all()
+    ]);
 });
 
 Route::post("admin_add_news", function (){
@@ -500,6 +502,11 @@ Route::post("admin_add_news", function (){
     $content = $_POST["content"];
 
     (new AdminController())->post_news($title, $synopsis, $content);
+});
+
+Route::post("admin_delete_news", function (){
+    $id = $_POST["id"];
+    (new AdminController())->delete_news($id);
 });
 
 // Update pricing
