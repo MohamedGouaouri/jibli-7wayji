@@ -238,6 +238,25 @@ Route::get(/**
     (new TransporterController())->profile();
 });
 
+
+// update profile
+Route::post("update_profile", function (){
+    if (Auth::isAuthorizedTransporter() || Auth::isAuthorizedClient()){
+        $user = Auth::user();
+        $email = $_POST["email"];
+        $phone_number = $_POST["phone_number"];
+        $address = $_POST["address"];
+        header("Content-Type: application/json");
+        $added = User::update($user->user_id, $email, $phone_number, $address);
+        if ($added){
+            echo json_encode(["success" => true, "message" => "Your profile has been updated"]);
+
+        }else{
+            echo json_encode(["success" => false, "message" => "You can't update your profile"]);
+        }
+    }
+});
+
 Route::get("client_demands", function (){
     (new TransactionController())->client_demands();
 });
@@ -497,19 +516,11 @@ Route::post("update_pricing", function (){
 Route::get(/**
  *
  */ "test", function (){
-//    header("Content-Type: application/json");
-//    echo json_encode(CertificationDemand::all());
-//    echo json_encode(Price::exists(1, 1));
-//    (new AdminController())->update_pricing(1, 1, 100);
-    var_dump(Transaction::getArchivedTransports());
+
  });
 
 Route::post(/**
  *
  */ "test", function (){
-    header("Content-Type: application/json");
-//    var_dump();
-//    $filename = $_FILES['image']['name'];
-//    echo json_encode(["test" => $filename]);
-    echo json_encode($_POST["image"]["name"]);
+    var_dump($_FILES["announcement_image"]);
 });

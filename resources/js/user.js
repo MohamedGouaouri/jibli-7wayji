@@ -172,3 +172,40 @@ $("#feedback-form").submit((e) => {
         // }
     })
 })
+
+
+// Update profile
+$("#enable-update-profile").click((e) => {
+    $(".updated").attr("readonly", false);
+    $("#submit-update-profile").show();
+})
+$("#submit-update-profile").click((e) => {
+
+    let url = "update_profile";
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: {
+            "email": $("#email-field").val(),
+            "phone_number": $("#phone-field").val(),
+            "address": $("#address-field").val()
+        }
+    }).done(data => {
+        console.log(data);
+        if (data.success){
+            $(".alert-success").empty().append(data.message).show();
+            setTimeout(() => {
+                $(".alert-success").hide();
+            }, 2000);
+            // location.reload();
+        }else{
+            $(".alert-danger").empty().append(data.message).show();
+            setTimeout(() => {
+                $(".alert-danger").hide();
+            }, 2000);
+        }
+        $(".updated").attr("readonly", true);
+        $("#submit-update-profile").hide();
+    })
+
+})

@@ -16,8 +16,8 @@
                 </th>
                 <th class="th-sm text-center">Prix de transporteur
                 </th>
-                <th class="th-sm text-center">Actions
-                </th>
+{#                <th class="th-sm text-center">Actions#}
+{#                </th>#}
             </tr>
             </thead>
             <tbody>
@@ -26,13 +26,13 @@
                     <td class="text-center">{{ price.getStartPoint().getWilayaName() }}</td>
                     <td class="text-center">{{ price.getEndPoint().getWilayaName() }}</td>
                     <td class="text-center">{{ price.getPrice() }}</td>
-                    <td class="d-flex align-items-center justify-content-center">
-                        <div class="d-flex flex-row align-items-baseline">
-                            <div>
-                                <a class="btn btn-danger">Delete</a>
-                            </div>
-                        </div>
-                    </td>
+{#                    <td class="d-flex align-items-center justify-content-center">#}
+{#                        <div class="d-flex flex-row align-items-baseline">#}
+{#                            <div>#}
+{#                                <a class="btn btn-danger">Delete</a>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </td>#}
                 </tr>
             {% endfor %}
             </tbody>

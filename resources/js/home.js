@@ -125,37 +125,37 @@ const createTransporterCard = (name, familyName, email, phoneNumber) => {
         )
 }
 
-$("#newAnnouncementForm").submit((e) => {
-    e.preventDefault();
-    let url = "new_announcement";
-    $.ajax({
-        type: "POST",
-        url: url,
-        data: {
-            "start_point": $("#add_start_point option:selected").val(),
-            "end_point": $("#add_end_point option:selected").val(),
-            "type": $("#type option:selected").text(),
-            "weight": Number.parseFloat($("#weight option:selected").val()),
-            "volume": Number.parseFloat($("#volume").val()),
-            "way": Number.parseInt($("#way option:selected").val()),
-            "message": $("#message").val()
-        }
-    }).then((data) => {
-        console.log(data);
-        if (data.added === true){
-            console.log(data);
-            $("#added-success-alert").show();
-            setTimeout(() => {
-                $("#added-success-alert").hide();
-            }, 2000)
-            // let transporters = data.transporters;
-            // for (let i = 0; i < transporters.length; i++) {
-            //     let transporter = transporters[i];
-            //     console.log(transporter);
-            //     $("#transporters-list").append(createTransporterCard(transporter.name, transporter.family_name, transporter.email, transporter.phone_number));
-            //     // $("#transporters-list").append("hello");
-            // }
-        }
-    });
-
-});
+// $("#newAnnouncementForm").submit((e) => {
+//     e.preventDefault();
+//     let url = "new_announcement";
+//     $.ajax({
+//         type: "POST",
+//         url: url,
+//         data: {
+//             "start_point": $("#add_start_point option:selected").val(),
+//             "end_point": $("#add_end_point option:selected").val(),
+//             "type": $("#type option:selected").text(),
+//             "weight": Number.parseFloat($("#weight option:selected").val()),
+//             "volume": Number.parseFloat($("#volume").val()),
+//             "way": Number.parseInt($("#way option:selected").val()),
+//             "message": $("#message").val()
+//         }
+//     }).then((data) => {
+//         console.log(data);
+//         if (data.added === true){
+//             console.log(data);
+//             $("#added-success-alert").show();
+//             setTimeout(() => {
+//                 $("#added-success-alert").hide();
+//             }, 2000)
+//             // let transporters = data.transporters;
+//             // for (let i = 0; i < transporters.length; i++) {
+//             //     let transporter = transporters[i];
+//             //     console.log(transporter);
+//             //     $("#transporters-list").append(createTransporterCard(transporter.name, transporter.family_name, transporter.email, transporter.phone_number));
+//             //     // $("#transporters-list").append("hello");
+//             // }
+//         }
+//     });
+//
+// });

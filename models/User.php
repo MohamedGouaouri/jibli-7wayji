@@ -162,6 +162,23 @@ class User extends Model implements JsonSerializable {
     }
 
 
+    // update profile (Email only)
+    public static function update($user_id, $email, $phone_number, $address){
+        $pdo = DB::connect();
+        $stmt = $pdo->prepare("UPDATE users SET email = :email, phone_number = :phone_number, address = :address WHERE user_id = :user_id");
+        $stmt->bindValue(":user_id", $user_id, PDO::PARAM_INT);
+        $stmt->bindValue(":email", $email);
+        $stmt->bindValue(":phone_number", $phone_number);
+        $stmt->bindValue(":address", $address);
+        try {
+            return $stmt->execute();
+        }catch (Exception $e){
+
+        }
+        return false;
+    }
+
+
 
     // ========================= Getters =================
 
