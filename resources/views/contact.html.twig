@@ -1,39 +1,132 @@
-{% extends 'base.html.twig' %}
-{% block title %}
-    Contact
-{% endblock %}
-{% block content %}
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <div class="p-3 py-5">
-                    <div class="d-flex justify-content-center align-items-center mb-3">
-                        <h1 class="text-right">Contact Us</h1>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col d-flex">
-                            <div class=""><i class="fa fa-map-marker"></i> Address: </div>
-                            <div class="mx-5">
-                                {{ address }}
-                            </div>
-                        </div>
-                        </div>
-                    <div class="row mt-3">
-                        <div class="col-md-12 my-2 d-flex">
-                            <div class=""><i class="fa fa-mobile-phone"></i> Mobile Number: </div>
-                            <div class="mx-5">
-                                {{ mobile }}
-                            </div>
-                        </div>
-                        <div class="col-md-12 my-2 d-flex">
-                            <div ><i class="fa fa-google"></i>Email</div>
-                            <div class="mx-5">
-                                {{ email }}
-                            </div>
-                    </div>
-                </div>
-            </div>
+{#{% extends 'base.html.twig' %}#}
+{#{% block title %}#}
+{#    Contact#}
+{#{% endblock %}#}
+{#{% block content %}#}
+{#    <div class="container">#}
+{#        <div class="row">#}
+{#            <div class="col">#}
+{#                <div class="p-3 py-5">#}
+{#                    <div class="d-flex justify-content-center align-items-center mb-3">#}
+{#                        <h1 class="text-right">Contact Us</h1>#}
+{#                    </div>#}
+{#                    <div class="row mt-2">#}
+{#                        <div class="col d-flex">#}
+{#                            <div class=""><i class="fa fa-map-marker"></i> Address: </div>#}
+{#                            <div class="mx-5">#}
+{#                                {{ address }}#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        </div>#}
+{#                    <div class="row mt-3">#}
+{#                        <div class="col-md-12 my-2 d-flex">#}
+{#                            <div class=""><i class="fa fa-mobile-phone"></i> Mobile Number: </div>#}
+{#                            <div class="mx-5">#}
+{#                                {{ mobile }}#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="col-md-12 my-2 d-flex">#}
+{#                            <div ><i class="fa fa-google"></i>Email</div>#}
+{#                            <div class="mx-5">#}
+{#                                {{ email }}#}
+{#                            </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+
+{#        </div>#}
+{#    </div>#}
+{#{% endblock %}#}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/png" href="{{ 'resources/assets/img/logovtc.png' }}">
+    <title>Contact</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+    <link href="{{ 'resources/css/contact.css' }}" rel="stylesheet"/>
+</head>
+<body>
+    <div class="contact-wrapper">
+        <div class="half first">
 
         </div>
+        <div class="half second">
+
+        </div>
+        <div class="contact-box">
+            <div class="left">
+                <form id="add-news-form">
+                    <!-- Name input -->
+                    <div class="form-outline mb-4">
+                        <label class="form-label" >Name</label>
+                        <input type="text" class="form-control" />
+                    </div>
+
+                    <div class="form-outline mb-4">
+                        <label class="form-label">Email</label>
+                        <input type="email"  class="form-control" />
+
+                    </div>
+
+                    <div class="form-outline mb-4">
+                        <label class="form-label">Message</label>
+                        <textarea class="form-control" rows="4"></textarea>
+
+                    </div>
+
+                    <!-- Submit button -->
+                    <button type="submit" class="btn btn-primary btn-block mb-4">Send</button>
+                </form>
+            </div>
+            <div class="right">
+                <h4>Contact information</h4>
+                <div>
+                    Vous pouvez contacter les admin a tout moment ^^
+                </div>
+                <div class="info">
+                    <div>
+                        <i class="fa fa-map-marker"></i>
+                        {{ address }}
+                    </div>
+                    <div>
+                        <i class="fa fa-phone"></i>
+                        {{ mobile }}
+                    </div>
+                    <div>
+                        <i class="fa fa-envelope"></i>
+                        {{ email }}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="back">
+            <a href="index.php" class="fa fa-arrow-circle-left"></a>
+        </div>
     </div>
-{% endblock %}
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.2/dist/chart.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+    <script src="https://unpkg.com/typeit@8.1.0/dist/index.umd.js"></script>
+    <script src="{{ 'resources/js/nicescroll.js' }}"></script>
+    <script src="{{ 'resources/js/home.js' }}"></script>
+    <script src="{{ 'resources/js/typeit.js' }}"></script>
+    <script src="{{ 'resources/js/stats.js' }}"></script>
+</body>
+</html>
