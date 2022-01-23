@@ -7,11 +7,6 @@
 
   {% block content %}
   {% include '_includes/slideshow.html.twig' %}
-{#  {% include '_includes/presentation.html.twig' %}#}
-
-{#  <div id="fixed1">#}
-
-{#  </div>#}
 
     <div class="padding">
       <div class="container" id="annonces">
@@ -44,7 +39,8 @@
           {% for announcement in announcements %}
             <div class="col-md-3 mb-4">
               <div class="card">
-                <img src="https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60" alt="" class="card-img-top">
+                <img src="{{ announcement.getImagePath() != "" ? announcement.getImagePath() : "https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60" }}" class="card-img-top" alt="" height="150px">
+
                 <div class="card-body">
                   <h5 class="card-title">TITLE</h5>
                   <div><b>Start point</b>{{ announcement.getStartPoint().getWilayaName() }}</div>
@@ -82,7 +78,7 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <form id="newAnnouncementForm" action="test" method="post">
+            <form id="newAnnouncementForm" enctype="multipart/form-data">
               <div class="m-2">
                 <label for="add_start_point" class="required">Point de depart</label>
                 <select class="form-control form-select-lg" id="add_start_point" name="add_start_point">

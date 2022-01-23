@@ -16,6 +16,7 @@ class Announcement extends Model implements JsonSerializable
     private bool $validated;
     private float $price;
     private ?bool $archived;
+    private ?string $image_path;
 
     private static string $table_name = "announcements";
 
@@ -34,8 +35,9 @@ class Announcement extends Model implements JsonSerializable
      * @param bool $validated
      * @param float $price
      * @param bool $archived
+     * @param string|null $image_path
      */
-    public function __construct(int $announcement_id, User $user, Wilaya $start_point, Wilaya $end_point, string $type, float $weight, float $volume, string $status, string $message, string $posted_at, bool $validated, float $price, ?bool $archived = false)
+    public function __construct(int $announcement_id, User $user, Wilaya $start_point, Wilaya $end_point, string $type, float $weight, float $volume, string $status, string $message, string $posted_at, bool $validated, float $price, ?bool $archived = false, ?string $image_path = "")
     {
         $this->announcement_id = $announcement_id;
         $this->user = $user;
@@ -50,6 +52,7 @@ class Announcement extends Model implements JsonSerializable
         $this->validated = $validated;
         $this->price = $price;
         $this->archived = $archived;
+        $this->image_path = $image_path;
     }
 
 
@@ -80,6 +83,7 @@ class Announcement extends Model implements JsonSerializable
                     $r["validated"],
                     $r["price"],
                     $r["archived"],
+                    $r["image_path"]
                 ));
             }
         }else{
@@ -98,7 +102,8 @@ class Announcement extends Model implements JsonSerializable
                     $r["posted_at"],
                     $r["validated"],
                     $r["price"],
-                    $r["archived"]
+                    $r["archived"],
+                    $r["image_path"]
                 ));
             }
         }
@@ -140,7 +145,8 @@ class Announcement extends Model implements JsonSerializable
                         $r["posted_at"],
                         $r["validated"],
                         $r["price"],
-                        $r["archived"]
+                        $r["archived"],
+                        $r["image_path"]
                     ));
 
                 }
@@ -160,7 +166,8 @@ class Announcement extends Model implements JsonSerializable
                         $r["posted_at"],
                         $r["validated"],
                         $r["price"],
-                        $r["archived"]
+                        $r["archived"],
+                        $r["image_path"]
                     ));
 
                 }
@@ -199,7 +206,8 @@ class Announcement extends Model implements JsonSerializable
                         $r["posted_at"],
                         $r["validated"],
                         $r["price"],
-                        $r["archived"]
+                        $r["archived"],
+                        $r["image_path"]
                     ));
                 }else{
                     array_push($announcements, new Announcement(
@@ -215,7 +223,8 @@ class Announcement extends Model implements JsonSerializable
                         $r["posted_at"],
                         $r["validated"],
                         $r["price"],
-                        $r["archived"]
+                        $r["archived"],
+                        $r["image_path"]
                     ));
                 }
             }
@@ -250,7 +259,8 @@ class Announcement extends Model implements JsonSerializable
                             $r["posted_at"],
                             $r["validated"],
                             $r["price"],
-                            $r["archived"]
+                            $r["archived"],
+                            $r["image_path"]
                         );
                     }else{
                         $client = User::get_by_id($r["user_id"]);
@@ -267,7 +277,8 @@ class Announcement extends Model implements JsonSerializable
                             $r["posted_at"],
                             $r["validated"],
                             $r["price"],
-                            $r["archived"]
+                            $r["archived"],
+                            $r["image_path"]
                         );
                     }
                 }
@@ -305,7 +316,8 @@ class Announcement extends Model implements JsonSerializable
                             $r["posted_at"],
                             $r["validated"],
                             $r["price"],
-                            $r["archived"]
+                            $r["archived"],
+                            $r["image_path"]
                         ));
                     }else{
                         $client = User::get_by_id($r["user_id"]);
@@ -323,7 +335,8 @@ class Announcement extends Model implements JsonSerializable
                                 $r["posted_at"],
                                 $r["validated"],
                                 $r["price"],
-                                $r["archived"]
+                                $r["archived"],
+                                $r["image_path"]
                             ));
                         }
                     }
@@ -348,10 +361,10 @@ class Announcement extends Model implements JsonSerializable
      * @param $message
      * @return bool
      */
-    public static function add($user_id, $start_point, $end_point, $type, $weight, $volume, $way, $message){
+    public static function add($user_id, $start_point, $end_point, $type, $weight, $volume, $way, $message, $image_path){
         $pdo = DB::connect();
 
-        $stmt = $pdo->prepare("INSERT INTO announcements (`user_id`, `start_point`, `end_point`, `type`, `weight`, `volume`,`way`, `status`, `message`, `price`) VALUES (:user_id, :start_point, :end_point, :type, :weight, :volume, :way,:status, :message, :price)");
+        $stmt = $pdo->prepare("INSERT INTO announcements (`user_id`, `start_point`, `end_point`, `type`, `weight`, `volume`,`way`, `status`, `message`, `price`, `image_path`) VALUES (:user_id, :start_point, :end_point, :type, :weight, :volume, :way,:status, :message, :price, :image_path)");
         $stmt->bindValue(":user_id", $user_id, PDO::PARAM_INT);
         $stmt->bindValue(":start_point", $start_point, PDO::PARAM_INT);
         $stmt->bindValue(":end_point", $end_point, PDO::PARAM_STR);
@@ -361,6 +374,7 @@ class Announcement extends Model implements JsonSerializable
         $stmt->bindValue(":way", $way);
         $stmt->bindValue(":status", "pending", PDO::PARAM_STR);
         $stmt->bindValue(":message", $message);
+        $stmt->bindValue(":image_path", $image_path);
         $price = Price::price($start_point, $end_point);
         if ($price != null){
             $stmt->bindValue(":price", $price->getPrice());
@@ -572,6 +586,22 @@ class Announcement extends Model implements JsonSerializable
         return $this->archived;
     }
 
+    /**
+     * @return bool|null
+     */
+    public function getArchived(): ?bool
+    {
+        return $this->archived;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getImagePath(): ?string
+    {
+        return $this->image_path;
+    }
+
 
 
 
@@ -589,7 +619,8 @@ class Announcement extends Model implements JsonSerializable
             "message" => $this->message,
             "posted_at" => $this->posted_at,
             "validated" => $this->validated,
-            "price" => $this->price
+            "price" => $this->price,
+            "image_path" => $this->image_path
         ];
     }
 }

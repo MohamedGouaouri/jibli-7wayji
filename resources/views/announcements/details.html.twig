@@ -14,8 +14,7 @@
             {% if announcement %}
                 <div class="col-md-3 border-right">
                     <div class="d-flex flex-column align-items-center texprofile-buttont-center p-3 py-5">
-                        image here
-                        <img class="rounded-circle mt-5" width="200px" height="" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" alt="">
+                        <img class="rounded-circle mt-5" width="200px" height="" src="{{ announcement.getImagePath() != "" ? announcement.getImagePath() : "https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60" }}" alt="">
                     </div>
                 </div>
 
@@ -82,7 +81,7 @@
         </div>
         {% if announcement.getUser().getUserId() == user.getUserId() %}
             <div class="row d-flex flex-column">
-                <div>
+                <div class="text-center">
                     <h2>Les transporteurs proposes</h2>
                 </div>
                 {% for transporter in possible_transporters %}

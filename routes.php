@@ -130,6 +130,7 @@ Route::get(/**
 Route::post(/**
  *
  */ "new_announcement", function (){
+    header("Content-Type: application/json");
     // get request parameters
     $start_point = $_POST["start_point"];
     $end_point = $_POST["end_point"];
@@ -138,10 +139,14 @@ Route::post(/**
     $volume = $_POST["volume"];
     $way = $_POST["way"];
     $message = trim($_POST["message"]);
+    echo json_encode("hello");
+    $image_path = Uploader::upload("announcement_image");
+
     $announcement_controller = new AnnouncementController();
-    $added = $announcement_controller->addNewAnnouncement($start_point, $end_point, $type, $weight, $volume, $way, $message);
+
+    $added = $announcement_controller->addNewAnnouncement($start_point, $end_point, $type, $weight, $volume, $way, $message, $image_path);
     $transporters = Transporter::getByTrajectory((int)$start_point, (int)$end_point);
-    header("Content-Type: application/json");
+
     echo json_encode(["added" => $added, "transporters" => $transporters]);
 });
 

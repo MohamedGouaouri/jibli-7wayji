@@ -49,9 +49,9 @@ class AnnouncementController extends Controller{
         return Announcement::limit($number);
     }
 
-    public function getAllAnnouncements(): array {
-        return Announcement::all();
-    }
+//    public function getAllAnnouncements(): array {
+//        return Announcement::all();
+//    }
 
     public function getAllOfUser($user_id, $is_transporter){
 
@@ -79,7 +79,9 @@ class AnnouncementController extends Controller{
                                        $weight,
                                        $volume,
                                        $way,
-                                       $message): bool {
+                                       $message,
+                                       $image_path
+): bool {
 
 
         // get user id from session
@@ -92,7 +94,8 @@ class AnnouncementController extends Controller{
             $weight,
             $volume,
             $way,
-            $message);
+            $message,
+            $image_path);
     }
 
 
