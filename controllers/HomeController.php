@@ -16,7 +16,9 @@ class HomeController extends Controller
                     "isAuthenticated" => true,
                     "user" => $user,
                     "is_transporter" => Auth::isAuthorizedTransporter(),
-                    "wilayas" => (new WilayaController())->get_all()
+                    "wilayas" => (new WilayaController())->get_all(),
+                    "diaporama_images" => Diaporama::all(),
+                    "weights" => Weight::all()
                 ]);
         }else{
             $controller = new AnnouncementController();
@@ -26,7 +28,9 @@ class HomeController extends Controller
                     "title" => "VTC application",
                     "announcements" => $result,
                     "isAuthenticated" => false,
-                    "wilayas" => (new WilayaController())->get_all()
+                    "wilayas" => (new WilayaController())->get_all(),
+                    "diaporama_images" => Diaporama::all(),
+
                 ]);
         }
 

@@ -31,7 +31,8 @@ class News
      * @param string $title
      * @param string $synopsis
      * @param string $content
-     * @param array $paths
+     * @param string $paths
+     * @return bool
      */
     public static function add(string $title, string $synopsis, string $content, string $paths){
         $pdo = DB::connect();

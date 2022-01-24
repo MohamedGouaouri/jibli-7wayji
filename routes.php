@@ -54,7 +54,7 @@ Route::post(/**
 
     $email = $_POST["email"];
     $password = $_POST["password"];
-    $is_client = strcmp($_POST["client_or_transporter"], "client") == 0 ? true : false;
+    $is_client = strcmp($_POST["client_or_transporter"], "client") == 0;
     $controller = new LoginController();
     $authenticated = $controller->authenticate($email, $password, $is_client);
     if (!$authenticated){
@@ -130,7 +130,7 @@ Route::get(/**
 Route::post(/**
  *
  */ "new_announcement", function (){
-    header("Content-Type: application/json");
+//    header("Content-Type: application/json");
     // get request parameters
     $start_point = $_POST["start_point"];
     $end_point = $_POST["end_point"];
@@ -139,15 +139,15 @@ Route::post(/**
     $volume = $_POST["volume"];
     $way = $_POST["way"];
     $message = trim($_POST["message"]);
-    echo json_encode("hello");
+//    echo json_encode("hello");
     $image_path = Uploader::upload("announcement_image");
 
     $announcement_controller = new AnnouncementController();
 
     $added = $announcement_controller->addNewAnnouncement($start_point, $end_point, $type, $weight, $volume, $way, $message, $image_path);
-    $transporters = Transporter::getByTrajectory((int)$start_point, (int)$end_point);
+//    $transporters = Transporter::getByTrajectory((int)$start_point, (int)$end_point);
 
-    echo json_encode(["added" => $added, "transporters" => $transporters]);
+//    echo json_encode(["added" => $added]);
 });
 
 
@@ -338,11 +338,12 @@ Route::get(/**
         ]);
     }else if (Auth::isAuthorizedClient()){
         // history for clients
+        $client = Auth::user();
         View::make("client/history.html.twig", [
             "is_transporter" => false,
             "isAuthenticated" => true,
-            "user" => Auth::user(),
-            "transactions" => Transaction::getOfClient(Auth::user()->getUserId())
+            "user" => $client,
+            "transactions" => Transaction::getOfClient($client->getUserId())
         ]);
     }
 });
@@ -537,7 +538,7 @@ Route::get("signals", function (){
 Route::get(/**
  *
  */ "test", function (){
-    var_dump(ClientSignal::all());
+    var_dump(Weight::all());
  });
 
 Route::post(/**

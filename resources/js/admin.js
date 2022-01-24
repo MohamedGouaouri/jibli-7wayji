@@ -373,19 +373,21 @@ $(document).ready(function () {
                     data: {
                         "title": $("#news-title").val(),
                         "synopsis": $("#news-synopsis").val(),
-                        "content": $("#content").val()
+                        "content": $("#news-content").val()
                     }
                 }).done(data => {
                     console.log(data);
-                })
-                if (data.success){
-                    $(".alert").empty().append(data.message).show()
-                    setTimeout(() => {
-                        $(".alert").hide();
+                    if (data.success){
+                        $(".alert").empty().append(data.message).show()
+                        setTimeout(() => {
+                            $(".alert").hide();
 
-                    }, 2000);
+                        }, 2000);
 
-                }
+                    }
+                });
+                $("get-news").click();
+
             })
 
         });

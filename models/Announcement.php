@@ -358,7 +358,9 @@ class Announcement extends Model implements JsonSerializable
      * @param $type
      * @param $weight
      * @param $volume
+     * @param $way
      * @param $message
+     * @param $image_path
      * @return bool
      */
     public static function add($user_id, $start_point, $end_point, $type, $weight, $volume, $way, $message, $image_path){
@@ -377,7 +379,7 @@ class Announcement extends Model implements JsonSerializable
         $stmt->bindValue(":image_path", $image_path);
         $price = Price::price($start_point, $end_point);
         if ($price != null){
-            $stmt->bindValue(":price", $price->getPrice());
+            $stmt->bindValue(":price", $price->getPrice() * $weight);
         }else{
             $stmt->bindValue(":price", 0);
         }

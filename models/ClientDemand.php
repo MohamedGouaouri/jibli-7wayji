@@ -50,7 +50,7 @@ class ClientDemand implements JsonSerializable
 
     public static function all()
     {
-        $result_db = DB::query("SELECT * FROM client_demands");
+        $result_db = DB::query("SELECT * FROM client_demands_view WHERE done = FALSE");
         $demands = array();
         foreach ($result_db as $value){
             array_push($demands, new ClientDemand(

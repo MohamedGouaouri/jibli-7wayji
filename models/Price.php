@@ -151,6 +151,8 @@ class Price extends Model implements JsonSerializable
 
 
 
+
+
     public function jsonSerialize()
     {
         // TODO: Implement jsonSerialize() method.

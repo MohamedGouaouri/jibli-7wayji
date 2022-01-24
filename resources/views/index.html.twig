@@ -81,7 +81,7 @@
             <form id="newAnnouncementForm" enctype="multipart/form-data">
               <div class="m-2">
                 <label for="add_start_point" class="required">Point de depart</label>
-                <select class="form-control form-select-lg" id="add_start_point" name="add_start_point">
+                <select class="form-control form-select-lg" id="add_start_point" name="start_point">
                   {% for wilaya in wilayas %}
                     <option value="{{ wilaya.getWilayaId() }}">{{ wilaya.getWilayaName() }}</option>
                   {% endfor %}
@@ -89,7 +89,7 @@
               </div>
               <div class="m-2">
                 <label for="add_end_point" class="required">Point d'arrive</label>
-                <select class="form-control" id="add_end_point" name="add_end_point">
+                <select class="form-control" id="add_end_point" name="end_point">
                   {% for wilaya in wilayas %}
                     <option value="{{ wilaya.getWilayaId() }}">{{ wilaya.getWilayaName() }}</option>
                   {% endfor %}
@@ -109,11 +109,10 @@
               <div class="m-2">
                 <label for="weight" class="required">Poids</label>
                 <select class="form-control" id="weight" name="weight">
-                  <option value="100">entre 0 et 100 gr</option>
-                  <option value="1000">entre 100gr et 1kg</option>
-                  <option value="5000">entre 1kg et 5kg </option>
-                  <option value="10000">entre 5kg et 10kg </option>
-                  <option value="-1">plus </option>
+                  {% for weight in weights %}
+                    <option value="{{ weight.getWeight() }}">{{ weight.getDescription() }}</option>
+                  {% endfor %}
+{#                  <option value="-1">plus </option>#}
                 </select>
               </div>
 
@@ -132,7 +131,7 @@
               </div>
               <div class="m-2">
                 <label for="message">Description</label>
-                <textarea name="description" id="message" class="form-control" maxlength="255">
+                <textarea name="message" id="message" class="form-control" maxlength="255">
                 </textarea>
               </div>
               <div class="m-2">
@@ -145,27 +144,8 @@
         </div>
       </div>
 
-      {#  List of transporters that a client can contact for his announcement #}
-{#      <div class="padding">#}
-{#        <div class="container-fluid">#}
-{#          <div class="row" id="transporters-list">#}
-
-{#          </div>#}
-{#        </div>#}
-{#      </div>#}
 
     {% endif %}
-
-{#  <div id="fixed2">#}
-
-{#  </div>#}
-{#    {% include '_includes/news.html.twig' %}#}
-
-{#  <div id="fixed3">#}
-
-{#  </div>#}
-    <!-- Statistics -->
-{#    {% include '_includes/stats.html.twig' %}#}
 
     {# scroll top button   #}
     <button id="scrollTopBtn" class="fa fa-arrow-up"></button>

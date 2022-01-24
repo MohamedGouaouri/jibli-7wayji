@@ -23,7 +23,7 @@ class Uploader
             /* Check file extension */
             if(in_array(strtolower($imageFileType), $valid_extensions)) {
                 /* Upload file */
-                $location = self::$base . base64_encode($filename);
+                $location = self::$base . base64_encode($filename) . "." . $imageFileType;
                 if(move_uploaded_file($_FILES[$file_name]['tmp_name'],$location)){
                     $image_path = $location;
                 }

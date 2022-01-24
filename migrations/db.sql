@@ -56,14 +56,6 @@ CREATE TABLE IF NOT EXISTS users(
 );
 
 
-
-INSERT INTO users (name, family_name, email, password, address) VALUES
-                ('A', 'B', 'A1@esi.dz', PASSWORD('password'), 'address'),
-                ('A', 'B', 'A2@esi.dz', PASSWORD('password'), 'address'),
-                ('A', 'B', 'A3@esi.dz', PASSWORD('password'), 'address'),
-                ('A', 'B', 'A4@esi.dz', PASSWORD('password'), 'address')
-                ;
-
 # Transporters schema
 DROP TABLE IF EXISTS transporters;
 CREATE TABLE IF NOT EXISTS transporters(
@@ -105,17 +97,6 @@ CREATE TABLE IF NOT EXISTS announcements(
     FOREIGN KEY (start_point) REFERENCES wilayas(wilaya_id),
     FOREIGN KEY (end_point) REFERENCES wilayas(wilaya_id)
 );
-INSERT INTO announcements (user_id, start_point, end_point, type, weight, volume, status, message, validated)
-    VALUES (1, 1, 1, 'TYPE', 1000, 200, 'approved', 'Nothing', 1),
-           (1, 2, 1, 'TYPE', 1000, 200, 'approved', 'Nothing', 1),
-           (2, 1, 3, 'TYPE', 1000, 200, 'approved', 'Nothing', 1),
-           (2, 3, 1, 'TYPE', 1000, 200, 'approved', 'Nothing', 1),
-           (3, 4, 1, 'TYPE', 1000, 200, 'approved', 'Nothing', 1),
-           (3, 2, 2, 'TYPE', 1000, 200, 'approved', 'Nothing', 1),
-           (2, 1, 3, 'TYPE', 1000, 200, 'approved', 'Nothing', 1),
-           (1, 4, 2, 'TYPE', 1000, 200, 'approved', 'Nothing', 1),
-           (1, 4, 2, 'TYPE', 1000, 200, 'approved', 'Nothing', 0)
-    ;
 
 # transports
 DROP TABLE IF EXISTS transport;
@@ -273,6 +254,12 @@ SELECT covered_wilayas.transporter_id, covered_wilayas.wilaya_id, w.wilaya_name 
 CREATE VIEW running_transports_view AS
 SELECT * FROM transport WHERE validated = TRUE AND done = FALSE;
 
+
+# DROP VIEW IF EXISTS possible_transporters_view;
+# CREATE VIEW possible_transporters_view AS
+# SELECT DISTINCT transporter_id, announcement_id FROM trajectories t JOIN announcements a ON a.start_point = t.start_point AND a.end_point;
+
+
 # Ad types
 
 DROP TABLE IF EXISTS announcement_types;
@@ -288,3 +275,26 @@ CREATE TABLE IF NOT EXISTS announcement_types (
    mobile VARCHAR(50),
    address VARCHAR(50)
 );
+
+DROP TABLE IF EXISTS diaporama_images;
+CREATE TABLE IF NOT EXISTS diaporama_images(
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  path VARCHAR(255)
+);
+
+DROP TABLE IF EXISTS weights;
+CREATE TABLE IF NOT EXISTS weights(
+  weight DOUBLE,
+  description VARCHAR(20),
+  unit_price DOUBLE,
+  PRIMARY KEY (`weight`, `unit_price`)
+);
+INSERT INTO weights VALUES (0.1, 'entre 0 et 100 gr', 100),
+                           (1, 'entre 100 gr et 1kg', 1000),
+                           (5, 'entre 1kg et 5kg', 10000),
+                           (10, 'entre 5kg et 10kg', 20000);
+
+
+DROP VIEW IF EXISTS client_demands_view;
+CREATE TABLE IF NOT EXISTS client_demands_view AS
+SELECT cd.announcement_id as announcement_id , cd.transporter_id as transporter_id , done FROM client_demands cd JOIN transport t ON t.announcement_id = cd.announcement_id AND t.transporter_id=cd.transporter_id
