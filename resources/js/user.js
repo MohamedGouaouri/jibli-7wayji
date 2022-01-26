@@ -178,6 +178,12 @@ $("#feedback-form").submit((e) => {
 $("#enable-update-profile").click((e) => {
     $(".updated").attr("readonly", false);
     $("#submit-update-profile").show();
+    $("#cancel-update-profile").show();
+});
+$("#cancel-update-profile").click((e) => {
+    $(".updated").attr("readonly", true);
+    $("#submit-update-profile").hide();
+    $("#cancel-update-profile").hide();
 })
 $("#submit-update-profile").click((e) => {
 
@@ -206,6 +212,7 @@ $("#submit-update-profile").click((e) => {
         }
         $(".updated").attr("readonly", true);
         $("#submit-update-profile").hide();
+        $("#cancel-update-profile").hide();
     })
 
 })
