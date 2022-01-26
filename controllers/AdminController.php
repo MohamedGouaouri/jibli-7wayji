@@ -7,6 +7,7 @@ class AdminController
 
     public function index()
     {
+//        (new LoginController())->adminAuthenticate();
         View::make("admin/admin.html.twig");
     }
 

@@ -26,4 +26,9 @@ class Auth
 
         return (self::user() != null) && (Session::get("is_client") == false);
     }
+
+    public static function isAdmin(): bool {
+        Session::start();
+        return Session::exists("is_admin");
+    }
 }

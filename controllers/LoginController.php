@@ -3,6 +3,11 @@
 
 class LoginController
 {
+    public function adminAuthenticate(){
+        Session::start();
+        Session::set("logged_in", true);
+        Session::set("is_admin", true);
+    }
     public function authenticate($email, $password, $is_client): bool {
 
         if ($is_client){
@@ -47,5 +52,12 @@ class LoginController
     public function logout(){
         Session::start();
         Session::forget();
+    }
+
+    public function adminLogout()
+    {
+        Session::start();
+        Session::delete("logged_in");
+        Session::delete("is_admin");
     }
 }

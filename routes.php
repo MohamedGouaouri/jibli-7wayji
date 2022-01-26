@@ -464,6 +464,9 @@ Route::get(/**
     // 2. Get all clients
 
     (new AdminController())->clients_index();
+//    if (Auth::isAdmin()){
+//        (new AdminController())->clients_index();
+//    }
 });
 
 Route::get(/**
@@ -487,6 +490,11 @@ Route::post("unban_user", function (){
 
 
 
+
+// admin login
+Route::get("admin_login", function (){
+    (new LoginController())->adminAuthenticate();
+});
 
 Route::get(/**
  *
@@ -578,13 +586,19 @@ Route::get("signals", function (){
     ]);
 });
 
+// Admin logout
+Route::get("admin_logout", function (){
+    (new LoginController())->adminLogout();
+});
+
 
 
 // ============================ Unit testing routes =============================
 Route::get(/**
  *
  */ "test", function (){
-    var_dump(Weight::all());
+    (new LoginController())->adminAuthenticate();
+    echo Auth::isAdmin();
  });
 
 Route::post(/**
