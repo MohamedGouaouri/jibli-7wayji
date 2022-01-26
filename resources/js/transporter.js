@@ -189,3 +189,34 @@ $("#submit-update-profile").click((e) => {
     })
 
 })
+
+
+// transporter make signals
+$("#signal-form").submit(e => {
+    e.preventDefault();
+    let url = new URLSearchParams(window.location.search);
+    //
+    let client_id = Number.parseInt(url.get("client_id"));
+    let message = $("#message").val();
+    $.ajax({
+        type: "POST",
+        url: "transporter_signals",
+        data: {
+            "client_id": client_id,
+            "message": message
+        }
+    }).done(data => {
+        console.log(data);
+        if (data.success){
+            $(".alert-success").empty().append(data.message).show();
+            setTimeout(() => {
+                $(".alert-success").hide();
+            }, 2000);
+        }else{
+            $(".alert-danger").empty().append(data.message).show();
+            setTimeout(() => {
+                $(".alert-danger").hide();
+            }, 2000);
+        }
+    })
+})

@@ -22,4 +22,19 @@ class TransporterSignal extends Signal
     {
         // TODO: Implement allOf() method.
     }
+
+    public static function add($client_id, $transporter_id, $message)
+    {
+        $pdo = DB::connect();
+        $stmt = $pdo->prepare("INSERT INTO client_signals (`transporter_id`, `user_id`, `message`) VALUES (:transporter_id, :client_id, :message)");
+        $stmt->bindValue(":client_id", $client_id, PDO::PARAM_INT);
+        $stmt->bindValue(":transporter_id", $transporter_id, PDO::PARAM_INT);
+        $stmt->bindValue(":message", $message);
+        try {
+            return $stmt->execute();
+        }catch (Exception $e){
+
+        }
+        return false;
+    }
 }

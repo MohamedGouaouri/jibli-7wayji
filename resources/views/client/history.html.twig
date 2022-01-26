@@ -28,7 +28,7 @@
                         <td class="text-center">
                             <div class="d-flex justify-content-center">
                                 <a class="btn btn-primary m-2" href="{{ 'feedback' }}?transporter_id={{ transaction.getTransporter().getUserId() }}">Noter transporteur</a>
-                                <a class="btn btn-danger m-2" href="#">Signaler le transporteur</a>
+                                <a class="btn btn-danger m-2" href="{{ 'signal' }}?transporter_id={{ transaction.getTransporter().getUserId() }}">Signaler le transporteur</a>
                             </div>
                         </td>
                     </tr>

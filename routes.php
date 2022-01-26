@@ -380,6 +380,52 @@ Route::post("feedback", function (){
     }
 });
 
+// User signal
+Route::get("signal", function (){
+    if (Auth::isAuthorizedClient() || Auth::isAuthorizedTransporter()){
+        $user = Auth::user();
+        View::make("user/signal.php.twig", [
+            "user" => $user,
+            "isAuthenticated" => true
+        ]);
+    }
+});
+
+Route::post("client_signals", function (){
+    if (Auth::isAuthorizedTransporter() || Auth::isAuthorizedClient()){
+        $user = Auth::user();
+        $transporter_id = $_POST["transporter_id"];
+        $message = $_POST["message"];
+        $added = (new SignalsController())->addClientSignal($user->user_id, $transporter_id, $message);
+        header("Content-Type: application/json");
+        if ($added){
+
+            echo json_encode(["success" => true, "message" => "Votre signale a ete envoye"]);
+
+        }
+        else{
+            echo json_encode(["success" => true, "message" => "Votre signalement n'a pas pu etre enregistre"]);
+
+        }
+    }
+});
+Route::post("transporter_signals", function (){
+    if (Auth::isAuthorizedTransporter() || Auth::isAuthorizedClient()){
+        $user = Auth::user();
+        $client_id = $_POST["client_id"];
+        $message = $_POST["message"];
+        $added = (new SignalsController())->addTransporterSignal($user->user_id, $client_id, $message);
+        header("Content-Type: application/json");
+        if ($added){
+            echo json_encode(["success" => true, "message" => "Votre signale a ete envoye"]);
+        }
+        else{
+            echo json_encode(["success" => true, "message" => "Votre signalement n'a pas pu etre enregistre"]);
+
+        }
+    }
+});
+
 
 // news
 Route::get("news", function (){

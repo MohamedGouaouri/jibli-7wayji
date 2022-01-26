@@ -215,4 +215,35 @@ $("#submit-update-profile").click((e) => {
         $("#cancel-update-profile").hide();
     })
 
+});
+
+
+// client signals a transporter
+$("#signal-form").submit(e => {
+    e.preventDefault();
+    let url = new URLSearchParams(window.location.search);
+    //
+    let transporter_id = Number.parseInt(url.get("transporter_id"));
+    let message = $("#message").val();
+    $.ajax({
+        type: "POST",
+        url: "client_signals",
+        data: {
+            "transporter_id": transporter_id,
+            "message": message
+        }
+    }).done(data => {
+        console.log(data);
+        if (data.success){
+            $(".alert-success").empty().append(data.message).show();
+            setTimeout(() => {
+                $(".alert-success").hide();
+            }, 2000);
+        }else{
+            $(".alert-danger").empty().append(data.message).show();
+            setTimeout(() => {
+                $(".alert-danger").hide();
+            }, 2000);
+        }
+    })
 })
