@@ -13,6 +13,7 @@ class TransporterController
                 "isAuthenticated" => true,
                 "user" => $transporter,
                 "is_transporter" => true,
+                "certification" => CertificationDemand::of($transporter->getUserId())
             ]);
             return;
         }

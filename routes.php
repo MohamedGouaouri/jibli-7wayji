@@ -450,6 +450,25 @@ Route::get("contact", function (){
 
 
 // ============================== ADMIN routes ====================================
+
+// admin login
+Route::get("admin_login", function (){
+    if (!Auth::isAdmin()){
+        (new AdminController())->loginPage();
+        return;
+    }
+    Route::router("vtc","admin");
+});
+
+Route::post("admin_login", function (){
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+    if ($email == "admin@esi.dz" and $password == "admin"){
+        (new LoginController())->adminAuthenticate();
+    }
+});
+
+
 Route::get(/**
  *
  */ "admin", function (){
@@ -491,10 +510,6 @@ Route::post("unban_user", function (){
 
 
 
-// admin login
-Route::get("admin_login", function (){
-    (new LoginController())->adminAuthenticate();
-});
 
 Route::get(/**
  *
@@ -591,6 +606,11 @@ Route::get("admin_logout", function (){
     (new LoginController())->adminLogout();
 });
 
+
+// not found page
+Route::get("404", function (){
+    View::make("404.html.twig");
+});
 
 
 // ============================ Unit testing routes =============================

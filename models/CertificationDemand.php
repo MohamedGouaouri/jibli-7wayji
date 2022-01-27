@@ -52,6 +52,25 @@ class CertificationDemand extends Model implements JsonSerializable
         return $demands;
     }
 
+    public static function of(int $transporter_id){
+        $pdo = DB::connect();
+        $stmt = $pdo->prepare("SELECT * FROM certification_demands WHERE transporter_id = :transporter_id");
+        $stmt->bindValue(":transporter_id", $transporter_id, PDO::PARAM_INT);
+        try {
+            if ($stmt->execute()){
+                $result = $stmt->fetch();
+                return new CertificationDemand(
+                    Transporter::get_by_id($result["transporter_id"]),
+                    $result["status"],
+                    $result["demand_date"]
+                );
+            }
+        }catch (Exception $e){
+
+        }
+        return null;
+    }
+
     /**
      * @return Transporter
      */

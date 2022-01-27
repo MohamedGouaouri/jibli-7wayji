@@ -8,40 +8,45 @@ class Route{
     private static $valid_delete_routes = array();
     public static function get($route, $function){
         // handle get requests
-        self::$valid_get_routes[] =  $route;
+
         // run the callback function
         if ($_SERVER["REQUEST_METHOD"] == "GET"  && $_GET["url"] == $route){
+            self::$valid_get_routes[] =  $route;
             $function->__invoke();
         }
     }
     public static function post($route, $function){
         // Handle post requests
-        self::$valid_post_routes[] = $route;
+
         if ($_SERVER["REQUEST_METHOD"] == "POST" && $_GET["url"] == $route){
+            self::$valid_post_routes[] = $route;
             $function->__invoke();
         }
     }
 
     public static function put($route, $function){
         // Handle post requests
-        self::$valid_put_routes[] = $route;
+
         if ($_SERVER["REQUEST_METHOD"] == "PUT"){
+            self::$valid_put_routes[] = $route;
             $function->__invoke();
         }
     }
 
     public static function patch($route, $function){
         // Handle post requests
-        self::$valid_patch_routes[] = $route;
+
         if ($_SERVER["REQUEST_METHOD"] == "PATCH"){
+            self::$valid_patch_routes[] = $route;
             $function->__invoke();
         }
     }
 
     public static function delete($route, $function){
         // Handle post requests
-        self::$valid_delete_routes[] = $route;
+
         if ($_SERVER["REQUEST_METHOD"] == "DELETE" && $_GET["url"] == $route){
+            self::$valid_delete_routes[] = $route;
             $function->__invoke();
         }
     }

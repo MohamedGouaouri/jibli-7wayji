@@ -24,7 +24,11 @@
                 <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                     <img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" alt="">
                     <span class="font-weight-bold">{{ user.getName() }}</span>
-                    <span class="my-3">{{ user.isCertified() ? "Certifie" : "Non certifie" }}</span>
+                    {% if user.isCertified() %}
+                        <span class="my-3">Certified</span>
+                    {% else %}
+                        <span class="my-3">Non Certified et votre demande est {{ certification.getStatus() }}</span>
+                    {% endif %}
                 </div>
             </div>
             <div class="col-md-9 border-right">

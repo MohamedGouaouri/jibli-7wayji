@@ -165,4 +165,9 @@ class AdminController
             ]);
         }
     }
+
+    public function loginPage()
+    {
+        View::make("admin/login.php.twig");
+    }
 }
