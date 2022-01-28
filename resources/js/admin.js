@@ -130,6 +130,64 @@ $(document).ready(function () {
                 })
             })
 
+            // Validate cert
+            $(".cert-validate").click((e) => {
+                let btn = $(e.target);
+                let id = btn.attr("data-id");
+                let url = "cert_validate";
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        "id": id,
+                    }
+                }).done(data => {
+                    console.log(data);
+                    if (data.success){
+                        $(".alert-success").empty().append(data.message).show()
+                        setTimeout(() => {
+                            $(".alert-success").hide();
+
+                        }, 2000);
+                        $("#get-transporters").click();
+                    }else{
+                        $(".alert-danger").empty().append(data.message).show()
+                        setTimeout(() => {
+                            $(".alert-danger").hide();
+
+                        }, 2000);
+                    }
+                })
+            })
+            $(".cert-reject").click((e) => {
+                let btn = $(e.target);
+                let id = btn.attr("data-id");
+                let url = "cert_reject";
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        "id": id,
+                    }
+                }).done(data => {
+                    console.log(data);
+                    if (data.success){
+                        $(".alert-success").empty().append(data.message).show()
+                        setTimeout(() => {
+                            $(".alert-success").hide();
+
+                        }, 2000);
+                        $("#get-transporters").click();
+                    }else{
+                        $(".alert-danger").empty().append(data.message).show()
+                        setTimeout(() => {
+                            $(".alert-danger").hide();
+
+                        }, 2000);
+                    }
+                })
+            })
+
         })
     })
 

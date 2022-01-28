@@ -100,22 +100,24 @@
             </thead>
             <tbody>
             {% for demand in certification_demands %}
-                <tr>
+                <tr data-id="{{ demand.getId() }}">
                     <td class="text-center">{{ loop.index }}</td>
                     <td class="text-center">{{ demand.getTransporter().getName() }}</td>
                     <td class="text-center">{{ demand.getTransporter().getFamilyName() }}</td>
                     <td class="text-center">{{ demand.getTransporter().getEmail() }}</td>
                     <td class="text-center">{{ demand.getTransporter().getPhoneNumber() }}</td>
-                    <td class="text-center">{{ demand.getDate() }}</td>
+                    <td class="text-center" >{{ demand.getDate() }}</td>
                     <td class="text-center">{{ demand.getStatus() }}</td>
                     <td class="d-flex align-items-center justify-content-center">
                         <div class="d-flex flex-row align-items-baseline">
-                            <div>
-                                <a class="btn btn-green">Valider</a>
-                            </div>
-                            <div>
-                                <button class="btn btn-danger">Reject</button>
-                            </div>
+                            {% if demand.getStatus() == 'pending' %}
+                                <div>
+                                    <a class="btn btn-green cert-validate" data-id="{{ demand.getId() }}">Validate</a>
+                                </div>
+                                <div>
+                                    <button class="btn btn-danger cert-reject" data-id="{{ demand.getId() }}">Reject</button>
+                                </div>
+                            {% endif %}
                         </div>
                     </td>
                 </tr>

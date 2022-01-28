@@ -3,18 +3,21 @@
 
 class CertificationDemand extends Model implements JsonSerializable
 {
+    private int $id;
     private Transporter $transporter;
     private string $status;
     private string $date;
 
     /**
      * CertificationDemand constructor.
+     * @param int $id
      * @param Transporter $transporter
      * @param string $status
      * @param string $date
      */
-    public function __construct(Transporter $transporter, string $status, string $date)
+    public function __construct(int $id, Transporter $transporter, string $status, string $date)
     {
+        $this->id = $id;
         $this->transporter = $transporter;
         $this->status = $status;
         $this->date = $date;
@@ -37,11 +40,22 @@ class CertificationDemand extends Model implements JsonSerializable
             return false;
         }
     }
-    public static function validate_certification_demand(int $for, string $date){
+    public static function validate_certification_demand(int $id){
         $pdo = DB::connect();
-        $stmt = $pdo->prepare("UPDATE certification_demands SET status = 'validated' WHERE transporter_id = :transporter_id AND date = :date");
-        $stmt->bindValue(":transporter_id", $for, PDO::PARAM_INT);
-        $stmt->bindValue(":data", $date);
+        $stmt = $pdo->prepare("UPDATE certification_demands SET status = 'validated' WHERE id = :id");
+        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
+        try {
+            return $stmt->execute();
+        }catch (Exception $e){
+
+        }
+        return  false;
+    }
+
+    public static function reject_certification_demand(int $id){
+        $pdo = DB::connect();
+        $stmt = $pdo->prepare("UPDATE certification_demands SET status = 'rejected' WHERE id = :id");
+        $stmt->bindValue(":id", $id, PDO::PARAM_INT);
         try {
             return $stmt->execute();
         }catch (Exception $e){
@@ -61,6 +75,7 @@ class CertificationDemand extends Model implements JsonSerializable
         $demands = array();
         foreach ($result as $value){
             array_push($demands, new CertificationDemand(
+                $value["id"],
                 Transporter::get_by_id($value["transporter_id"]),
                 $value["status"],
                 $value["demand_date"]
@@ -78,6 +93,7 @@ class CertificationDemand extends Model implements JsonSerializable
                 $result = $stmt->fetch();
                 if ($result){
                     return new CertificationDemand(
+                        $result["id"],
                         Transporter::get_by_id($result["transporter_id"]),
                         $result["status"],
                         $result["demand_date"]
@@ -114,12 +130,23 @@ class CertificationDemand extends Model implements JsonSerializable
         return $this->date;
     }
 
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+
+
 
 
     public function jsonSerialize()
     {
         // TODO: Implement jsonSerialize() method.
         return [
+            "id" => $this->id,
             "transporter" => $this->getTransporter(),
             "status" => $this->getStatus(),
             "date" => $this->getDate()

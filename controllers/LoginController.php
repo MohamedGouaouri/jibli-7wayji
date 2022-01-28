@@ -59,5 +59,6 @@ class LoginController
         Session::start();
         Session::delete("logged_in");
         Session::delete("is_admin");
+        Route::router("vtc", "admin");
     }
 }

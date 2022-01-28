@@ -644,9 +644,22 @@ Route::get("signals", function (){
    }
 });
 
+
+// validate and reject demand
+Route::post("cert_validate", function (){
+    $id = $_POST["id"];
+    (new AdminController())->cert_validate($id);
+});
+
+Route::post("cert_reject", function (){
+    $id = $_POST["id"];
+    (new AdminController())->cert_reject($id);
+});
+
 // Admin logout
 Route::get("admin_logout", function (){
     (new LoginController())->adminLogout();
+
 });
 
 
@@ -668,7 +681,7 @@ Route::get(/**
  */ "test", function (){
 //    (new LoginController())->adminAuthenticate();
 //    echo Auth::isAdmin();
-    var_dump(Announcement::all(true));
+//    var_dump(Announcement::all(true));
  });
 
 Route::post(/**

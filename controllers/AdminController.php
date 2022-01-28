@@ -170,4 +170,28 @@ class AdminController
     {
         View::make("admin/login.php.twig");
     }
+
+    public function cert_validate(int $id)
+    {
+        $validated = CertificationDemand::validate_certification_demand($id);
+        header("Content-Type: application/json");
+        if ($validated){
+            echo json_encode(["success" => true, "message" => "La demande a ete valide"]);
+        }else{
+            echo json_encode(["success" => false, "message" => "La demande n'a pas ete valide"]);
+
+        }
+    }
+
+    public function cert_reject(int $id)
+    {
+        $rejected = CertificationDemand::reject_certification_demand($id);
+        header("Content-Type: application/json");
+        if ($rejected){
+            echo json_encode(["success" => true, "message" => "La demande a ete rejete"]);
+        }else{
+            echo json_encode(["success" => false, "message" => "Une erreur s'est produite"]);
+
+        }
+    }
 }

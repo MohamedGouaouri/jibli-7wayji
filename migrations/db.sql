@@ -69,6 +69,7 @@ CREATE TABLE IF NOT EXISTS transporters(
 
 DROP TABLE IF EXISTS certification_demands;
 CREATE TABLE IF NOT EXISTS certification_demands(
+  id INT PRIMARY KEY AUTO_INCREMENT,
   transporter_id INT,
   status VARCHAR(20) DEFAULT 'pending',
   demand_date DATETIME DEFAULT NOW(),
@@ -234,23 +235,26 @@ SELECT R.*, w1.wilaya_name AS start_wilaya_name, w2.wilaya_name AS end_wilaya_na
 
 
 # Trajectories view
+DROP VIEW IF EXISTS trajectories;
 CREATE VIEW trajectories AS
 SELECT c1.transporter_id as transporter_id, c1.wilaya_id as start_point, c2.wilaya_id as end_point FROM covered_wilayas as c1,covered_wilayas as c2;
 
-
+DROP VIEW IF EXISTS all_announcements_view;
 CREATE VIEW all_announcements_view AS
 SELECT R.*, w1.wilaya_name AS start_wilaya_name, w2.wilaya_name AS end_wilaya_name FROM (SELECT a.*, name, family_name, email, password, address  FROM announcements a JOIN users u ON u.user_id = a.user_id WHERE u.banned = FALSE) AS R, wilayas w1, wilayas w2 WHERE R.start_point = w1.wilaya_id AND w2.wilaya_id = R.end_point;
 
 
 # Certification demand view
+DROP VIEW IF EXISTS certification_demand_view;
 CREATE VIEW certification_demand_view AS
-SELECT tv.*, d.status as demand_status, d.demand_date FROM certification_demands d JOIN transporters_view tv on tv.transporter_id = d.transporter_id;
+SELECT tv.*, d.id as demand_id, d.status as demand_status, d.demand_date FROM certification_demands d JOIN transporters_view tv on tv.transporter_id = d.transporter_id;
 
 # Covered wilayas view
+DROP VIEW IF EXISTS covered_wilayas_view;
 CREATE VIEW covered_wilayas_view AS
 SELECT covered_wilayas.transporter_id, covered_wilayas.wilaya_id, w.wilaya_name FROM covered_wilayas JOIN wilayas w on covered_wilayas.wilaya_id = w.wilaya_id;
 
-
+DROP VIEW IF EXISTS running_transports_view;
 CREATE VIEW running_transports_view AS
 SELECT * FROM transport WHERE validated = TRUE AND done = FALSE;
 
