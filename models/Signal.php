@@ -23,7 +23,7 @@ abstract class Signal implements JsonSerializable
     /**
      * @return Transporter
      */
-    public function getTransporter(): Transporter
+    public function getTransporter(): ?Transporter
     {
         return $this->transporter;
     }
@@ -31,7 +31,7 @@ abstract class Signal implements JsonSerializable
     /**
      * @return User
      */
-    public function getClient(): User
+    public function getClient(): ?User
     {
         return $this->client;
     }

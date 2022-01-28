@@ -14,6 +14,7 @@
                     <th scope="col">To</th>
                     <th scope="col">For</th>
                     <th scope="col">Price</th>
+                    <th scope="col">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -24,7 +25,13 @@
                         <td>{{ transaction.getAnnouncement().getEndPoint().getWilayaName() }}</td>
                         <td>{{ transaction.getAnnouncement().getUser().getName() }}</td>
                         <td>{{ transaction.getAnnouncement().getPrice() }} DZ</td>
+                        <td >
+                            <div class="d-flex">
+                                <a class="btn btn-danger m-2" href="{{ 'signal' }}?client_id={{ transaction.getAnnouncement().getUser().getUserId() }}">Signaler le transporteur</a>
+                            </div>
+                        </td>
                     </tr>
+
                 {% endfor %}
                 </tbody>
             </table>

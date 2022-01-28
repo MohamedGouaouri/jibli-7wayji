@@ -239,26 +239,58 @@ $("#signal-form").submit(e => {
     let url = new URLSearchParams(window.location.search);
     //
     let transporter_id = Number.parseInt(url.get("transporter_id"));
+    let client_id = Number.parseInt(url.get("client_id"));
     let message = $("#message").val();
-    $.ajax({
-        type: "POST",
-        url: "client_signals",
-        data: {
-            "transporter_id": transporter_id,
-            "message": message
-        }
-    }).done(data => {
-        console.log(data);
-        if (data.success){
-            $(".alert-success").empty().append(data.message).show();
-            setTimeout(() => {
-                $(".alert-success").hide();
-            }, 2000);
-        }else{
-            $(".alert-danger").empty().append(data.message).show();
-            setTimeout(() => {
-                $(".alert-danger").hide();
-            }, 2000);
-        }
-    })
+    if (transporter_id){
+        // faire un signalement contre un client
+        $.ajax({
+            type: "POST",
+            url: "client_signals",
+            data: {
+                "transporter_id": transporter_id,
+                "message": message
+            }
+        }).done(data => {
+            console.log(data);
+            if (data.success){
+                $(".alert-success").empty().append(data.message).show();
+                setTimeout(() => {
+                    $(".alert-success").hide();
+                }, 2000);
+            }else{
+                $(".alert-danger").empty().append(data.message).show();
+                setTimeout(() => {
+                    $(".alert-danger").hide();
+                }, 2000);
+            }
+        })
+        return;
+    }
+    if (client_id){
+
+        // faire un signamelement contre un client
+        $.ajax({
+            type: "POST",
+            url: "transporter_signals",
+            data: {
+                "client_id": client_id,
+                "message": message
+            }
+        }).done(data => {
+            console.log(data);
+            if (data.success){
+                $(".alert-success").empty().append(data.message).show();
+                setTimeout(() => {
+                    $(".alert-success").hide();
+                }, 2000);
+            }else{
+                $(".alert-danger").empty().append(data.message).show();
+                setTimeout(() => {
+                    $(".alert-danger").hide();
+                }, 2000);
+            }
+        });
+        return;
+    }
+
 })

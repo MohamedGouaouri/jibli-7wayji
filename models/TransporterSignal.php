@@ -26,7 +26,7 @@ class TransporterSignal extends Signal
     public static function add($client_id, $transporter_id, $message)
     {
         $pdo = DB::connect();
-        $stmt = $pdo->prepare("INSERT INTO client_signals (`transporter_id`, `user_id`, `message`) VALUES (:transporter_id, :client_id, :message)");
+        $stmt = $pdo->prepare("INSERT INTO transporter_signals (`transporter_id`, `user_id`, `message`) VALUES (:transporter_id, :client_id, :message)");
         $stmt->bindValue(":client_id", $client_id, PDO::PARAM_INT);
         $stmt->bindValue(":transporter_id", $transporter_id, PDO::PARAM_INT);
         $stmt->bindValue(":message", $message);
