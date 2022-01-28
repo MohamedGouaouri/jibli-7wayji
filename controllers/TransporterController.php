@@ -29,7 +29,13 @@ class TransporterController
             if (!$transporter->isCertified()){
                 $demand = CertificationDemand::of($transporter->getUserId());
                 if ($demand){
-                    echo json_encode(["error"=>true, "message" => "Votre demande est entrain d'etre etudie"]);
+                    if ($demand->getStatus() == "rejected"){
+                        $this->deleteCertificationDemand($demand->getId());
+                        $this->sendCertificationDemand(Auth::user()->getUserId());
+                        echo json_encode(["error"=>false, "message" => "Votre demande de certification a ete enrigistre"]);
+                    }else{
+                        echo json_encode(["error"=>true, "message" => "Votre demande est entrain d'etre etudie"]);
+                    }
                 }else {
                     if ($this->sendCertificationDemand(Auth::user()->getUserId())) {
                         json_encode(["error" => false, "message" => "Votre demande de certification a ete enrigistre"]);
@@ -46,5 +52,10 @@ class TransporterController
 
     public function sendCertificationDemand($transporter_id): bool {
         return CertificationDemand::save_certification_demand($transporter_id);
+    }
+
+    private function deleteCertificationDemand(int $id)
+    {
+        return CertificationDemand::delete($id);
     }
 }

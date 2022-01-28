@@ -49,7 +49,6 @@ class TransactionController
     }
 
 
-    // give feedback to transporter
     public function client_demands()
     {
         if (Auth::isAuthorizedTransporter()){
@@ -58,7 +57,7 @@ class TransactionController
                 "isAuthenticated" => true,
                 "is_transporter" => true,
                 "user" => $user,
-                "demands" => ClientDemand::all()
+                "demands" => ClientDemand::to($user->getUserId())
             ]);
         }
     }

@@ -106,6 +106,19 @@ class CertificationDemand extends Model implements JsonSerializable
         return null;
     }
 
+    public static function delete(int $id)
+    {
+        $pdo = DB::connect();
+        $stmt = $pdo->prepare("DELETE FROM certification_demands WHERE id = :id");
+        $stmt->bindValue(":id", $id);
+        try {
+            return $stmt->execute();
+        }catch (Exception $e){
+
+        }
+        return false;
+    }
+
     /**
      * @return Transporter
      */

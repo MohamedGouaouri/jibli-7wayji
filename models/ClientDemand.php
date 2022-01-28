@@ -79,6 +79,29 @@ class ClientDemand implements JsonSerializable
         return false;
     }
 
+    public static function to(int $transporter_id)
+    {
+        $pdo = DB::connect();
+        $stmt = $pdo->prepare("SELECT * FROM client_demands_view WHERE transporter_id = :transporter_id");
+        $stmt->bindValue(":transporter_id", $transporter_id, PDO::PARAM_INT);
+        $demands = array();
+        try {
+            if ($stmt->execute()){
+                $result_db = $stmt->fetchAll();
+                foreach ($result_db as $value){
+                    array_push($demands, new ClientDemand(
+                            Transporter::get_by_id($value["transporter_id"]),
+                            Announcement::byId($value["announcement_id"]))
+                    );
+                }
+                return $demands;
+            }
+        }catch (Exception $e){
+
+        }
+        return $demands;
+    }
+
     /**
      * @return Transporter
      */

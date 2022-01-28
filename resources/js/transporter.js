@@ -156,7 +156,8 @@ $("#refuse-demand-btn").click((e) => {
 $("#enable-update-profile").click((e) => {
     $(".updated").attr("readonly", false);
     $("#submit-update-profile").show();
-})
+    $("#cancel-update-profile").show();
+});
 $("#cancel-update-profile").click((e) => {
     $(".updated").attr("readonly", true);
     $("#submit-update-profile").hide();

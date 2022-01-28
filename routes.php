@@ -386,11 +386,19 @@ Route::post("feedback", function (){
 
 // User signal
 Route::get("signal", function (){
-    if (Auth::isAuthorizedClient() || Auth::isAuthorizedTransporter()){
+    if (Auth::isAuthorizedClient()){
         $user = Auth::user();
         View::make("user/signal.php.twig", [
             "user" => $user,
-            "isAuthenticated" => true
+            "isAuthenticated" => true,
+
+        ]);
+    }else if (Auth::isAuthorizedTransporter()){
+        $user = Auth::user();
+        View::make("user/signal.php.twig", [
+            "user" => $user,
+            "isAuthenticated" => true,
+            "is_transporter" => true
         ]);
     }
 });
@@ -469,8 +477,9 @@ Route::post("admin_login", function (){
     $password = $_POST["password"];
     if ($email == "admin@esi.dz" and $password == "admin"){
         (new LoginController())->adminAuthenticate();
-        Route::router("vtc", "admin");
+
     }
+    Route::router("vtc", "admin");
 });
 
 
