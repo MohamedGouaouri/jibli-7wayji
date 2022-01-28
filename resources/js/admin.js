@@ -195,7 +195,7 @@ $(document).ready(function () {
             }) // end validate ad
             $("button.delete").click((e) => {
                 let btn = $(e.target);
-                let url = "delete_announcement";
+                let url = "admin_delete_announcement";
                 let announcement_id = btn.attr("data-announcement-id");
                 $.ajax({
                     type: "POST",

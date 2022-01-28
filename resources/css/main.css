@@ -98,6 +98,7 @@ footer .fa:hover {
 #annonces{
 	position: relative !important;
 	height: 100vh;
+	background: url(../assets/img/search.svg) no-repeat right center fixed;
 }
 
 #stats{

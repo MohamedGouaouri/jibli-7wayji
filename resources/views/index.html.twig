@@ -9,7 +9,7 @@
   {% include '_includes/slideshow.html.twig' %}
 
     <div class="padding">
-      <div class="container" id="annonces">
+      <div class="container-fluid" id="annonces">
         <h2 class="text-center m-5">Rechercher une annonce</h2>
         <div class="row justify-content-center">
           <form class="form-inline" id="searchAnnouncementsUserForm">
@@ -66,10 +66,17 @@
       <div class="container-fluid">
         <div class="row" id="new-announcement">
           <div class="col-sm-6 p-5">
-            <h2>Vous avez une nouvelle annonce ?</h2>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </p>
+            <div>
+              <h2>Vous avez une nouvelle annonce ?</h2>
+              <p>
+                Pour ajouter une nouvelle annonce vous pouvez remplire le forumulaire suivant<br>
+                Vous devez remplire le point de depart et d'arrive, le type de transport, le poids de votre objet,
+                son volume et la methode que vous preferer et une image de votre objet
+              </p>
+            </div>
+            <div>
+              <img src="{{ 'resources/assets/img/ad.svg' }}">
+            </div>
           </div>
           <div class="col-sm-6 p-5">
             <div class="alert alert-success alert-dismissible show fade" role="alert" id="added-success-alert" style="display: none">

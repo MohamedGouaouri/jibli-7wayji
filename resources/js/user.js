@@ -59,8 +59,7 @@ $(".delete").click((e) => {
     }).done(data => {
         console.log(data);
         if (data.success){
-            $("#deleted-success-alert").append(data.message);
-            $("#deleted-success-alert").show();
+            $("#deleted-success-alert").empty().append(data.message).show();
             setTimeout(() => {
                 $("#deleted-success-alert").hide();
             }, 2000);
@@ -69,8 +68,7 @@ $(".delete").click((e) => {
             $(`#announcements-table tr[data-row-index=${$(btn).attr("data-row-index")}]`).remove();
 
         }else{
-            $("#deleted-error-alert").append(data.message);
-            $("#deleted-error-alert").show();
+            $("#deleted-error-alert").empty().append(data.message).show();
             setTimeout(() => {
                 $("#deleted-error-alert").hide();
             }, 2000);

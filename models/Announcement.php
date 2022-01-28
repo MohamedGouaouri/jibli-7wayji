@@ -61,52 +61,31 @@ class Announcement extends Model implements JsonSerializable
      * @param bool $is_transporter
      * @return array
      */
-    public static function all(bool $is_transporter): array
+    public static function all(): array
     {
-        // TODO: Implement all() method.
         $announcements = array();
         $db_result =  DB::query("SELECT * FROM all_announcements_view");
-        if ($is_transporter){
-            foreach ($db_result as $r){
-                $transporter = Transporter::get_by_id($r["user_id"]);
-                array_push($announcements, new Announcement(
-                    $r["announcement_id"],
-                    $transporter,
-                    new Wilaya($r["start_point"],$r["start_wilaya_name"]),
-                    new Wilaya($r["end_point"],$r["end_wilaya_name"]),
-                    $r["type"],
-                    $r["weight"],
-                    $r["volume"],
-                    $r["status"],
-                    $r["message"],
-                    $r["posted_at"],
-                    $r["validated"],
-                    $r["price"],
-                    $r["archived"],
-                    $r["image_path"]
-                ));
-            }
-        }else{
-            foreach ($db_result as $r){
+        foreach ($db_result as $r){
                 $client = User::get_by_id($r["user_id"]);
-                array_push($announcements, new Announcement(
-                    $r["announcement_id"],
-                    $client,
-                    new Wilaya($r["start_point"],$r["start_wilaya_name"]),
-                    new Wilaya($r["end_point"],$r["end_wilaya_name"]),
-                    $r["type"],
-                    $r["weight"],
-                    $r["volume"],
-                    $r["status"],
-                    $r["message"],
-                    $r["posted_at"],
-                    $r["validated"],
-                    $r["price"],
-                    $r["archived"],
-                    $r["image_path"]
-                ));
+                if ($client){
+                    array_push($announcements, new Announcement(
+                        $r["announcement_id"],
+                        $client,
+                        new Wilaya($r["start_point"],$r["start_wilaya_name"]),
+                        new Wilaya($r["end_point"],$r["end_wilaya_name"]),
+                        $r["type"],
+                        $r["weight"],
+                        $r["volume"],
+                        $r["status"],
+                        $r["message"],
+                        $r["posted_at"],
+                        $r["validated"],
+                        $r["price"],
+                        $r["archived"],
+                        $r["image_path"]
+                    ));
+                }
             }
-        }
         return $announcements;
     }
 

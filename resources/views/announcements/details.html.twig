@@ -32,7 +32,7 @@
                     <div class="p-3 py-5">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h1 class="text-right">Announcement</h1>
-                            <span>By {{ announcement.getUser().getName() }}</span>
+                            <span>By {{ announcement.getUser().getName() }} {{ announcement.getUser().getUserId() == user.getUserId() ? "(You)" : "" }}</span>
                         </div>
                         <div class="row mt-2">
                             <h3>Details</h3>
@@ -56,14 +56,10 @@
                         <div class="row mt-3">
                             <span class="price">Price {{ announcement.getPrice() }} $</span>
                             {% if is_transporter %}
-                                {% if announcement.getStatus() != 'approved' %}
+                                {% if announcement.getStatus() != 'approved' and announcement.getUser().getUserId() != user.getUserId() %}
                                     <div class="ml-auto">
                                         {#            Change this based on notification                    #}
                                         <button class="btn btn-blue" id="apply-btn">Postuler</button>
-                                    </div>
-                                {% else %}
-                                    <div class="ml-auto">
-                                        Un autre transporteur a deja repondu a cette annonce
                                     </div>
                                 {% endif %}
                             {% endif %}
@@ -86,19 +82,21 @@
             <div class="row d-flex">
 
                 {% for transporter in possible_transporters %}
-                    <div class="col-lg-4 mb-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="d-flex align-items-baseline">
-                                    <h5 class="card-title">{{ transporter.getName() }} {{ transporter.getFamilyName() }}</h5>
-                                    <img class="ml-auto" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" alt="" height="50" width="50">
-                                </div>
-                                <p class="card-text">{{ transporter.getPhoneNumber() }}</p>
+                    {% if transporter.getUserId() != user.getUserId() %}
+                        <div class="col-lg-4 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-baseline">
+                                        <h5 class="card-title">{{ transporter.getName() }} {{ transporter.getFamilyName() }}</h5>
+                                        <img class="ml-auto" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" alt="" height="50" width="50">
+                                    </div>
+                                    <p class="card-text">{{ transporter.getPhoneNumber() }}</p>
 
-                                <button class="btn btn-primary btn-sm demand" data-transporter-id="{{ transporter.getUserId() }}">Demander transport</button>
+                                    <button class="btn btn-primary btn-sm demand" data-transporter-id="{{ transporter.getUserId() }}">Demander transport</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    {% endif %}
                 {% endfor %}
             </div>
         {% endif %}

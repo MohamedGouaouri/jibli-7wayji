@@ -59,11 +59,13 @@ class CertificationDemand extends Model implements JsonSerializable
         try {
             if ($stmt->execute()){
                 $result = $stmt->fetch();
-                return new CertificationDemand(
-                    Transporter::get_by_id($result["transporter_id"]),
-                    $result["status"],
-                    $result["demand_date"]
-                );
+                if ($result){
+                    return new CertificationDemand(
+                        Transporter::get_by_id($result["transporter_id"]),
+                        $result["status"],
+                        $result["demand_date"]
+                    );
+                }
             }
         }catch (Exception $e){
 

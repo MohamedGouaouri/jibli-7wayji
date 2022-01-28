@@ -119,20 +119,20 @@ $("#accept-demand-btn").click((e) => {
 
             if (!transporter.certified){
 
-                // $(".modal-body")
-                //     .append($("<div>Vous avez accepter la transaction avec ce transporteur non certie donc vous devez vous entdre sur un prix, on recommende le prix propose par la plateforme</div>"))
-                //     .append($(`<div><b>Le nom du transporteur: </b> ${data.transaction.transporter.family_name} ${data.transaction.transporter.name}</div>`))
-                //     .append($(`<div><b>Son numero de telephone: </b> ${data.transaction.transporter.phone_number}</div>`))
-                //     .append($(`<div><b>L'email du transportue: </b> ${data.transaction.transporter.email}</div>`))
-                // ;
+                $(".modal-body")
+                    .append($("<div>Vous avez accepter la transaction avec ce transporteur non certie donc vous devez vous entdre sur un prix, on recommende le prix propose par la plateforme</div>"))
+                    .append($(`<div><b>Le nom du transporteur: </b> ${data.transaction.transporter.family_name} ${data.transaction.transporter.name}</div>`))
+                    .append($(`<div><b>Son numero de telephone: </b> ${data.transaction.transporter.phone_number}</div>`))
+                    .append($(`<div><b>L'email du transportue: </b> ${data.transaction.transporter.email}</div>`))
+                ;
             }
             else {
-                // $(".modal-body")
-                //     .append($("<div>Vous avez accepter la transaction avec ce transporteur certfie donc rix un pourcentage de X% sera retranche</div>"))
-                //     .append($(`<div><b>Le nom du transporteur: </b> ${data.transaction.transporter.family_name} ${data.transaction.transporter.name}</div>`))
-                //     .append($(`<div><b>Son numero de telephone: </b> ${data.transaction.transporter.phone_number}</div>`))
-                //     .append($(`<div><b>L'email du transportue: </b> ${data.transaction.transporter.email}</div>`))
-                // ;
+                $(".modal-body")
+                    .append($("<div>Vous avez accepter la transaction avec ce transporteur certfie donc rix un pourcentage de 20% sera retranche</div>"))
+                    .append($(`<div><b>Le nom du transporteur: </b> ${data.transaction.transporter.family_name} ${data.transaction.transporter.name}</div>`))
+                    .append($(`<div><b>Son numero de telephone: </b> ${data.transaction.transporter.phone_number}</div>`))
+                    .append($(`<div><b>L'email du transportue: </b> ${data.transaction.transporter.email}</div>`))
+                ;
 
             }
 

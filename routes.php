@@ -404,7 +404,7 @@ Route::post("client_signals", function (){
 
         }
         else{
-            echo json_encode(["success" => true, "message" => "Votre signalement n'a pas pu etre enregistre"]);
+            echo json_encode(["success" => false, "message" => "Votre signalement n'a pas pu etre enregistre"]);
 
         }
     }
@@ -465,6 +465,7 @@ Route::post("admin_login", function (){
     $password = $_POST["password"];
     if ($email == "admin@esi.dz" and $password == "admin"){
         (new LoginController())->adminAuthenticate();
+        Route::router("vtc", "admin");
     }
 });
 
@@ -473,7 +474,11 @@ Route::get(/**
  *
  */ "admin", function (){
      //check if admin is authenticated
-    (new AdminController())->index();
+    if (Auth::isAdmin()){
+        (new AdminController())->index();
+    }else{
+        Route::router("vtc", "admin_login");
+    }
 });
 
 Route::get(/**
@@ -541,7 +546,7 @@ Route::post("validate_announcement", function (){
 });
 
 // delete announcement (archive it)
-Route::post("delete_announcement", function (){
+Route::post("admin_delete_announcement", function (){
     $announcement_id = $_POST["announcement_id"];
     Announcement::archive($announcement_id);
     header("Content-Type: application/json");
@@ -551,12 +556,20 @@ Route::post("delete_announcement", function (){
 
 // pricing view
 Route::get("admin_pricing", function (){
-    (new AdminController())->pricing_index();
+    if (Auth::isAdmin()){
+        (new AdminController())->pricing_index();
+    }else{
+        Route::router("vtc", "404");
+    }
 });
 
 // analytics view
 Route::get("admin_analytics", function (){
-    (new AdminController())->analytics_index();
+    if (Auth::isAdmin()){
+        (new AdminController())->analytics_index();
+    }else{
+        Route::router("vtc", "404");
+    }
 });
 
 Route::get("admin_analytics_api", function (){
@@ -566,39 +579,60 @@ Route::get("admin_analytics_api", function (){
 
 // news edit
 Route::get("admin_news", function (){
-    View::make("admin/news.html.twig", [
-        "all_news" => News::all()
-    ]);
+    if (Auth::isAdmin()){
+        View::make("admin/news.html.twig", [
+            "all_news" => News::all()
+        ]);
+    }else{
+        Route::router("vtc", "404");
+    }
 });
 
 Route::post("admin_add_news", function (){
-    $title = $_POST["title"];
-    $synopsis = $_POST["synopsis"];
-    $content = $_POST["content"];
+    if (Auth::isAdmin()){
+        $title = $_POST["title"];
+        $synopsis = $_POST["synopsis"];
+        $content = $_POST["content"];
 
-    (new AdminController())->post_news($title, $synopsis, $content);
+        (new AdminController())->post_news($title, $synopsis, $content);
+    }
+    else{
+        Route::router("vtc", "404");
+    }
 });
 
 Route::post("admin_delete_news", function (){
-    $id = $_POST["id"];
-    (new AdminController())->delete_news($id);
+    if (Auth::isAdmin()){
+        $id = $_POST["id"];
+        (new AdminController())->delete_news($id);
+    }else{
+        Route::router("vtc", "404");
+    }
 });
 
 // Update pricing
 Route::post("update_pricing", function (){
-    $from = $_POST["start_point"];
-    $to = $_POST["end_point"];
-    $price = $_POST["price"];
-    (new AdminController())->update_pricing($from, $to, $price);
+    if (Auth::isAdmin()){
+        $from = $_POST["start_point"];
+        $to = $_POST["end_point"];
+        $price = $_POST["price"];
+        (new AdminController())->update_pricing($from, $to, $price);
+    }else{
+        Route::router("vtc", "404");
+    }
 });
 
 
 // show signals dashboard
 Route::get("signals", function (){
-    View::make("admin/signals.html.twig", [
-        "client_signals" => ClientSignal::all(),
-        "transporter_signals" => TransporterSignal::all()
-    ]);
+   if (Auth::isAdmin()){
+       View::make("admin/signals.html.twig", [
+           "client_signals" => ClientSignal::all(),
+           "transporter_signals" => TransporterSignal::all()
+       ]);
+   }else{
+       Route::router("vtc", "404");
+   }
 });
 
 // Admin logout
@@ -617,8 +651,9 @@ Route::get("404", function (){
 Route::get(/**
  *
  */ "test", function (){
-    (new LoginController())->adminAuthenticate();
-    echo Auth::isAdmin();
+//    (new LoginController())->adminAuthenticate();
+//    echo Auth::isAdmin();
+    var_dump(Announcement::all(true));
  });
 
 Route::post(/**

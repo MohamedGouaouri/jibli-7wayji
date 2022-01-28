@@ -296,5 +296,7 @@ INSERT INTO weights VALUES (0.1, 'entre 0 et 100 gr', 100),
 
 
 DROP VIEW IF EXISTS client_demands_view;
-CREATE TABLE IF NOT EXISTS client_demands_view AS
-SELECT cd.announcement_id as announcement_id , cd.transporter_id as transporter_id , done FROM client_demands cd JOIN transport t ON t.announcement_id = cd.announcement_id AND t.transporter_id=cd.transporter_id
+CREATE VIEW client_demands_view AS
+SELECT * FROM client_demands WHERE (announcement_id, transporter_id) NOT IN (
+    SELECT announcement_id, transporter_id FROM transport WHERE validated = TRUE
+);

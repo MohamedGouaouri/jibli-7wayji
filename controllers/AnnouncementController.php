@@ -105,7 +105,7 @@ class AnnouncementController extends Controller{
 
     public function delete($announcement_id) {
         if (Auth::isAuthorizedClient() || Auth::isAuthorizedTransporter()){
-            $deleted =  Announcement::delete($announcement_id);
+            $deleted =  Announcement::archive($announcement_id);
             if ($deleted){
                 header("Content-Type: application/json");
                 echo json_encode(["success" => true, "message" => "Votre annonce a ete supprimee"]);
