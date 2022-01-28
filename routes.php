@@ -488,13 +488,9 @@ Route::get(/**
 Route::get(/**
  *
  */ "admin_clients", function (){
-    // 1. check if admin is connected
-    // 2. Get all clients
-
-    (new AdminController())->clients_index();
-//    if (Auth::isAdmin()){
-//        (new AdminController())->clients_index();
-//    }
+    if (Auth::isAdmin()){
+        (new AdminController())->clients_index();
+    }
 });
 
 Route::get(/**
@@ -523,13 +519,17 @@ Route::post("unban_user", function (){
 Route::get(/**
  *
  */ "admin_transporters", function (){
-    (new AdminController())->transporters_index();
+   if (Auth::isAdmin()){
+       (new AdminController())->transporters_index();
+   }
 });
 
 // validate transporter
 Route::post("validate_transporter", function (){
-    $transporter_id = $_POST["transporter_id"];
-    (new AdminController())->validate_transporter($transporter_id);
+    if (Auth::isAdmin()){
+        $transporter_id = $_POST["transporter_id"];
+        (new AdminController())->validate_transporter($transporter_id);
+    }
 });
 
 
@@ -537,24 +537,30 @@ Route::post("validate_transporter", function (){
 
 // Announcement management by the admin
 Route::get("admin_announcements", function (){
-    (new AdminController())->announcements_index();
+    if (Auth::isAdmin()){
+        (new AdminController())->announcements_index();
+    }
 });
 
 // Validate announcement
 Route::post("validate_announcement", function (){
-    $announcement_id = $_POST["announcement_id"];
-    Announcement::admin_validate($announcement_id);
-    header("Content-Type: application/json");
-    echo json_encode(["success" => true, "message" => "Vous avez valider cette annonce"]);
+    if (Auth::isAdmin()){
+        $announcement_id = $_POST["announcement_id"];
+        Announcement::admin_validate($announcement_id);
+        header("Content-Type: application/json");
+        echo json_encode(["success" => true, "message" => "Vous avez valider cette annonce"]);
+    }
 
 });
 
 // delete announcement (archive it)
 Route::post("admin_delete_announcement", function (){
-    $announcement_id = $_POST["announcement_id"];
-    Announcement::archive($announcement_id);
-    header("Content-Type: application/json");
-    echo json_encode(["success" => true, "message" => "Vous avez archiver cette annonce"]);
+    if(Auth::isAdmin()){
+        $announcement_id = $_POST["announcement_id"];
+        Announcement::archive($announcement_id);
+        header("Content-Type: application/json");
+        echo json_encode(["success" => true, "message" => "Vous avez archiver cette annonce"]);
+    }
 });
 
 
@@ -597,7 +603,6 @@ Route::post("admin_add_news", function (){
         $title = $_POST["title"];
         $synopsis = $_POST["synopsis"];
         $content = $_POST["content"];
-
         (new AdminController())->post_news($title, $synopsis, $content);
     }
     else{

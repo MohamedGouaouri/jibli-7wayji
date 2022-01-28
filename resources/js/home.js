@@ -54,7 +54,6 @@ $("#searchAnnouncementsUserForm").submit((e) => {
                                 $("<div class='card'></div>")
                                     .append($('<img src="https://images.unsplash.com/photo-1477862096227-3a1bb3b08330?ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60" alt="" class="card-img-top>'))
                                     .append($('<div class="card-body"></div>')
-                                        .append($(`<h5 class="card-title">TITLE</h5>`))
                                         .append($(`<div><b>Start point</b> ${data.announcements[i].start_point.name} </div>`))
                                         .append($(`<div><b>End point</b> ${data.announcements[i].end_point.name} </div>`))
                                         .append($(`<div><b>Type</b> ${data.announcements[i].type} </div>`))

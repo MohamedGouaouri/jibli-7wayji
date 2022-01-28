@@ -387,7 +387,7 @@ $(document).ready(function () {
                     }
                 });
                 $("get-news").click();
-                location.reload();
+                // location.reload();
 
             })
 

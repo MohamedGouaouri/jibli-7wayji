@@ -216,7 +216,7 @@ SELECT R.*, w1.wilaya_name AS start_wilaya_name, w2.wilaya_name AS end_wilaya_na
 
 DROP VIEW IF EXISTS transporters_view;
 CREATE VIEW transporters_view AS
-    SELECT t.*, u.name, u.family_name, u.phone_number, u.email, u.password, u.address
+    SELECT t.*, u.name, u.family_name, u.phone_number, u.email, u.password, u.address, u.banned as banned
     FROM transporters t JOIN users u on t.transporter_id = u.user_id ; ## removed banned = false
 
 

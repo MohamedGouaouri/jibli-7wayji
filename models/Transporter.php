@@ -96,6 +96,27 @@ class Transporter extends User implements JsonSerializable
         }
         return $transporters;
     }
+    public static function allUnBanned()
+    {
+        $transporters = array();
+        $db_result = DB::query("SELECT * FROM transporters_view WHERE banned = FALSE");
+        foreach ($db_result as $r){
+            array_push($transporters, new Transporter(
+                $r["transporter_id"],
+                $r["name"],
+                $r["family_name"],
+                $r["phone_number"],
+                $r["email"],
+                $r["password"],
+                $r["address"],
+                $r["is_certified"],
+                $r["status"],
+                $r["validated"],
+                $r["inventory"],
+            ));
+        }
+        return $transporters;
+    }
 
     public static function get_by_email($email): ?Transporter{
         echo "hello";
