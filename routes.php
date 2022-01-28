@@ -645,6 +645,12 @@ Route::get("admin_logout", function (){
 });
 
 
+// stats page
+Route::get("stats", function (){
+    View::make("stats.html.twig");
+});
+
+
 // not found page
 Route::get("404", function (){
     View::make("404.html.twig");

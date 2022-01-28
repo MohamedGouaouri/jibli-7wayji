@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Statistiques
+{% endblock %}
+{% block content%}
+    <div class="padding">
+        <div class="container" id="stats">
+            <div class="text-center">
+                <h2 style="font-size: 4rem;" >Statistics</h2>
+            </div>
+            <div class="row my-4">
+                <div class="col-sm-4">
+                    <h3 class="text-center">Les utilisateurs</h3>
+                    <canvas id="myChart1" width="400" height="400"></canvas>
+                </div>
+                <div class="col-sm-4">
+                    <h3 class="text-center">Les annonces</h3>
+                    <canvas id="myChart2" width="400" height="400"></canvas>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
