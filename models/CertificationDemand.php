@@ -20,6 +20,10 @@ class CertificationDemand extends Model implements JsonSerializable
         $this->date = $date;
     }
 
+    /** Add new entry in certification demand table
+     * @param $transporter_id
+     * @return bool
+     */
     public static function save_certification_demand($transporter_id): bool {
         $pdo = DB::connect();
         try {
@@ -33,10 +37,23 @@ class CertificationDemand extends Model implements JsonSerializable
             return false;
         }
     }
-    public static function validate_certification_demand(){
+    public static function validate_certification_demand(int $for, string $date){
         $pdo = DB::connect();
-//        $stmt = $pdo->prepare("UPDATE")
+        $stmt = $pdo->prepare("UPDATE certification_demands SET status = 'validated' WHERE transporter_id = :transporter_id AND date = :date");
+        $stmt->bindValue(":transporter_id", $for, PDO::PARAM_INT);
+        $stmt->bindValue(":data", $date);
+        try {
+            return $stmt->execute();
+        }catch (Exception $e){
+
+        }
+        return  false;
     }
+
+
+
+
+
 
     // get all certification demands
     public static function all(){

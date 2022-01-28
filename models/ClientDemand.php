@@ -61,6 +61,24 @@ class ClientDemand implements JsonSerializable
         return $demands;
     }
 
+    public static function delete($transporter_id, $announcement_id)
+    {
+        $pdo = DB::connect();
+        $stmt = $pdo->prepare("DELETE FROM client_demands WHERE transporter_id = :transporter_id AND announcement_id = :announcement_id");
+        $stmt->bindValue(":transporter_id", $transporter_id, PDO::PARAM_INT);
+        $stmt->bindValue(":announcement_id", $announcement_id, PDO::PARAM_INT);
+        try {
+            if (self::exists($transporter_id, $announcement_id)){
+                if ($stmt->execute()){
+                    return true;
+                }
+            }
+        }catch (Exception $e){
+
+        }
+        return false;
+    }
+
     /**
      * @return Transporter
      */

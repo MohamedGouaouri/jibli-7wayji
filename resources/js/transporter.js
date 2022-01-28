@@ -11,32 +11,19 @@ $("#cert-btn").click(() => {
         url: url,
         cache: false,
     }).done(function (data) {
+        console.log(data);
 
         if (!data.error){
-            // //Convert the Byte Data to BLOB object.
-            // let blob = new Blob([data.blob], { type: "application/octetstream" });
-            // //Check the Browser type and download the File.
-            // let isIE = !!document.documentMode;
-            // let link;
-            // if (isIE) {
-            //     window.navigator.msSaveBlob(blob, "fileName");
-            // } else {
-            //     let url = window.URL || window.webkitURL;
-            //     link = url.createObjectURL(blob);
-            //     let a = $("<a />");
-            //     a.attr("download", "fileName");
-            //     a.attr("href", link);
-            //     $("body").append(a);
-            //     a[0].click();
-            //     $("body").remove(a);
-            // }
-
-            certSuccessElement.append(data.message);
-            certSuccessElement.show();
+            certSuccessElement.empty().append(data.message).show();
+            setTimeout(() => {
+                certSuccessElement.hide();
+            }, 2000);
         }else{
             // An error
-            certErrorElement.append(data.message);
-            certErrorElement.show();
+            certErrorElement.empty().append(data.message).show();
+            setTimeout(() => {
+                certErrorElement.hide();
+            }, 2000);
         }
     });
 })
@@ -118,25 +105,16 @@ $("#accept-demand-btn").click((e) => {
             let transporter = data.transaction.transporter;
 
             if (!transporter.certified){
-
                 $(".modal-body")
-                    .append($("<div>Vous avez accepter la transaction avec ce transporteur non certie donc vous devez vous entdre sur un prix, on recommende le prix propose par la plateforme</div>"))
-                    .append($(`<div><b>Le nom du transporteur: </b> ${data.transaction.transporter.family_name} ${data.transaction.transporter.name}</div>`))
-                    .append($(`<div><b>Son numero de telephone: </b> ${data.transaction.transporter.phone_number}</div>`))
-                    .append($(`<div><b>L'email du transportue: </b> ${data.transaction.transporter.email}</div>`))
+                    .append($("<div>Vous avez accepter la transaction avec ce client, vous devez vous entendre sur un prix, on recommende le prix propose par la plateforme</div>"))
                 ;
             }
             else {
-                $(".modal-body")
-                    .append($("<div>Vous avez accepter la transaction avec ce transporteur certfie donc rix un pourcentage de 20% sera retranche</div>"))
-                    .append($(`<div><b>Le nom du transporteur: </b> ${data.transaction.transporter.family_name} ${data.transaction.transporter.name}</div>`))
-                    .append($(`<div><b>Son numero de telephone: </b> ${data.transaction.transporter.phone_number}</div>`))
-                    .append($(`<div><b>L'email du transportue: </b> ${data.transaction.transporter.email}</div>`))
-                ;
-
+                $(".modal-body").append($("<div>Vous avez accepter la transaction avec ce client, des que vous finissez le travail un pourcentage de 20% sera retranche du prix</div>"));
             }
 
             // TODO: Remove entry from the table
+            $(`tr[data-announcement-id=${announcementId}]`).remove();
         }else {
             console.log("Error");
             $("#modal-logo").attr("src", "resources/assets/img/error.png")
@@ -145,7 +123,33 @@ $("#accept-demand-btn").click((e) => {
     })
 });
 $("#refuse-demand-btn").click((e) => {
+    let btn = e.target;
+    console.log($(btn).attr("data-announcement-id"));
+    let announcementId = Number.parseInt($(btn).attr("data-announcement-id"));
+    let transporterId = Number.parseInt($(btn).attr("data-transporter-id"));
 
+    $.ajax({
+        type: "POST",
+        url: "refuse_demand",
+        data: {
+            "announcement_id": announcementId,
+            "transporter_id": transporterId
+        }
+    }).done((data) => {
+        console.log(data);
+        if (data.success){
+            $(".alert-success").empty().append(data.message).show();
+            setTimeout(() => {
+                $(".alert-success").hide();
+            }, 2000);
+            $(`tr[data-announcement-id=${announcementId}]`).remove();
+        }else {
+            $(".alert-danger").empty().append(data.message).show();
+            setTimeout(() => {
+                $(".alert-danger").hide();
+            }, 2000);
+        }
+    })
 })
 
 // Update profile

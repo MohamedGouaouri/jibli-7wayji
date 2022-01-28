@@ -89,16 +89,28 @@ class ApplicationController
      * @param $transporter_id
      * @param $announcement_id
      */
-    public function refuse($transporter_id, $announcement_id){
+    public function refuseTransporter($transporter_id, $announcement_id){
         if (Auth::isAuthorizedClient()){
             header("Content-Type: application/json");
             $deleted = TransporterApplication::delete($transporter_id, $announcement_id);
             if ($deleted){
-                header("Content-Type: application/json");
                 echo json_encode(["success" => true, "message" => "The application is refused"]);
             }
+            else{
+                echo json_encode(["success" => false, "message" => "An error occured"]);
+            }
+        }
+    }
+    public function refuseClient($transporter_id, $announcement_id){
+        if (Auth::isAuthorizedTransporter()){
             header("Content-Type: application/json");
-            echo json_encode(["success" => false, "message" => "An error occured"]);
+            $deleted = ClientDemand::delete($transporter_id, $announcement_id);
+            if ($deleted){
+                echo json_encode(["success" => true, "message" => "The application is refused"]);
+            }else{
+                echo json_encode(["success" => false, "message" => "An error occured"]);
+            }
+
         }
     }
 

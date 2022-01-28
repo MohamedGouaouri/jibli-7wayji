@@ -145,9 +145,6 @@ Route::post(/**
     $announcement_controller = new AnnouncementController();
 
     $added = $announcement_controller->addNewAnnouncement($start_point, $end_point, $type, $weight, $volume, $way, $message, $image_path);
-//    $transporters = Transporter::getByTrajectory((int)$start_point, (int)$end_point);
-
-//    echo json_encode(["added" => $added]);
 });
 
 
@@ -167,7 +164,6 @@ Route::post(/**
 });
 
 
-// TODO: Implement this route which shows all transporter applications for a specific
 Route::get(/**
  *
  */ "applications", function (){
@@ -311,7 +307,15 @@ Route::post(/**
  */ "refuse_application", function (){
     $transporter_id = $_POST["transporter_id"];
     $announcement_id = $_POST["announcement_id"];
-    (new ApplicationController())->refuse($transporter_id, $announcement_id);
+    (new ApplicationController())->refuseTransporter($transporter_id, $announcement_id);
+});
+
+
+// Transporter refuses client demand
+Route::post("refuse_demand", function (){
+    $transporter_id = $_POST["transporter_id"];
+    $announcement_id = $_POST["announcement_id"];
+    (new ApplicationController())->refuseClient($transporter_id, $announcement_id);
 });
 
 

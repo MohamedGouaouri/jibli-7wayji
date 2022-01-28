@@ -45,10 +45,9 @@
                                 {% if announcement.getStatus() == "approved" %}
                                     <a class="btn btn-primary" href="details?id={{ announcement.getAnnouncementId() }}">Details</a>
                                     <button class="btn btn-danger disabled" data-id="{{ announcement.getAnnouncementId() }}" disabled data-row-index={{ loop.index }}>Delete</button>
-                                    <a class="btn btn-primary" data-id="" href="{{ 'feedback' }}">Noter le transporteur</a>
                                 {% endif %}
                                 {% if announcement.getStatus() == "rejected" %}
-{#                                  no action  #}
+                                    {# no action  #}
                                 {% endif %}
                             </div>
                         </td>

@@ -155,20 +155,37 @@ $("#feedback-form").submit((e) => {
     let transporter_id = Number.parseInt(url.get("transporter_id"));
     let note = $("#note").val();
     let message = $("#message").val();
-    $.ajax({
-        type: "POST",
-        url: "feedback",
-        data: {
-            "transporter_id": transporter_id,
-            "note": note,
-            "message": message
-        }
-    }).done(data => {
-        console.log(data);
-        // if (data.success){
-        //     console.log()
-        // }
-    })
+    if (note <= 10 && note >= 0){
+        $.ajax({
+            type: "POST",
+            url: "feedback",
+            data: {
+                "transporter_id": transporter_id,
+                "note": note,
+                "message": message
+            }
+        }).done(data => {
+
+            if (data.success){
+                console.log(data.message);
+                $(".alert-success").empty().append(data.message).show();
+                setTimeout(() => {
+                    $(".alert-success").hide();
+                }, 2000);
+            }else{
+                $(".alert-danger").empty().append(data.message).show();
+                setTimeout(() => {
+                    $(".alert-danger").hide();
+                }, 2000);
+            }
+        })
+    }else{
+        $(".alert-danger").empty().append("La note doit etre entre 0 et 10").show();
+        setTimeout(() => {
+            $(".alert-danger").hide();
+        }, 2000);
+    }
+
 })
 
 

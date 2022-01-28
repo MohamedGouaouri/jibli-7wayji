@@ -122,7 +122,6 @@ class TransporterApplication extends Model implements JsonSerializable
                     return true;
                 }
             }
-
         }catch (Exception $e){
 
         }

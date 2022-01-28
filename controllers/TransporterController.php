@@ -24,27 +24,25 @@ class TransporterController
     public function certify(){
         if (Auth::isAuthorizedTransporter()){
             // TODO: Update DB
+            header("Content-Type: application/json");
             $transporter = Transporter::get_by_id(Auth::user()->getUserId());
             if (!$transporter->isCertified()){
-                if ($this->sendCertificationDemand(Auth::user()->getUserId())){
-                    $file = "documents/cert.pdf";
-//                    StatusController::send_documents($file);
-                    json_encode(["error"=>false, "message" => "Votre demande de certification a ete enrigistre"]);
-                }else{
-                    header("Content-Type: application/json");
-                    echo json_encode(["error"=>true, "message" => "Vous pouvez pas faire une demande de certification"]);
+                $demand = CertificationDemand::of($transporter->getUserId());
+                if ($demand){
+                    echo json_encode(["error"=>true, "message" => "Votre demande est entrain d'etre etudie"]);
+                }else {
+                    if ($this->sendCertificationDemand(Auth::user()->getUserId())) {
+                        json_encode(["error" => false, "message" => "Votre demande de certification a ete enrigistre"]);
+                    } else {
+                        echo json_encode(["error"=>true, "message" => "Vous pouvez pas faire une demande de certification"]);
+                    }
                 }
             }else{
-                header("Content-Type: application/json");
                 echo json_encode(["error" => true, "message" => "Vous ete deja un transporteur certifie"]);
             }
         }
     }
 
-
-    public function getAllTransporters(): array {
-        return Transporter::all();
-    }
 
     public function sendCertificationDemand($transporter_id): bool {
         return CertificationDemand::save_certification_demand($transporter_id);

@@ -37,6 +37,10 @@ class TransactionController
                 Transporter::updateInventory($transporter_id, $current_inventory + $price);
                 // archive announcement
                 Announcement::archive($announcement_id);
+                // delete client demands related to this announcement
+                ClientDemand::delete($transporter_id, $announcement_id);
+                // delete transporter application related to this announcement
+                TransporterApplication::delete($transporter_id, $announcement_id);
                 header("Content-Type: application/json");
                 echo json_encode(["success" => true, "transport" => $transport, "certified" => true]);
                 return;
