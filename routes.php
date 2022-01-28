@@ -475,9 +475,8 @@ Route::get("admin_login", function (){
 Route::post("admin_login", function (){
     $email = $_POST["email"];
     $password = $_POST["password"];
-    if ($email == "admin@esi.dz" and $password == "admin"){
+    if ($email == "admin" and $password == "admin"){
         (new LoginController())->adminAuthenticate();
-
     }
     Route::router("vtc", "admin");
 });
